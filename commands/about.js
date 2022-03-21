@@ -1,0 +1,18 @@
+const {SlashCommandBuilder} = require('@discordjs/builders');
+const {MessageEmbed} = require('discord.js');
+
+module.exports = {
+    data: new SlashCommandBuilder()
+        .setName('about')
+        .setDescription('who am i'),
+    async execute(interaction) {
+        const currentTimestamp = Math.round(+new Date() / 1000);
+        const timestampColour = currentTimestamp.toString(16).substring(2, 10);
+        const embed = new MessageEmbed()
+            .setThumbnail("https://cdn.discordapp.com/avatars/876729461188464660/43fb19cac4985b40677f47e1d8b476d4.png?size=4096")
+            .setTitle('PatziBot')
+            .setDescription(`Version 2.0.beta\n\nBot created by <@284804878604435476>\n\nIcon created by <@518567024545497113>`)
+            .setColor(`${timestampColour}`);
+        await interaction.reply({embeds: [embed]});
+    },
+};

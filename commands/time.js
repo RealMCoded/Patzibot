@@ -1,0 +1,21 @@
+const {SlashCommandBuilder} = require('@discordjs/builders');
+const {MessageEmbed} = require('discord.js');
+
+module.exports = {
+    data: new SlashCommandBuilder()
+        .setName('time')
+        .setDescription('I\'ve lost all sense of it'),
+    async execute(interaction) {
+        const currentTimestamp = Math.round(+new Date() / 1000);
+        const timestampColour = currentTimestamp.toString(16).substring(2, 10);
+        
+        //console.log(timestampColour)
+
+        const embed = new MessageEmbed()
+            .setThumbnail("https://media.discordapp.net/attachments/516435840130482216/687012987525136440/DynoTimer.png")
+            .setTitle('Current Time')
+            .setDescription(`<t:${currentTimestamp}:T>`)
+            .setColor(`${timestampColour}`);
+        await interaction.reply({embeds: [embed]});
+    },
+};
