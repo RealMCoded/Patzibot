@@ -10,8 +10,14 @@ module.exports = {
 				.setRequired(true)
 				.setDescription("The member to get the IP address of")),
 	async execute(interaction) {
-		await interaction.reply(`<a:typing:944765274475864094>  **Getting ${interaction.options.getUser('user')}'s IP Address** `);
+		await interaction.reply(`<a:typing:944765274475864094>  **Preparing** `);
 		await wait(2000);
+		await interaction.editReply(`<a:typing:944765274475864094>  **Getting ${interaction.options.getUser('user')}'s IP Address \`(Step 1/3 - Hackering into the Discord account)\`** `);
+		await wait(2500);
+		await interaction.editReply(`<a:typing:944765274475864094>  **Getting ${interaction.options.getUser('user')}'s IP Address \`(Step 2/3 - Getting 239% real ip (real!))\`** `);
+		await wait(3000);
+		await interaction.editReply(`<a:typing:944765274475864094>  **Getting ${interaction.options.getUser('user')}'s IP Address \`(Step 3/3 - Changering the password so they can no longer log in (lol!))\`** `);
+		await wait(2550);
 		await interaction.editReply(`✅ **${interaction.options.getUser('user')}'s IP found!**\n\n\`${getRandomInt(255)}.${getRandomInt(255)}.${getRandomInt(255)}.${getRandomInt(255)}\``);
 	},
 };
