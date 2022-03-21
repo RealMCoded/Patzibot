@@ -18,7 +18,7 @@ module.exports = {
 		await wait(3000);
 		await interaction.editReply(`<a:typing:944765274475864094>  **Getting ${interaction.options.getUser('user')}'s IP Address \`(Step 3/3 - Changering the password so they can no longer log in (lol!))\`** `);
 		await wait(2550);
-		await interaction.editReply(`✅ **${interaction.options.getUser('user')}'s IP found!**\n\n\`${getRandomInt(255)}.${getRandomInt(255)}.${getRandomInt(255)}.${getRandomInt(255)}\``);
+		await interaction.editReply(`✅ **${interaction.options.getUser('user')}'s IP found!**\n\n\`${getRandomInt(512)}.${getRandomInt(512)}.${getRandomInt(512)}.${getRandomInt(512)}\``);
 	},
 };
 
