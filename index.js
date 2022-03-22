@@ -108,7 +108,7 @@ client.on('messageCreate', async message => {
 	if (message.author.bot) return
 
 	try {
-		if (message.content.toUpperCase().includes('RATIO')) {
+		if (message.content.toUpperCase().split(" ").includes("RATIO")) {
 			message.react('💬')
 				.then(() => message.react('<:retweet:950518370854379530>'))
 				.then(() => message.react('❤️'))
