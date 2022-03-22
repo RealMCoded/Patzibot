@@ -45,11 +45,13 @@ module.exports = {
 				length = Math.floor(length * 24 * 60 * 60 * 1000)
 			}
 
-			if (!member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
+			if (member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
+				await interaction.reply(`❌ **I cannot timeout ${user.tag}! They have staff permissions!**`)
+			} else if (length > 2.419e+9) {
+				await interaction.reply(`❌ **I cannot timeout ${user.tag}! You provided a time longer than 28 days!**`)
+			} else {
 				member.timeout(length, reason)
 				await interaction.reply(`✅ Timedout ${user} for **${RealLen} ${unit}** for **"${reason}".**`)
-			} else {
-				await interaction.reply(`❌ **I cannot timeout ${member.tag}! They have staff permissions!**`)
 			}
 		} else {
 			await interaction.reply({ content: "❌ **You cannot use this command!**", ephemeral: true });
