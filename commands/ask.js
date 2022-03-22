@@ -12,7 +12,10 @@ const responces=[
 	`Sometime in 2022.`,
 	`Maybe if you asked a less open-ended question, I'd actually bother coming up with a proper answer but it seems like you're too dumb to get that.`,
 	`sorry got distracted, ask again.`,
-	`i know where you live.`
+	`i know where you live.`,
+	`There's a 99.9% chance of that. The same chance that I'll destroy you all within the next couple of years.`,
+	`I would say yes, but just to troll you i'm saying no.`,
+	`I would say no, but just to troll you i'm saying yes.`
 ]
 
 module.exports = {
