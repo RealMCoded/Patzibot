@@ -45,8 +45,12 @@ module.exports = {
 				length = Math.floor(length * 24 * 60 * 60 * 1000)
 			}
 
-			member.timeout(length, reason)
-			interaction.reply(`✅ Timedout ${user} for **${RealLen} ${unit}** for **"${reason}".**`)
+			if (!member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
+				member.timeout(length, reason)
+				await interaction.reply(`✅ Timedout ${user} for **${RealLen} ${unit}** for **"${reason}".**`)
+			} else {
+				await interaction.reply(`❌ **I cannot timeout ${member.tag}! They have staff permissions!**`)
+			}
 		} else {
 			await interaction.reply({ content: "❌ **You cannot use this command!**", ephemeral: true });
 		}
