@@ -50,7 +50,7 @@ module.exports = {
 			} else if (length > 2.419e+9) {
 				await interaction.reply(`❌ **I cannot timeout ${user.tag}! You provided a time longer than 28 days!**`)
 			} else {
-				member.timeout(length, reason)
+				member.timeout(length, reason + " | Timeout by " + interaction.member.user.tag)
 				await interaction.reply(`✅ Timedout ${user} for **${RealLen} ${unit}** for **"${reason}".**`)
 			}
 		} else {
