@@ -115,10 +115,10 @@ client.on('messageCreate', async message => {
 				.catch(error => console.error('One of the emojis failed to react:', error));
 		}
 	
-		if (message.content === "O") {
+		if (message.content.toUpperCase() === "O" || message.content.toUpperCase() === "O!" || message.content.toUpperCase() === "OH" || message.content.toUpperCase() === "OH!") {
 			if (message.author.id == "889950256358375425") {
 				await message.channel.send("H")
-				message.guild.members.cache.get("889950256358375425").timeout(Math.floor(5 * 1000), "Saying O")
+				message.guild.members.cache.get("889950256358375425").timeout(Math.floor(5 * 1000), "Saying O | Auto-Timeout")
 			}
 		}
 	} catch (e) {
