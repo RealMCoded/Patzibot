@@ -1,7 +1,7 @@
 const fs = require('node:fs');
 const { Client, Collection, Intents } = require('discord.js');
 const { token, randomMessage, SQL_USER, SQL_PASS } = require('./config.json');
-const status = require('./status.json')
+const status = require('./commands/resources/json/status.json');
 const Sequelize = require('sequelize');
 
 const sequelize = new Sequelize('database', SQL_USER, SQL_PASS, {
@@ -112,7 +112,7 @@ client.on('messageCreate', async message => {
 			message.react('💬')
 				.then(() => message.react('<:retweet:950518370854379530>'))
 				.then(() => message.react('❤️'))
-				.catch(error => console.error('One of the emojis failed to react:', error));
+				.catch(error => console.error('One of the emojis failed to react. This might be due to the user deleting their message.'));
 		}
 	
 		if (message.content.toUpperCase() === "O" || message.content.toUpperCase() === "O!" || message.content.toUpperCase() === "OH" || message.content.toUpperCase() === "OH!") {
