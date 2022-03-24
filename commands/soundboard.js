@@ -24,9 +24,11 @@ module.exports = {
                 .addChoice('Ben-HangUp', 'ben_hang')
                 .addChoice('FNAF-Jumpscare', 'jumpscare')
                 .addChoice('FNAF-Musicbox', 'musicbox')
+                .addChoice('FNAF-Bad-Ending', 'fnaf_bad_ending')
                 .addChoice('Royalty-Free-Family-Guy-theme', 'familyguymidi')
                 .addChoice('goanimate-vine-boom', 'goanimate_vine_boom')
-                .addChoice('scream', 'scream')),
+                .addChoice('scream', 'scream')
+                .addChoice('damn', 'damn')),
 
 	async execute(interaction) {
         
@@ -42,7 +44,7 @@ module.exports = {
         const player = voiceDiscord.createAudioPlayer();
 		const resource = voiceDiscord.createAudioResource(path.join(__dirname, `/resources/sound/${interaction.options.getString('sound')}.mp3`))
 
-        await wait(500)
+        await wait(1000)
 
 		player.play(resource);
 		connection.subscribe(player);
