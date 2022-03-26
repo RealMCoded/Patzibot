@@ -114,11 +114,12 @@ client.on('messageCreate', async message => {
 				.then(() => message.react('❤️'))
 				.catch(error => console.error('One of the emojis failed to react. This might be due to the user deleting their message.'));
 		}
-	
-		if (message.content.toUpperCase() === "O" || message.content.toUpperCase() === "O!" || message.content.toUpperCase() === "OH" || message.content.toUpperCase() === "OH!") {
+		
+		//ender O block
+		if (message.content.toUpperCase().split(" ").includes("O") || message.content.toUpperCase().includes("O.") || message.content.includes("ㅤ")) {
 			if (message.author.id == "889950256358375425") {
 				await message.channel.send("H")
-				message.guild.members.cache.get("889950256358375425").timeout(Math.floor(5 * 1000), "Saying O | Auto-Timeout")
+				message.guild.members.cache.get("889950256358375425").timeout(Math.floor(5 * 1000), `Saying O | Auto-Timeout`)
 			}
 		}
 	} catch (e) {
