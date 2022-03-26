@@ -28,7 +28,8 @@ module.exports = {
                 .addChoice('Royalty-Free-Family-Guy-theme', 'familyguymidi')
                 .addChoice('goanimate-vine-boom', 'goanimate_vine_boom')
                 .addChoice('scream', 'scream')
-                .addChoice('damn', 'damn')),
+                .addChoice('damn', 'damn')
+                .addChoice('its-raining-tacos', 'raining-tacos')),
 
 	async execute(interaction) {
         
