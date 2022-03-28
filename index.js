@@ -2,15 +2,9 @@ const fs = require('node:fs');
 const { Client, Collection, Intents } = require('discord.js');
 const { token, randomMessage, SQL_USER, SQL_PASS } = require('./config.json');
 const status = require('./commands/resources/json/status.json');
-const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize('database', SQL_USER, SQL_PASS, {
-	host: 'localhost',
-	dialect: 'sqlite',
-	logging: false,
-	// SQLite only
-	storage: 'database.sqlite',
-});
+const { Op } = require('sequelize');
+const { Users, CurrencyShop } = require('./dbObjects.js');
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS] });
 
@@ -22,23 +16,8 @@ for (const file of commandFiles) {
 	client.commands.set(command.data.name, command);
 }
 
-//TODO: try to move this to the initdb?
-const Tags = sequelize.define('tags', {
-	name: {
-		type: Sequelize.STRING,
-		unique: true,
-	},
-	description: Sequelize.TEXT,
-	username: Sequelize.STRING,
-	usage_count: {
-		type: Sequelize.INTEGER,
-		defaultValue: 0,
-		allowNull: false,
-	},
-});
-
 client.once('ready', () => {
-	Tags.sync();
+	//Tags.sync();
 	console.log('==================================================================\nBOT IS ONLINE!\nAll errors and logs (soundboard, voicetts and say) will show here.\n==================================================================\n');
 
 	 // generate random number between 1 and list length.

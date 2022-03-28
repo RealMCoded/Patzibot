@@ -1,30 +1,8 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js')
 const { SQL_USER, SQL_PASS } = require('../config.json');
-const Sequelize = require('sequelize');
-
-const sequelize = new Sequelize('database', SQL_USER, SQL_PASS, {
-	host: 'localhost',
-	dialect: 'sqlite',
-	logging: false,
-	// SQLite only
-	storage: 'database.sqlite',
-});
-
-//there is 100% a better way to do this but i don't remember asking
-const Tags = sequelize.define('tags', {
-	name: {
-		type: Sequelize.STRING,
-		unique: true,
-	},
-	description: Sequelize.TEXT,
-	username: Sequelize.STRING,
-	usage_count: {
-		type: Sequelize.INTEGER,
-		defaultValue: 0,
-		allowNull: false,
-	},
-});
+const { Op } = require('sequelize');
+const { Tags } = require('../dbObjects.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
