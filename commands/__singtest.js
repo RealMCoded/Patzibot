@@ -42,8 +42,8 @@ module.exports = {
 		});
 
         //stop player when bot disconnects
-        connection.on(voiceDiscord.VoiceConnectionStatus.Disconnected, () => {
-            player.destroy();
+        player.on(voiceDiscord.VoiceConnectionStatus.Disconnected, () => {
+            connection.destroy();
         });
 
         /*if (Interaction.guild.id == guildId){
