@@ -41,6 +41,11 @@ module.exports = {
 			connection.destroy();
 		});
 
+        //stop player when bot disconnects
+        connection.on(voiceDiscord.VoiceConnectionStatus.Disconnected, () => {
+            player.destroy();
+        });
+
         /*if (Interaction.guild.id == guildId){
             logChannel.send(`\`\`\`diff\n- Sound requested: "${interaction.options.getString('sound')}"\n- was requested by ${interaction.member.tag}.\`\`\``)
         }*/
