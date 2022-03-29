@@ -1,70 +1,50 @@
-//https://discordjs.guide/sequelize/
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { Permissions } = require('discord.js');
+const { MessageEmbed, Collection } = require('discord.js')
 const { SQL_USER, SQL_PASS } = require('../config.json');
-const Sequelize = require('sequelize');
+const { Op } = require('sequelize');
+const { Users, CurrencyShop } = require('../dbObjects.js');
 
-const sequelize = new Sequelize('database', SQL_USER, SQL_PASS, {
-	host: 'localhost',
-	dialect: 'sqlite',
-	logging: false,
-	// SQLite only
-	storage: 'database.sqlite',
+const currency = new Collection();
+
+Reflect.defineProperty(currency, 'add', {
+	value: async (id, amount) => {
+		const user = currency.get(id);
+
+		if (user) {
+			user.balance += Number(amount);
+			return user.save();
+		}
+
+		const newUser = await Users.create({ user_id: id, balance: amount });
+		currency.set(id, newUser);
+
+		return newUser;
+	},
 });
 
-const PatziCoin = sequelize.define('patzicoin', {
-	username: Sequelize.STRING,
-	patzicoin: {
-		type: Sequelize.INTEGER,
-		defaultValue: 0,
-		allowNull: false,
+Reflect.defineProperty(currency, 'getBalance', {
+	value: id => {
+		const user = currency.get(id);
+		return user ? user.balance : 0;
 	},
 });
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('patzicoin')
-		.setDescription(`patzicoin`)
+		.setDescription(`patzicoin commands`)
 		.addSubcommand(subcommand => 
-			subcommand.setName("set")
-				.setDescription("set your note lol")
-				.addIntegerOption(option => 
-					option.setRequired(true)
-						.setName("coin")
-						.setDescription("your note text"))),
+			subcommand.setName("balance")
+				.setDescription("view your patzicoin balance")
+				.addUserOption(option => 
+					option.setName("user")
+						.setDescription("the user to view"))),
 	async execute(interaction) {
-		//await interaction.reply(`fart`);
 		const subcommand = interaction.options.getSubcommand();
-		if (subcommand === 'set') {
-		
-			const tagName = interaction.options.getString('string');
-			//const tagOwner = interaction.options.getString('description');
-			const fone = await Tags.findOne({ where: { username: interaction.user.id } })
-			//console.log(fone)
-			if (!fone) {
-				//console.log("NO TAG EXISTS, MAKING ONE!")
-				try {
-					// equivalent to: INSERT INTO tags (name, description, username) values (?, ?, ?);
-					const tag = await Tags.create({
-						notename: tagName,
-						username: interaction.user.id,
-					});
-					return interaction.reply({content:`Note set to ${tag.notename}!`, ephemeral: true});
-				}
-				catch (error) {
-					/*if (error.name === 'SequelizeUniqueConstraintError') {
-						await Tags.update({ where: { notename: tagName } });
-						return interaction.reply({content:`Note set to ${tagName}!`, ephemeral: true});
-					}*/
-					console.log(`${error}\n`)
-					return interaction.reply({content:'Something went wrong with adding your note.', ephemeral: true});
-				}
-			} else {
-				//console.log("TAG EXISTS, EDITING!")
-				const affectedRows = await Tags.update({ notename: tagName }, { where: { username: interaction.user.id } });
-				console.log(`${interaction.user.tag} Set their note to "${tagName}".`)
-				if (affectedRows > 0) {return interaction.reply({content:`Note set to ${tagName}!`, ephemeral: true})}
-			}
+		if (subcommand === "balance") {
+			const target = interaction.options.getUser('user') ?? interaction.user;
+
+			return interaction.reply(`${target.tag} has ${currency.getBalance(target.id)}💰`);
 		}
 	},
 };

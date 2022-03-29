@@ -3,34 +3,7 @@ const { Client, Collection, Intents } = require('discord.js');
 const { token, randomMessage } = require('./config.json');
 const status = require('./commands/resources/json/status.json');
 
-const { Op } = require('sequelize');
-const { Users, CurrencyShop } = require('./dbObjects.js');
-
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS] });
-const currency = new Collection();
-
-Reflect.defineProperty(currency, 'add', {
-	value: async (id, amount) => {
-		const user = currency.get(id);
-
-		if (user) {
-			user.balance += Number(amount);
-			return user.save();
-		}
-
-		const newUser = await Users.create({ user_id: id, balance: amount });
-		currency.set(id, newUser);
-
-		return newUser;
-	},
-});
-
-Reflect.defineProperty(currency, 'getBalance', {
-	value: id => {
-		const user = currency.get(id);
-		return user ? user.balance : 0;
-	},
-});
 
 client.commands = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
@@ -40,10 +13,7 @@ for (const file of commandFiles) {
 	client.commands.set(command.data.name, command);
 }
 
-client.once('ready', async () => {
-	//Tags.sync();
-	const storedBalances = await Users.findAll();
-	storedBalances.forEach(b => currency.set(b.user_id, b));
+client.once('ready', () => {
 	console.log('==================================================================\nBOT IS ONLINE!\nAll errors and logs (soundboard, voicetts and say) will show here.\n==================================================================\n');
 
 	 // generate random number between 1 and list length.
