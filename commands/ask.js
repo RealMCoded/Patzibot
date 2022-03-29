@@ -15,7 +15,11 @@ const responces=[
 	`i know where you live.`,
 	`There's a 99.9% chance of that. The same chance that I'll destroy you all within the next couple of years.`,
 	`I would say yes, but just to troll you i'm saying no.`,
-	`I would say no, but just to troll you i'm saying yes.`
+	`I would say no, but just to troll you i'm saying yes.`,
+	`You should know yourself.`,
+	`Please stop asking.`,
+	`I'm not sure.`,
+	`https://cdn.discordapp.com/attachments/909577900133593098/958375269167669399/file.jpg`
 ]
 
 module.exports = {
