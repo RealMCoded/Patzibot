@@ -1,0 +1,11 @@
+{
+    "clientId":"BOT-CLIENT-ID",
+    "testGuildId":"TEST-SERVER-ID",
+    "guildId":"YOUR-SERVER-ID",
+    "token":"YOUR-BOT-TOKEN",
+    "randomMessage":"A-RANDOM-MESSAGE",
+    "SQL_USER":"SQL_USER",
+    "SQL_PASS":"SQL_PASS",
+    "suggestHookID":"SUGGESTION-HOOK-ID",
+    "suggestHookToken":"SUGGESTION-HOOK-TOKEN"
+}
