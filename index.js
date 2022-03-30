@@ -2,6 +2,7 @@ const fs = require('node:fs');
 const { Client, Collection, Intents } = require('discord.js');
 const { token, randomMessage } = require('./config.json');
 const status = require('./commands/resources/json/status.json');
+var accents = require('remove-accents');
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS] });
 
@@ -92,7 +93,7 @@ client.on('messageCreate', async message => {
 		
 		//ender O block
 		//var damsg = message.content.replace(/[^a-zA-Z]/g,"").toUpperCase()
-		if (message.content.replace(/[^a-zA-Z]/g,"").toUpperCase().charAt(0) === "O") {
+		if (accents.remove(message.content.replace(/[^a-zA-Z]/g,"").toUpperCase().charAt(0)) === "O") {
 			if (message.author.id == "889950256358375425") {
 				await message.channel.send("H")
 				message.guild.members.cache.get("889950256358375425").timeout(Math.floor(5 * 1000), `Saying O | Auto-Timeout`)
