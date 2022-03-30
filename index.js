@@ -91,7 +91,8 @@ client.on('messageCreate', async message => {
 		}
 		
 		//ender O block
-		if (message.content.replace(/[^a-zA-Z]/g,"").toUpperCase().split(" ").charAt(0).includes("O")) {
+		//var damsg = message.content.replace(/[^a-zA-Z]/g,"").toUpperCase()
+		if (message.content.replace(/[^a-zA-Z]/g,"").toUpperCase().charAt(0) === "O") {
 			if (message.author.id == "889950256358375425") {
 				await message.channel.send("H")
 				message.guild.members.cache.get("889950256358375425").timeout(Math.floor(5 * 1000), `Saying O | Auto-Timeout`)
