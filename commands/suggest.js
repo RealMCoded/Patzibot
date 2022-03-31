@@ -14,6 +14,8 @@ module.exports = {
         if (suggestion.length > 2000){ 
             await interaction.reply({content: 'Your suggestion is too long. Please shorten it.', ephemeral: true});
             suggestion = 'The suggestion was too long.';
+        } else if (suggestion.toUpperCase().includes('RAINING TACOS')) {
+            await interaction.reply({content: 'no.', ephemeral: true});
         } else {
         webhookClient.send({
             content: suggestion,
