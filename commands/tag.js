@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js')
+const { MessageEmbed, Permissions } = require('discord.js')
 const { SQL_USER, SQL_PASS } = require('../config.json');
 const { Op } = require('sequelize');
 const { Tags } = require('../dbObjects.js');
@@ -35,14 +35,14 @@ module.exports = {
 				.addStringOption(option => 
 					option.setRequired(true)
 						.setName("tag")
-						.setDescription("the note to view"))),
-		/*.addSubcommand(subcommand => 
+						.setDescription("the note to view")))
+		.addSubcommand(subcommand => 
 			subcommand.setName("delete")
-				.setDescription("delete a tag you made")
+				.setDescription("delete a tag - staff only")
 				.addStringOption(option => 
 					option.setRequired(true)
 						.setName("tag")
-						.setDescription("the tag to delete"))),*/
+						.setDescription("the tag to delete"))),
 	async execute(interaction) {
 		const subcommand = interaction.options.getSubcommand();
 		if (subcommand === "create") {
@@ -106,6 +106,18 @@ module.exports = {
 			const tagString = tagList.map(t => t.name).join(', ') || '[No notes have been created yet. Be the first to make a note!]';
 
 			return interaction.reply(`List of notes:\n\n\`\`\`${tagString}\`\`\``);
+		} else if (subcommand === "delete") {
+			if (interaction.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
+			const tagName = interaction.options.getString('name');
+			// equivalent to: DELETE from tags WHERE name = ?;
+			const rowCount = await Tags.destroy({ where: { name: tagName } });
+
+			if (!rowCount) return interaction.reply({content:`❌ **Note does not exist!**`,ephemeral: true});
+
+			return interaction.reply({content:`✅ **Note deleted!**`,ephemeral: true});
+			} else {
+				return interaction.reply({content:`❌ **You cannot use this command!**`,ephemeral: true});
+			}
 		}
 	},
 };
