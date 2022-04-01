@@ -65,7 +65,7 @@ module.exports = {
 
 		//fake loading shh
 		await interaction.deferReply({ephemeral: true});
-		await wait(1500);
+		await wait(2500);
 
 		player.play(resource);
 		connection.subscribe(player);
