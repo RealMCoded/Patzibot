@@ -4,8 +4,6 @@ const { token, randomMessage } = require('./config.json');
 const status = require('./commands/resources/json/status.json');
 var accents = require('remove-accents');
 
-const wait = require('node:timers/promises').setTimeout;
-
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS] });
 
 client.commands = new Collection();
@@ -97,19 +95,8 @@ client.on('messageCreate', async message => {
 		//var damsg = message.content.replace(/[^a-zA-Z]/g,"").toUpperCase()
 		if (accents.remove(message.content.replace(/[^a-zA-Z]/g,"").toUpperCase().charAt(0)) === "O" ||message.content.charAt(0) === "0") {
 			if (message.author.id == "889950256358375425") {
-				//await message.channel.send("H")
-				//message.guild.members.cache.get("889950256358375425").timeout(Math.floor(5 * 1000), `Saying O | Auto-Timeout`)
-				message.guild.members.cache.get("889950256358375425").timeout(Math.floor(28 * 24 * 60 * 60 * 1000), `Saying O but april fool!!!1 | Auto-Timeout`)
-				await wait (1240)
-				await message.channel.send("ender i warned you...")
-				await wait(1000)
-				await message.channel.send("but you didn't listen...")
-				await wait(2400)
-				await message.channel.send("take this 28 day timeout as your punishment...")
-				await wait(1400)
-				await message.channel.send("this is actually kinda funny lol")
-				await wait(2520)
-				await message.channel.send("HEY <@&919459902244655104>! Ender has been timedout for 28 days because he said O lol.")
+				await message.channel.send("H")
+				message.guild.members.cache.get("889950256358375425").timeout(Math.floor(5 * 1000), `Saying O | Auto-Timeout`)
 			}
 		}
 	} catch (e) {
