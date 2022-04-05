@@ -19,6 +19,7 @@ const responces=[
 	`You should know yourself.`,
 	`Please stop asking.`,
 	`I'm not sure.`,
+	`PatziBot approves!`,
 	` https://cdn.discordapp.com/attachments/909577900133593098/958375269167669399/file.jpg `
 ]
 
