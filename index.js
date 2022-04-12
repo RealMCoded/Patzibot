@@ -1,7 +1,8 @@
 const fs = require('node:fs');
 const { Client, Collection, Intents } = require('discord.js');
-const { token, randomMessage } = require('./config.json');
+const { token } = require('./config.json');
 const status = require('./commands/resources/json/status.json');
+const rndmsg = require('./commands/resources/json/randommsg.json');
 var accents = require('remove-accents');
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS] });
@@ -48,10 +49,12 @@ client.on("ready", () => {
 
 	//Random message
 	setInterval(() => {
-		let rnd = Math.floor(Math.random() * 501)
+		//let rnd = Math.floor(Math.random() * 501)
+		let rnd = 1
 		if (rnd == 1) {
+			const randomIndex = Math.floor(Math.random() * (rndmsg.length - 1) + 1);
 			console.log(`- I sent the funny :)\n`)
-			client.channels.cache.get("909565157846429809").send(randomMessage)
+			client.channels.cache.get("909565157846429809").send(rndmsg[randomIndex])
 		}
 		//console.log(rnd)
 	  }, 30000);
