@@ -49,8 +49,7 @@ client.on("ready", () => {
 
 	//Random message
 	setInterval(() => {
-		//let rnd = Math.floor(Math.random() * 501)
-		let rnd = 1
+		let rnd = Math.floor(Math.random() * 501)
 		if (rnd == 1) {
 			const randomIndex = Math.floor(Math.random() * (rndmsg.length - 1) + 1);
 			console.log(`- I sent the funny :)\n`)
@@ -95,13 +94,13 @@ client.on('messageCreate', async message => {
 		}
 		
 		//ender O block
-		//var damsg = message.content.replace(/[^a-zA-Z]/g,"").toUpperCase()
+		/*
 		if (accents.remove(message.content.replace(/[^a-zA-Z]/g,"").toUpperCase().charAt(0)) === "O" ||message.content.charAt(0) === "0") {
 			if (message.author.id == "889950256358375425") {
 				await message.channel.send("H")
 				message.guild.members.cache.get("889950256358375425").timeout(Math.floor(5 * 1000), `Saying O | Auto-Timeout`)
 			}
-		}
+		}*/
 	} catch (e) {
 		console.log(`${e}\n\n`)
 	}
