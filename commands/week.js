@@ -3,7 +3,7 @@ const week = require("./resources/json/weekvids.json")
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('week')
+		.setName('day')
 		.setDescription('Get a video for the current day of the week'),
 	async execute(interaction) {
 		const dayOfWeek = new Date().getDay();
