@@ -5,7 +5,7 @@ const status = require('./commands/resources/json/status.json');
 const rndmsg = require('./commands/resources/json/randommsg.json');
 var accents = require('remove-accents');
 
-const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS] });
+const client = new Client({ ws: { properties: { $browser: "Discord iOS" }}, intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS] });
 
 client.commands = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
@@ -27,7 +27,7 @@ client.once('ready', () => {
 		   name: status[randomIndex].activity, 
 		   type: status[randomIndex].type,
 	   }],
-		   status: "idle"
+		   //status: "idle"
 	   });
 });
 
