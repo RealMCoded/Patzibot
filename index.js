@@ -43,7 +43,7 @@ client.on("ready", () => {
 			name: status[randomIndex].activity, 
 			type: status[randomIndex].type,
 		}],
-			status: "idle"
+			//status: "idle"
 		});
 	}, 60000);
 
