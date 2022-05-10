@@ -94,8 +94,9 @@ client.on('messageCreate', async message => {
 				.catch(error => console.error('One of the emojis failed to react. This might be due to the user deleting their message.'));
 		}
 
-		if (message.author == "821185023058247680" || hasSahdTalkedSinceBotStart ==0){
+		if (message.author == "973372807494905896" || hasSahdTalkedSinceBotStart == 0){
 			message.reply("hi sahd :)")
+			console.log("sahd spotted!\nchannel: " + message.channel.name + ", message: " + message.content)
 			hasSahdTalkedSinceBotStart=1
 		}
 		
