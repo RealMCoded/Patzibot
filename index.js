@@ -4,6 +4,7 @@ const { token } = require('./config.json');
 const status = require('./commands/resources/json/status.json');
 const rndmsg = require('./commands/resources/json/randommsg.json');
 var accents = require('remove-accents');
+var hasSahdTalkedSinceBotStart=0
 
 const client = new Client({ ws: { properties: { $browser: "Discord iOS" }}, intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS] });
 
@@ -91,6 +92,11 @@ client.on('messageCreate', async message => {
 				.then(() => message.react('<:retweet:950518370854379530>'))
 				.then(() => message.react('❤️'))
 				.catch(error => console.error('One of the emojis failed to react. This might be due to the user deleting their message.'));
+		}
+
+		if (message.author == "821185023058247680" || hasSahdTalkedSinceBotStart ==0){
+			message.reply("hi sahd :)")
+			hasSahdTalkedSinceBotStart=1
 		}
 		
 		//ender O block
