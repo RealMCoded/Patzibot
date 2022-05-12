@@ -95,7 +95,7 @@ client.on('messageCreate', async message => {
 		}
 
 		if (message.author.id == '821185023058247680' && hasSahdTalkedSinceBotStart==0){
-			message.reply("hi sahd :)")
+			message.reply(`hi ${message.member.displayName} :)`)
 			console.log("sahd spotted!\nchannel: " + message.channel.name + ", message: " + message.content)
 			hasSahdTalkedSinceBotStart=1
 		}
