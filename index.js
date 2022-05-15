@@ -114,4 +114,14 @@ client.on('messageCreate', async message => {
 
 });
 
+/*
+client.on('guildMemberAdd', member => {
+	console.log("new member wtf?!")
+	try {
+		member.send("Welcome to the server!");
+	} catch (e) {
+
+	}
+ });*/
+
 client.login(token);
