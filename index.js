@@ -93,13 +93,13 @@ client.on('messageCreate', async message => {
 				.then(() => message.react('❤️'))
 				.catch(error => console.error('One of the emojis failed to react. This might be due to the user deleting their message.'));
 		}
-
+		/*
 		if (message.author.id == '821185023058247680' && hasSahdTalkedSinceBotStart==0){
 			message.reply(`hi ${message.member.displayName} :)`)
 			console.log("sahd spotted!\nchannel: " + message.channel.name + ", message: " + message.content)
 			hasSahdTalkedSinceBotStart=1
 		}
-		
+		*/
 		//ender O block
 		/*
 		if (accents.remove(message.content.replace(/[^a-zA-Z]/g,"").toUpperCase().charAt(0)) === "O" ||message.content.charAt(0) === "0") {
