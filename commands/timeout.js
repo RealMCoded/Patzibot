@@ -3,7 +3,7 @@ const { Permissions } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('timeoutprecise')
+		.setName('timeout')
 		.setDescription(`Timeout a member for up to 28 days.`)
 		.addUserOption(option =>
 			option.setName("user")
