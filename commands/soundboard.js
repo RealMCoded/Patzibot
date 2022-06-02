@@ -1,6 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const voiceDiscord = require('@discordjs/voice');
-const { AsyncLocalStorage } = require('async_hooks');
 const path = require("path")
 const wait = require('node:timers/promises').setTimeout;
 const { logChannel, guildId } = require("../config.json")
@@ -14,22 +13,22 @@ module.exports = {
                 .setDescription('the funny')
                 .setRequired(true)
                 .addChoice('Bruh', 'bruh')
-                .addChoice('Bruh-HD-4K-UHD-Dolby-Atmos', 'bruh-hd-real')
+                .addChoice('Bruh HD 4K UHD Dolby Atmos', 'bruh-hd-real')
                 .addChoice('Airhorn', 'airhorn')
                 .addChoice('DJ-Airhorn', 'airhorn-dj')
-                .addChoice('Bambi-break-phone', 'bambi')
-                .addChoice('Ben-yes', 'ben_yes')
-                .addChoice('Ben-no', 'ben_no')
-                .addChoice('Ben-HangUp', 'ben_hang')
-                .addChoice('FNAF-Jumpscare', 'jumpscare')
-                .addChoice('FNAF-Musicbox', 'musicbox')
-                .addChoice('FNAF-Bad-Ending', 'fnaf_bad_ending')
-                .addChoice('Royalty-Free-Family-Guy-theme', 'familyguymidi')
-                .addChoice('goanimate-vine-boom', 'goanimate_vine_boom')
-                .addChoice('scream', 'scream')
-                .addChoice('damn', 'damn')
-                .addChoice('sad-spunch','boo-womp')
-                .addChoice('its-raining-tacos', 'raining-tacos')),
+                .addChoice('Bambi break phone', 'bambi')
+                .addChoice('Ben (yes)', 'ben_yes')
+                .addChoice('Ben (no)', 'ben_no')
+                .addChoice('Ben (Hang Up)', 'ben_hang')
+                .addChoice('(FNAF) Jumpscare', 'jumpscare')
+                .addChoice('(FNAF) Musicbox', 'musicbox')
+                .addChoice('(FNAF) Bad Ending', 'fnaf_bad_ending')
+                .addChoice('Royalty Free Family Guy theme', 'familyguymidi')
+                .addChoice('Vine Boom (Go!Animate)', 'goanimate_vine_boom')
+                .addChoice('Scream', 'scream')
+                .addChoice('Damn!', 'damn')
+                .addChoice('sad spunch','boo-womp')
+                .addChoice('It\'s raining tacos! (sahd forced me to add this)', 'raining-tacos')),
 
 	async execute(interaction) {
         
