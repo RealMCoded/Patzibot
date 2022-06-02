@@ -1,12 +1,20 @@
 const fs = require('node:fs');
 const { Client, Collection, Intents } = require('discord.js');
-const { token } = require('./config.json');
+const { token, SQL_USER, SQL_PASS } = require('./config.json');
+const Sequelize = require('sequelize');
 const status = require('./commands/resources/json/status.json');
 const rndmsg = require('./commands/resources/json/randommsg.json');
-var accents = require('remove-accents');
-var hasSahdTalkedSinceBotStart=0
 
 const client = new Client({ ws: { properties: { $browser: "Discord iOS" }}, intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS] });
+
+const sequelize = new Sequelize('database', SQL_USER, SQL_PASS, {
+	host: 'localhost',
+	dialect: 'sqlite',
+	logging: false,
+	// SQLite only
+	storage: 'database.sqlite',
+});
+client.db = require('./models/database.js')
 
 client.commands = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
@@ -17,6 +25,8 @@ for (const file of commandFiles) {
 }
 
 client.once('ready', () => {
+	client.db.Tags.sync();
+	client.db.Patzicoin.sync();
 	console.log('==================================================================\nBOT IS ONLINE!\nAll errors and logs (soundboard, voicetts and say) will show here.\n==================================================================\n');
 
 	 // generate random number between 1 and list length.
@@ -114,14 +124,18 @@ client.on('messageCreate', async message => {
 
 });
 
-/*
-client.on('guildMemberAdd', member => {
-	console.log("new member wtf?!")
-	try {
-		member.send("Welcome to the server!");
-	} catch (e) {
+process.on('uncaughtException', (error, origin) => {
+    console.log('----- Uncaught exception -----')
+    console.log(error)
+    console.log('----- Exception origin -----')
+    console.log(origin)
+})
 
-	}
- });*/
+process.on('unhandledRejection', (reason, promise) => {
+    console.log('----- Unhandled Rejection at -----')
+    console.log(promise)
+    console.log('----- Reason -----')
+    console.log(reason)
+})
 
 client.login(token);

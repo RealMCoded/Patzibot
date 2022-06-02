@@ -1,8 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed, Permissions } = require('discord.js')
-const { SQL_USER, SQL_PASS } = require('../config.json');
-const { Op } = require('sequelize');
-const { Tags } = require('../dbObjects.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -44,6 +41,7 @@ module.exports = {
 						.setName("tag")
 						.setDescription("the tag to delete"))),
 	async execute(interaction) {
+		const Tags = interaction.client.db.Tags
 		const subcommand = interaction.options.getSubcommand();
 		if (subcommand === "create") {
 			const tagName = interaction.options.getString('tag');
