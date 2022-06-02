@@ -18,7 +18,6 @@ module.exports = {
                 .addChoice('Airhorn', 'airhorn')
                 .addChoice('DJ-Airhorn', 'airhorn-dj')
                 .addChoice('Bambi-break-phone', 'bambi')
-                //.addChoice('bambi-break-phone-4k-uhd', 'bambi-hd-real') //REMOVED FOR NOW - WAV
                 .addChoice('Ben-yes', 'ben_yes')
                 .addChoice('Ben-no', 'ben_no')
                 .addChoice('Ben-HangUp', 'ben_hang')
@@ -29,6 +28,7 @@ module.exports = {
                 .addChoice('goanimate-vine-boom', 'goanimate_vine_boom')
                 .addChoice('scream', 'scream')
                 .addChoice('damn', 'damn')
+                .addChoice('sad-spunch','boo-womp')
                 .addChoice('its-raining-tacos', 'raining-tacos')),
 
 	async execute(interaction) {
