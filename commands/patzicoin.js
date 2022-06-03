@@ -60,7 +60,7 @@ module.exports = {
 						.setDescription(`"${msg}" - boss\nYou earned **${amount}** PatziCoins!`)
 					interaction.reply({embeds: [embed]});
 
-					db.update({ coins: dbusr.coins + amount }, { where: { userID: interaction.user.id } });
+					db.increment('coins', { by: amount, where: { userID: interaction.user.id } });
 				}
 
 			}
