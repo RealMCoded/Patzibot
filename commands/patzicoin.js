@@ -2,6 +2,8 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const earnResp = require('./resources/json/earnResp.json')
 
+const recent= new Set();
+
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('patzicoin')
@@ -36,6 +38,10 @@ module.exports = {
 				.setDescription("PatziCoins are a currency used in the Patzi's World Discord server. They can be used to buy special items and rewards.\n\nYou can earn PatziCoins by chatting in the server, and you can spend them on special items and rewards.\n\nNote: The PatziCoin system is currently in Beta and may change at any time.")
 			interaction.reply({embeds: [embed]});
 		} else if(subcommand == "work"){
+			if(recent.has(interaction.user.id)){
+				interaction.reply({content:`⏰ **You cannot work for PatziCoins right now!**\n**You have to wait a while to use it again!**`,ephemeral: true});
+				return;
+			} else {
 			var method = interaction.options.getString("job");
 
 			var dbusr = await db.findOrCreate({
@@ -63,6 +69,13 @@ module.exports = {
 					db.increment('coins', { by: amount, where: { userID: interaction.user.id } });
 				}
 
+			}
+
+			recent.add(interaction.user.id );
+            setTimeout(() => {
+                // Removes the user from the set after 60 seconds
+                recent.delete(interaction.user.id );
+                }, 60000);
 			}
 		} else if(subcommand == "lb"){
 			var le = ""
