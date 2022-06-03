@@ -75,7 +75,7 @@ module.exports = {
             setTimeout(() => {
                 // Removes the user from the set after 60 seconds
                 recent.delete(interaction.user.id );
-                }, 60000);
+                }, 35000);
 			}
 		} else if(subcommand == "lb"){
 			var le = ""
