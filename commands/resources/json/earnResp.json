@@ -2,11 +2,27 @@
     "JOB1_GOOD":[
         "u made good burgr :)",
         "$5 cat food",
+        "good shit.",
+        "Amazing Work!!1",
         "epic."
     ],
     "JOB1_BAD":[
         "u made bad burgr :(",
         "you killed the cat wtf",
+        "wtf",
+        "\\*cry's* why",
         "wtf is this shit?!"
+    ],
+    "JOB2_GOOD":[
+        "working hard",
+        "Good thing the rats are gone!",
+        "Amazing Work!!1",
+        "epic."
+    ],
+    "JOB2_BAD":[
+        "hardly working",
+        "WHY ARE THERE SO MANY RATS?!",
+        "\\*cry's* why",
+        "Boo!"
     ]
 }

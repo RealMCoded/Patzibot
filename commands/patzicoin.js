@@ -26,8 +26,8 @@ module.exports = {
 						.setDescription('the job')
 						.setRequired(true)
 						//.addChoice('Random! (??-?? - ?% lose rate)', 'rnd')
-						.addChoice('McDonalds (Pay: 15-30 | 5% lose rate)', `1`))),
-						//.addChoice('Target (Pay: 35-50 | 10% lose rate)', `2`))),
+						.addChoice('McDonalds (Pay: 15-30 | 5% lose rate)', `1`)
+						.addChoice('Dollar Store (Pay: 35-50 | 10% lose rate)', `2`))),
 	async execute(interaction) {
 		const subcommand = interaction.options.getSubcommand();
 		const db = interaction.client.db.Patzicoin;
@@ -48,7 +48,7 @@ module.exports = {
 				where: { userID: interaction.user.id },
 			  });
 
-			if (method = "1") {
+			if (method == "1") {
 
 				if(Math.random() < 0.05){
 					var msg = earnResp[`JOB1_BAD`][Math.floor(Math.random() * (earnResp[`JOB1_BAD`].length))]
@@ -62,6 +62,28 @@ module.exports = {
 					var msg = earnResp[`JOB1_GOOD`][Math.floor(Math.random() * (earnResp[`JOB1_GOOD`].length))]
 					const embed = new MessageEmbed()
 						.setTitle("Work at McDonalds - PatziCoin")
+						.setColor(0x00FF00)
+						.setDescription(`"${msg}" - boss\nYou earned **${amount}** PatziCoins!`)
+					interaction.reply({embeds: [embed]});
+
+					db.increment('coins', { by: amount, where: { userID: interaction.user.id } });
+				}
+
+			}
+			if (method == "2") {
+
+				if(Math.random() < 0.10){
+					var msg = earnResp[`JOB2_BAD`][Math.floor(Math.random() * (earnResp[`JOB2_BAD`].length))]
+					const embed = new MessageEmbed()
+						.setTitle("Work at Dollar Store - PatziCoin")
+						.setColor(0xFF0000)
+						.setDescription(`"${msg}" - boss\nYou lost **0** PatziCoins.`)
+					interaction.reply({embeds: [embed]});
+				} else {
+					var amount = Math.floor(Math.random() * (50 - 35 + 1)) + 35;
+					var msg = earnResp[`JOB2_GOOD`][Math.floor(Math.random() * (earnResp[`JOB2_GOOD`].length))]
+					const embed = new MessageEmbed()
+						.setTitle("Work at Dollar Store - PatziCoin")
 						.setColor(0x00FF00)
 						.setDescription(`"${msg}" - boss\nYou earned **${amount}** PatziCoins!`)
 					interaction.reply({embeds: [embed]});
