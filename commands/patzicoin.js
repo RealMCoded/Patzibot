@@ -18,7 +18,7 @@ module.exports = {
 		.addSubcommand(subcommand => 
 			subcommand.setName("userstats")
 				.setDescription("View a user's stats")
-				.addIntegerOption(option => 
+				.addUserOption(option => 
 					option.setRequired(false)
 						.setName("user")
 						.setDescription("The user to view (Default: Current User)")))
