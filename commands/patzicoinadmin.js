@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, WebhookClient } = require('discord.js');
+const { EcologWebhookURL } = require('../config.json')
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -17,6 +18,7 @@ module.exports = {
 						.setName("amount")
 						.setDescription("The amount of coins to give"))),
 	async execute(interaction) {
+		const webhookClient = new WebhookClient({ url: EcologWebhookURL });
 		const subcommand = interaction.options.getSubcommand();
 		const db = interaction.client.db.Patzicoin;
 
@@ -46,6 +48,16 @@ module.exports = {
 			}
 
 			interaction.reply({ content: `✅ **Set ${user.username}'s Patzicoins to ${amount}!**`, ephemeral: true })
+
+			//logging
+			const embed = new MessageEmbed()
+				.setTitle("Patzicoin Logs")
+				.setDescription(`${user.tag}'s Patzicoins was set to **${amount}**\n\n(Executed by <@${interaction.user.id}>)`)
+				.setColor("#00ff00")
+				.setTimestamp();
+			webhookClient.send({
+				embeds: [embed]
+			});
 		}
 	},
 };
