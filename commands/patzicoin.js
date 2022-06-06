@@ -16,6 +16,13 @@ module.exports = {
 						.setName("amount")
 						.setDescription("The amount of users to show (Default: 10)")))
 		.addSubcommand(subcommand => 
+			subcommand.setName("userstats")
+				.setDescription("View a user's stats")
+				.addIntegerOption(option => 
+					option.setRequired(false)
+						.setName("user")
+						.setDescription("The user to view (Default: Current User)")))
+		.addSubcommand(subcommand => 
 			subcommand.setName("about")
 				.setDescription("About PatziCoins"))
 		.addSubcommand(subcommand => 
@@ -46,7 +53,7 @@ module.exports = {
 
 			var dbusr = await db.findOrCreate({
 				where: { userID: interaction.user.id },
-			  });
+			});
 
 			if (method == "1") {
 
@@ -106,19 +113,43 @@ module.exports = {
 			})
 
 			list = list.sort((a, b) => b.coins - a.coins)
-			list = list.slice(0, interaction.options.getInteger('numb') || 10)
+			list = list.slice(0, interaction.options.getInteger('amount') || 10)
 
 			for(var i=0; i < list.length; i++){
 				var le = le + "**#" + (i+1).toString() + "** | <@" + list[i].userID + ">: **" + list[i].coins.toString() + "** 🪙\n"
 			}
 
 			const embed = new MessageEmbed()
-				.setTitle(`PatziCoin Leaderboard | First ${interaction.options.getInteger('numb') || 10} users`)
+				.setTitle(`PatziCoin Leaderboard | First ${interaction.options.getInteger('amount') || 10} users`)
 				.setColor("#0099ff")
 				.setDescription(`${le}`)
 				.setTimestamp()
 
 			return interaction.reply({embeds: [embed]});
+		} else if(subcommand == "userstats"){
+			const usr = interaction.options.getUser("user") || interaction.member.user;
+
+			const tag = await db.findOne({ where: { userID: usr.id } });
+              
+        if (tag) {
+			const correct = tag.get("coins")
+
+			const embed = new MessageEmbed()
+				.setTitle(`PatziCoin Stats for `)
+				.setColor("#0099ff")
+				.setDescription(`**PatziCoins**: ${correct} 🪙`)
+				.setTimestamp()
+
+			return interaction.reply({embeds: [embed]});
+		} else {
+			const embed = new MessageEmbed()
+				.setTitle(`PatziCoin Stats for `)
+				.setColor("#0099ff")
+				.setDescription(`**PatziCoins**: 0 🪙`)
+				.setTimestamp()
+
+			return interaction.reply({embeds: [embed]});
 		}
+	}
 	},
 };
