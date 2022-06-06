@@ -7,6 +7,8 @@ const rndmsg = require('./commands/resources/json/randommsg.json');
 
 const client = new Client({ ws: { properties: { $browser: "Discord iOS" }}, intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS] });
 
+const chattedRecently = new Set();
+
 const sequelize = new Sequelize('database', SQL_USER, SQL_PASS, {
 	host: 'localhost',
 	dialect: 'sqlite',
@@ -56,7 +58,7 @@ client.on("ready", () => {
 		}],
 			//status: "idle"
 		});
-	}, 60000);
+	}, 90000);
 
 	//Random message
 	setInterval(() => {
@@ -97,19 +99,27 @@ client.on('messageCreate', async message => {
 	if (message.author.bot) return
 
 	try {
+		//gib parti coin for talkin :)
+		if(!chattedRecently.has(message.author.id)){
+			var dbusr = await client.db.Patzicoin.findOrCreate({
+				where: { userID: message.author.id },
+			});
+
+			client.db.Patzicoin.increment('coins', { by: (Math.floor(Math.random() * (5 - 1 + 1)) + 5), where: { userID: message.author.id } });
+
+			chattedRecently.add(message.author.id);
+            setTimeout(() => {
+                // Removes the user from the set after 60 seconds
+                chattedRecently.delete(message.author.id);
+                }, 60000);
+		}
+
 		if (message.content.toUpperCase().split(" ").includes("RATIO")) {
 			message.react('💬')
 				.then(() => message.react('<:retweet:950518370854379530>'))
 				.then(() => message.react('❤️'))
 				.catch(error => console.error('One of the emojis failed to react. This might be due to the user deleting their message.'));
 		}
-		/*
-		if (message.author.id == '821185023058247680' && hasSahdTalkedSinceBotStart==0){
-			message.reply(`hi ${message.member.displayName} :)`)
-			console.log("sahd spotted!\nchannel: " + message.channel.name + ", message: " + message.content)
-			hasSahdTalkedSinceBotStart=1
-		}
-		*/
 		//ender O block
 		/*
 		if (accents.remove(message.content.replace(/[^a-zA-Z]/g,"").toUpperCase().charAt(0)) === "O" ||message.content.charAt(0) === "0") {
