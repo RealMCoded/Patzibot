@@ -55,9 +55,7 @@ module.exports = {
 				.setDescription(`${user.tag}'s Patzicoins was set to **${amount}**\n\n(Executed by <@${interaction.user.id}>)`)
 				.setColor("#00ff00")
 				.setTimestamp();
-			webhookClient.send({
-				embeds: [embed]
-			});
+			webhookClient.send({embeds: [embed]});
 		}
 	},
 };

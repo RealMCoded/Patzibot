@@ -31,6 +31,10 @@ const Patzicoin = sequelize.define('patzicoin', {
   coins: {
     type: Sequelize.INTEGER,
     defaultValue: 0
+  },
+  inv: {
+    type: Sequelize.STRING,
+    defaultValue: '[]'
   }
 })
 

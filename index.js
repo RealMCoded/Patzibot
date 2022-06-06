@@ -29,6 +29,7 @@ for (const file of commandFiles) {
 client.once('ready', () => {
 	client.db.Tags.sync();
 	client.db.Patzicoin.sync();
+	
 	console.log('==================================================================\nBOT IS ONLINE!\nAll errors and logs (soundboard, voicetts and say) will show here.\n==================================================================\n');
 
 	 // generate random number between 1 and list length.

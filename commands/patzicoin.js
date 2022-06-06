@@ -133,11 +133,13 @@ module.exports = {
               
         if (tag) {
 			const correct = tag.get("coins")
+			const invjson = tag.get("inv")
+			const inv = JSON.parse(invjson)
 
 			const embed = new MessageEmbed()
 				.setTitle(`PatziCoin Stats for `)
 				.setColor("#0099ff")
-				.setDescription(`**PatziCoins**: ${correct} 🪙`)
+				.setDescription(`**PatziCoins**: ${correct} 🪙\n\n**Inventory**: ${inv}`)
 				.setTimestamp()
 
 			return interaction.reply({embeds: [embed]});
