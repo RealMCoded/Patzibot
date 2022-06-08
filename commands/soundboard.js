@@ -4,6 +4,8 @@ const path = require("path")
 const wait = require('node:timers/promises').setTimeout;
 const { logChannel, guildId } = require("../config.json")
 
+const recent= new Set();
+
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('soundboard')
@@ -32,6 +34,10 @@ module.exports = {
 
 	async execute(interaction) {
         
+        if(recent.has(interaction.user.id)){
+            interaction.reply({content:`⏰ **You cannot use this command right now!**\n**You have to wait a while to use it again!**`,ephemeral: true});
+            return;
+        }
         const channel = interaction.member.voice.channel;
 		if(!channel) return await interaction.reply({ content: "❌ **You aren't in a voice channel!**", ephemeral: true });
 
@@ -55,6 +61,12 @@ module.exports = {
 		player.on(voiceDiscord.AudioPlayerStatus.Idle, () => {
 			connection.destroy();
 		});
+
+        recent.add(interaction.user.id );
+            setTimeout(() => {
+                // Removes the user from the set after 60 seconds
+                recent.delete(interaction.user.id );
+                }, 60000);
 
         /*if (Interaction.guild.id == guildId){
             logChannel.send(`\`\`\`diff\n- Sound requested: "${interaction.options.getString('sound')}"\n- was requested by ${interaction.member.tag}.\`\`\``)
