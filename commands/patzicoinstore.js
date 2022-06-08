@@ -43,7 +43,7 @@ module.exports = {
 			var dbusr = await db.findOne({ where: { userID: interaction.user.id } });
 
 			if(!dbusr){
-				interaction.reply({content:`⚠ **You do not have any patzicoins!!!**`,ephemeral: true});
+				interaction.reply({content:`⚠ **You do not have enough Patzicoins!**`,ephemeral: true});
 				return;
 			}
 			var coin = dbusr.get("coins");
@@ -59,7 +59,13 @@ module.exports = {
 				where: { userID: interaction.user.id },
 			});
 
-			interaction.reply({content:`✅ **You have bought the item!**\n\n**Item:** ${shp[item-1].item}\n**Price:** ${shp[item-1].price} Patzicoins\n**Description:** ${shp[item-1].desc}`});
+			const embed = new MessageEmbed()
+				.setTitle("Purchase successful!")
+				.setDescription(`**You have bought the item!**\n\n**Item:** ${shp[item-1].item}\n**Price:** ${shp[item-1].price} Patzicoins\n**Description:** ${shp[item-1].desc}`)
+				.setThumbnail("https://cdn.discordapp.com/attachments/808339703547428884/982120176571011072/iconmonstr-shop-3-240.png?size=2048")
+			interaction.reply({embeds: [embed]});
+
+			//interaction.reply({content:`✅ **You have bought the item!**\n\n**Item:** ${shp[item-1].item}\n**Price:** ${shp[item-1].price} Patzicoins\n**Description:** ${shp[item-1].desc}`});
 		}
 	},
 };
