@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed, WebhookClient } = require('discord.js');
-const { EcologWebhookURL } = require('../config.json')
+const { logWebhookURL } = require('../config.json')
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -29,7 +29,7 @@ module.exports = {
 						.setName("amount")
 						.setDescription("The amount of coins to give"))),
 	async execute(interaction) {
-		const webhookClient = new WebhookClient({ url: EcologWebhookURL });
+		const webhookClient = new WebhookClient({ url: logWebhookURL });
 		const subcommand = interaction.options.getSubcommand();
 		const db = interaction.client.db.Patzicoin;
 

@@ -1,6 +1,6 @@
 const {SlashCommandBuilder} = require('@discordjs/builders');
 const { WebhookClient } = require('discord.js');
-const { suggestHookID, suggestHookToken } = require('../config.json');
+const { suggestionHook } = require('../config.json');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -8,14 +8,12 @@ module.exports = {
         .setDescription('suggest a feature for the bot')
         .addStringOption(option => option.setName('suggestion').setDescription('What\'s on your mind?').setRequired(true)),
     async execute(interaction) {
-        const webhookClient = new WebhookClient({id: suggestHookID, token: suggestHookToken});
+        const webhookClient = new WebhookClient({ url: suggestionHook });
         var suggestion = interaction.options.getString('suggestion');
 
         if (suggestion.length > 2000){ 
             await interaction.reply({content: 'Your suggestion is too long. Please shorten it.', ephemeral: true});
             suggestion = 'The suggestion was too long.';
-        } else if (suggestion.toUpperCase().includes('RAINING TACOS')) {
-            await interaction.reply({content: 'no.', ephemeral: true});
         } else {
         webhookClient.send({
             content: suggestion,
