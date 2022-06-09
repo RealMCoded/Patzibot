@@ -145,6 +145,8 @@ module.exports = {
 			const usr = interaction.options.getUser("user") || interaction.member.user;
 
 			const tag = await db.findOne({ where: { userID: usr.id } });
+
+			const usrnm = await interaction.client.users.fetch(usr.id);
               
         if (tag) {
 			const correct = tag.get("coins")
@@ -152,17 +154,17 @@ module.exports = {
 			const inv = JSON.parse(invjson)
 
 			const embed = new MessageEmbed()
-				.setTitle(`PatziCoin Stats for `)
+				.setTitle(`PatziCoin Stats for ${usrnm.tag}`)
 				.setColor("#0099ff")
-				.setDescription(`**PatziCoins**: ${correct} 🪙\n\n**Inventory**: ${inv}`)
+				.setDescription(`**PatziCoins**: ${correct} 🪙\n\n**Bank Bal**: *tba*\n\n**Inventory**: ${inv}`)
 				.setTimestamp()
 
 			return interaction.reply({embeds: [embed]});
 		} else {
 			const embed = new MessageEmbed()
-				.setTitle(`PatziCoin Stats for `)
+				.setTitle(`PatziCoin Stats for ${usrnm.tag}`)
 				.setColor("#0099ff")
-				.setDescription(`**PatziCoins**: 0 🪙`)
+				.setDescription(`***No stats found for ${usrnm.tag}***`)
 				.setTimestamp()
 
 			return interaction.reply({embeds: [embed]});
