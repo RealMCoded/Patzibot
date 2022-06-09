@@ -129,7 +129,7 @@ module.exports = {
 				} else {
 					var le = le + "**#" + (i+1).toString() + "** | `Unknown#" + list[i].userID + "`: **" + list[i].coins.toString() + "** 🪙\n"
 				}
-				console.log(`FETCHED! (${i+1} / ${list.length})`)
+				console.log(`[patzicoin.js] FETCHED! (${i+1} / ${list.length})`)
 			}
 
 			const embed = new MessageEmbed()
@@ -139,7 +139,7 @@ module.exports = {
 				.setTimestamp()
 
 			clearTimeout(timr)
-			return interaction.editReply({embeds: [embed]});
+			return interaction.editReply({ content:"_ _", embeds: [embed]});
 		} else if(subcommand == "userstats"){
 			const usr = interaction.options.getUser("user") || interaction.member.user;
 
