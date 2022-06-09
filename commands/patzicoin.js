@@ -107,6 +107,12 @@ module.exports = {
                 }, 35000);
 			}
 		} else if(subcommand == "lb"){
+
+			await interaction.deferReply();
+			var timr = setTimeout(() => {
+                // Removes the user from the set after 60 seconds
+                interaction.editReply("<a:typing:944765274475864094> ***This is taking longer than expected. If you requested a large amount of users, this is normal.***");
+                }, 10000);
 			var le = ""
 			list = await db.findAll({
 				attributes: ['coins', 'userID']
@@ -116,7 +122,14 @@ module.exports = {
 			list = list.slice(0, interaction.options.getInteger('amount') || 10)
 
 			for(var i=0; i < list.length; i++){
-				var le = le + "**#" + (i+1).toString() + "** | <@" + list[i].userID + ">: **" + list[i].coins.toString() + "** 🪙\n"
+				//TODO: Prevent rate limiting for this, causing it to hang.
+				let user = await interaction.client.users.fetch(list[i].userID);
+				if(user){
+					var le = le + "**#" + (i+1).toString() + "** | `" + user.tag + "`: **" + list[i].coins.toString() + "** 🪙\n"
+				} else {
+					var le = le + "**#" + (i+1).toString() + "** | `Unknown#" + list[i].userID + "`: **" + list[i].coins.toString() + "** 🪙\n"
+				}
+				console.log(`FETCHED! (${i+1} / ${list.length})`)
 			}
 
 			const embed = new MessageEmbed()
@@ -125,7 +138,8 @@ module.exports = {
 				.setDescription(`${le}`)
 				.setTimestamp()
 
-			return interaction.reply({embeds: [embed]});
+			clearTimeout(timr)
+			return interaction.editReply({embeds: [embed]});
 		} else if(subcommand == "userstats"){
 			const usr = interaction.options.getUser("user") || interaction.member.user;
 
