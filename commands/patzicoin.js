@@ -111,7 +111,7 @@ module.exports = {
 			await interaction.deferReply();
 			var timr = setTimeout(() => {
                 // Removes the user from the set after 60 seconds
-                interaction.editReply("<a:typing:944765274475864094> ***This is taking longer than expected. If you requested a large amount of users, this is normal.***");
+                interaction.editReply(`<a:typing:944765274475864094> ***This is taking longer than expected. If you requested a large amount of users, this is normal. (${gli}/${list.length})***`);
                 }, 10000);
 			var le = ""
 			list = await db.findAll({
@@ -123,6 +123,7 @@ module.exports = {
 
 			for(var i=0; i < list.length; i++){
 				//TODO: Prevent rate limiting for this, causing it to hang.
+				var gli = i
 				let user = await interaction.client.users.fetch(list[i].userID);
 				if(user){
 					var le = le + "**#" + (i+1).toString() + "** | `" + user.tag + "`: **" + list[i].coins.toString() + "** 🪙\n"
