@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const earnResp = require('./resources/json/earnResp.json')
+const wait = require('node:timers/promises').setTimeout;
 
 const recent= new Set();
 
@@ -111,7 +112,7 @@ module.exports = {
 			await interaction.deferReply();
 			var timr = setTimeout(() => {
                 // Removes the user from the set after 60 seconds
-                interaction.editReply(`<a:typing:944765274475864094> ***This is taking longer than expected. If you requested a large amount of users, this is normal. (${gli}/${list.length})***`);
+                interaction.editReply(`<a:typing:944765274475864094> ***This is taking longer than expected. If you requested a large amount of users, this is normal.\n\nTo be under fair use of Discord's API, we need to slow requests down a little so we don't get our ass beaten. We currently wait 25 milliseconds between each request.\n\nWe plan to change this in the future with pages (15 people/page)\n\n(We're at ${gli}/${list.length} users btw!)***`);
                 }, 10000);
 			var le = ""
 			list = await db.findAll({
@@ -122,7 +123,7 @@ module.exports = {
 			list = list.slice(0, interaction.options.getInteger('amount') || 10)
 
 			for(var i=0; i < list.length; i++){
-				//TODO: Prevent rate limiting for this, causing it to hang.
+				//TODO: Prevent rate limiting for this, causing it to hang. - mildly fixed
 				var gli = i
 				let user = await interaction.client.users.fetch(list[i].userID);
 				if(user){
@@ -131,6 +132,7 @@ module.exports = {
 					var le = le + "**#" + (i+1).toString() + "** | `Unknown#" + list[i].userID + "`: **" + list[i].coins.toString() + "** 🪙\n"
 				}
 				console.log(`[patzicoin.js] FETCHED! (${i+1} / ${list.length})`)
+				await wait(250);
 			}
 
 			const embed = new MessageEmbed()
