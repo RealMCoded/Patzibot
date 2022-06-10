@@ -8,10 +8,23 @@ module.exports = {
 		.setDescription(`patzercon`)
 		.addSubcommand(subcommand => 
 			subcommand.setName("view")
-				.setDescription("View the store"))
+				.setDescription("View the store")
+				.addIntegerOption(option =>
+					option.setName('offsale')
+						.setDescription('Show offsale items? (Default: false)')
+						.setRequired(false)
+						.addChoice('True', 1)
+						.addChoice('False', 0)))
 		.addSubcommand(subcommand => 
 			subcommand.setName("buy")
 				.setDescription("buy an item")
+				.addIntegerOption(option => 
+					option.setRequired(true)
+						.setName("item")
+						.setDescription("The Item ID in the shop")))
+		.addSubcommand(subcommand => 
+			subcommand.setName("info")
+				.setDescription("see the info of an item")
 				.addIntegerOption(option => 
 					option.setRequired(true)
 						.setName("item")
@@ -24,7 +37,18 @@ module.exports = {
 			var shop = ""
 
 			for(var i = 0; i < shp.length; i++){
-				shop += `${i+1}. ${shp[i].item} - **${shp[i].price}** 🪙\n"${shp[i].desc}"\n\n`
+				var showOffsale = interaction.options.getInteger('offsale') || 0
+				if(showOffsale == 1) {
+					if(shp[i].forSale == true) {
+						shop += `${i+1}. ${shp[i].item} - **${shp[i].price}** 🪙\n"${shp[i].desc}"\n\n`
+					} else {
+						shop += `~~${i+1}. ${shp[i].item} - **${shp[i].price}** 🪙\n"${shp[i].desc}"~~\n\n`
+					}
+				} else {
+					if(shp[i].forSale == true) {
+						shop += `${i+1}. ${shp[i].item} - **${shp[i].price}** 🪙\n"${shp[i].desc}"\n\n`
+					}
+				}
 			}
 
 			const embed = new MessageEmbed()
@@ -66,6 +90,19 @@ module.exports = {
 			interaction.reply({embeds: [embed]});
 
 			//interaction.reply({content:`✅ **You have bought the item!**\n\n**Item:** ${shp[item-1].item}\n**Price:** ${shp[item-1].price} Patzicoins\n**Description:** ${shp[item-1].desc}`});
+		} else if(subcommand == "info"){
+			var item = interaction.options.getInteger('item');
+
+			if(item > shp.length){
+				interaction.reply({content:`⚠ **Invalid item!**`,ephemeral: true});
+				return;
+			}
+
+			const embed = new MessageEmbed()
+				.setTitle(`Patzicoin Store - Item ${item}`)
+				.setDescription(`**Item:** ${shp[item-1].item}\n**Price:** ${shp[item-1].price} Patzicoins\n**Description:** ${shp[item-1].desc}`)
+				.setThumbnail("https://cdn.discordapp.com/attachments/808339703547428884/982120176571011072/iconmonstr-shop-3-240.png?size=2048")
+			interaction.reply({embeds: [embed]});
 		}
 	},
 };

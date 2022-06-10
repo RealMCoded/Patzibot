@@ -1,5 +1,5 @@
 [
-    {"item":"big ma c", "price":10, "desc":"a big mac that you might have made", "rarity":"FUCKING RARE"},
-    {"item":"patzi's head", "price":134058409583405340, "desc":"who", "rarity":"worthless"},
-    {"item":"BRUH", "price":1, "desc":"BRUH"}
+    {"item":"big ma c", "price":10, "desc":"a big mac that you might have made", "forSale":true},
+    {"item":"patzi's head", "price":100000000, "desc":"who", "forSale":false},
+    {"item":"BRUH", "price":1, "desc":"BRUH", "forSale":true}
 ]
