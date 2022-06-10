@@ -71,14 +71,25 @@ module.exports = {
 				return;
 			}
 			var coin = dbusr.get("coins");
+			var inve = dbusr.get("inv");
+			inve = JSON.parse(inve);
 
 			if(coin < shp[item-1].price){
 				interaction.reply({content:`⚠ **You do not have enough Patzicoins!**`,ephemeral: true});
 				return;
 			}
 
+			if(inve.includes(item-1)){
+				interaction.reply({content:`⚠ **You already have this item!**`,ephemeral: true});
+				return;
+			}
+
+			inve.push(item-1);
+			inve = JSON.stringify(inve);
+
 			db.update({
 				patzicoin: dbusr.patzicoin - shp[item-1].price,
+				inv: inve
 			}, {
 				where: { userID: interaction.user.id },
 			});
