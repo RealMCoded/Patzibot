@@ -64,10 +64,15 @@ module.exports = {
 				return;
 			}
 
+			if(shp[item].forSale == false){
+				interaction.reply({content:`⚠ **This item is not for sale!**`,ephemeral: true});
+				return;
+			}
+
 			var dbusr = await db.findOne({ where: { userID: interaction.user.id } });
 
 			if(!dbusr){
-				interaction.reply({content:`⚠ **You do not have enough Patzicoins!**`,ephemeral: true});
+				interaction.reply({content:`⚠ **if you are seeing this, you have never earned a singular patzicoin. ever.**`,ephemeral: true});
 				return;
 			}
 			var coin = dbusr.get("coins");
@@ -88,7 +93,7 @@ module.exports = {
 			inve = JSON.stringify(inve);
 
 			db.update({
-				patzicoin: dbusr.patzicoin - shp[item-1].price,
+				coins: dbusr.coins - shp[item-1].price,
 				inv: inve
 			}, {
 				where: { userID: interaction.user.id },
