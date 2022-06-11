@@ -14,8 +14,8 @@ module.exports = {
 				.setDescription("PatziCoin Leaderboard")
 				.addIntegerOption(option => 
 					option.setRequired(false)
-						.setName("amount")
-						.setDescription("The amount of users to show (Default: 10)")))
+						.setName("page")
+						.setDescription("The page of users to show (10 users/page) (Default: 1)")))
 		.addSubcommand(subcommand => 
 			subcommand.setName("userstats")
 				.setDescription("View a user's stats")
@@ -108,7 +108,7 @@ module.exports = {
                 }, 35000);
 			}
 		} else if(subcommand == "lb"){
-
+			const page = (interaction.options.getInteger("page") || 1)*10;
 			await interaction.deferReply();
 			var timr = setTimeout(() => {
                 // Removes the user from the set after 60 seconds
@@ -120,14 +120,16 @@ module.exports = {
 			})
 
 			list = list.sort((a, b) => b.coins - a.coins)
-			list = list.slice(0, interaction.options.getInteger('amount') || 10)
-
+			list = list.slice((page-10), page);
+			//list = list.slice(0, page*2)
+			console.log(list.length)
 			for(var i=0; i < list.length; i++){
+				//const chunk = list.slice(i, i+page);
 				//TODO: Prevent rate limiting for this, causing it to hang. - mildly fixed
 				var gli = i
 				let user = await interaction.client.users.fetch(list[i].userID);
 				if(user){
-					var le = le + "**#" + (i+1).toString() + "** | `" + user.tag + "`: **" + list[i].coins.toString() + "** 🪙\n"
+					var le = le + "**#" + ((i+1)+(page-10)).toString() + "** | `" + user.tag + "`: **" + list[i].coins.toString() + "** 🪙\n"
 				} else {
 					var le = le + "**#" + (i+1).toString() + "** | `Unknown#" + list[i].userID + "`: **" + list[i].coins.toString() + "** 🪙\n"
 				}
@@ -136,7 +138,7 @@ module.exports = {
 			}
 
 			const embed = new MessageEmbed()
-				.setTitle(`PatziCoin Leaderboard | First ${interaction.options.getInteger('amount') || 10} users`)
+				.setTitle(`PatziCoin Leaderboard | Page ${(page/10).toString()}`)
 				.setColor("#0099ff")
 				.setDescription(`${le}`)
 				.setTimestamp()
