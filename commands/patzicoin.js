@@ -111,7 +111,7 @@ module.exports = {
 			const page = (interaction.options.getInteger("page") || 1)*10;
 			await interaction.deferReply();
 			var timr = setTimeout(() => {
-                // Removes the user from the set after 60 seconds
+                // notify the user why it's taking so damn long
                 interaction.editReply(`<a:typing:944765274475864094> ***This is taking longer than expected. If you requested a large amount of users, this is normal.\n\nTo be under fair use of Discord's API, we need to slow requests down a little so we don't get our ass beaten. We currently wait 25 milliseconds between each request.\n\nWe plan to change this in the future with pages (15 people/page)\n\n(We're at ${gli}/${list.length} users btw!)***`);
                 }, 10000);
 			var le = ""
@@ -121,10 +121,10 @@ module.exports = {
 
 			list = list.sort((a, b) => b.coins - a.coins)
 			list = list.slice((page-10), page);
-			//list = list.slice(0, page*2)
+
 			console.log(list.length)
 			for(var i=0; i < list.length; i++){
-				//const chunk = list.slice(i, i+page);
+
 				//TODO: Prevent rate limiting for this, causing it to hang. - mildly fixed
 				var gli = i
 				let user = await interaction.client.users.fetch(list[i].userID);
