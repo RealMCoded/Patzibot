@@ -202,7 +202,7 @@ module.exports = {
 			const embed = new MessageEmbed()
 				.setTitle("Beg - PatziCoin")
 				.setColor("#FF0000")
-				.setDescription(`"Go away! You can beg again <t:${lastBeg+delay}:R>"\n -craig`)
+				.setDescription(`"Go away! You can beg again <t:${lastBeg+delay}:R> (<t:${lastBeg+delay}:f>)"\n -craig`)
 			return interaction.reply({embeds: [embed]});
 		} else {
 			let amount = Math.floor(Math.random() * (100 - 1 + 1)) + 1;
