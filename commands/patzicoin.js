@@ -28,6 +28,9 @@ module.exports = {
 			subcommand.setName("about")
 				.setDescription("About PatziCoins"))
 		.addSubcommand(subcommand => 
+					subcommand.setName("beg")
+						.setDescription("beg craig for patzicoins"))
+		.addSubcommand(subcommand => 
 			subcommand.setName("work")
 				.setDescription("Work to earn Patzicoins!")
 				.addStringOption(option =>
@@ -178,6 +181,39 @@ module.exports = {
 				.setDescription(`***No stats found for ${usrnm.tag} :(***`)
 				.setTimestamp()
 
+			return interaction.reply({embeds: [embed]});
+		}
+
+	} else if(subcommand == "beg"){
+		let delay = 18000 //~5 hours
+		var dbusr = await db.findOrCreate({
+			where: { userID: interaction.user.id },
+		});
+
+		const tag = await db.findOne({ where: { userID: interaction.user.id } });
+		const lastBeg= parseInt(tag.get('lastBegClaimDate'))
+		//console.log(`${lastBeg+43200}, now is ${Date.now()}`)
+
+		//get current data as unix MINUS MILLISECONDS
+		var n = Math.floor(Date.now() / 1000)
+
+		if(n <= lastBeg+delay){
+			//get time left between now and last beg
+			const embed = new MessageEmbed()
+				.setTitle("Beg - PatziCoin")
+				.setColor("#FF0000")
+				.setDescription(`"Go away! You can beg again <t:${lastBeg+delay}:R>"\n -craig`)
+			return interaction.reply({embeds: [embed]});
+		} else {
+			let amount = Math.floor(Math.random() * (100 - 1 + 1)) + 1;
+
+			db.increment('coins', { by: amount, where: { userID: interaction.user.id } });
+			db.update({ lastBegClaimDate: n }, { where: { userID: interaction.user.id } });
+
+			const embed = new MessageEmbed()
+				.setTitle("Beg - PatziCoin")
+				.setColor("#00FF00")
+				.setDescription(`"Here's **${amount} PatziCoins**, now go away!"\n -craig`)
 			return interaction.reply({embeds: [embed]});
 		}
 	}
