@@ -32,6 +32,14 @@ const Patzicoin = sequelize.define('patzicoin', {
     type: Sequelize.INTEGER,
     defaultValue: 0
   },
+  bank:{
+    type: Sequelize.INTEGER,
+    defaultValue: 0
+  },
+  lastClaimDate: {
+    type: Sequelize.STRING,
+    defaultValue: "0"
+  },
   inv: {
     type: Sequelize.STRING,
     defaultValue: '[]'
