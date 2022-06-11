@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const earnResp = require('./resources/json/earnResp.json')
+const store = require('./resources/json/store.json')
 const wait = require('node:timers/promises').setTimeout;
 
 const recent= new Set();
@@ -122,7 +123,6 @@ module.exports = {
 			list = list.sort((a, b) => b.coins - a.coins)
 			list = list.slice((page-10), page);
 
-			console.log(list.length)
 			for(var i=0; i < list.length; i++){
 
 				//TODO: Prevent rate limiting for this, causing it to hang. - mildly fixed
@@ -133,7 +133,7 @@ module.exports = {
 				} else {
 					var le = le + "**#" + (i+1).toString() + "** | `Unknown#" + list[i].userID + "`: **" + list[i].coins.toString() + "** 🪙\n"
 				}
-				console.log(`[patzicoin.js] FETCHED! (${i+1} / ${list.length})`)
+				console.log(`[patzicoin.js] FETCHED! (${i+1} / ${list.length})\n`)
 				await wait(250);
 			}
 
@@ -157,10 +157,17 @@ module.exports = {
 			const invjson = tag.get("inv")
 			const inv = JSON.parse(invjson)
 
+			var invstr = ""
+			for(var i=0; i < inv.length; i++){
+				var item = inv[i]
+				var itemname = store[item].item
+				invstr = invstr + itemname + "\n"
+			}
+
 			const embed = new MessageEmbed()
 				.setTitle(`PatziCoin Stats for ${usrnm.tag}`)
 				.setColor("#0099ff")
-				.setDescription(`**PatziCoins**: ${correct} 🪙\n\n**Bank Bal**: *tba*\n\n**Inventory**: ${inv}`)
+				.setDescription(`**PatziCoins**: ${correct} 🪙\n**Bank Bal**: *tba*\n\n**Inventory**: ${invstr}`)
 				.setTimestamp()
 
 			return interaction.reply({embeds: [embed]});
@@ -168,7 +175,7 @@ module.exports = {
 			const embed = new MessageEmbed()
 				.setTitle(`PatziCoin Stats for ${usrnm.tag}`)
 				.setColor("#0099ff")
-				.setDescription(`***No stats found for ${usrnm.tag}***`)
+				.setDescription(`***No stats found for ${usrnm.tag} :(***`)
 				.setTimestamp()
 
 			return interaction.reply({embeds: [embed]});
