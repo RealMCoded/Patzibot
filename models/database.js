@@ -36,7 +36,11 @@ const Patzicoin = sequelize.define('patzicoin', {
     type: Sequelize.INTEGER,
     defaultValue: 0
   },
-  lastClaimDate: {
+  lastDailyClaimDate: {
+    type: Sequelize.STRING,
+    defaultValue: "0"
+  },
+  lastBegClaimDate: {
     type: Sequelize.STRING,
     defaultValue: "0"
   },
