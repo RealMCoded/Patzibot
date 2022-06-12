@@ -31,6 +31,7 @@ module.exports = {
                 .addChoice('Damn!', 'damn')
                 .addChoice('sad spunch','boo-womp')
                 .addChoice('nerd emoji remix','nerd')
+                .addChoice('Hello everybody my name is Markiplier!','markiplier')
                 .addChoice('It\'s raining tacos! (sahd forced me to add this)', 'raining-tacos')),
 
 	async execute(interaction) {
