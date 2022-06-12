@@ -1,6 +1,5 @@
 node_modules/
 config.json
 commands/resources/json/quiz.json
-config-oldtest.json
 database.sqlite
 *.old
