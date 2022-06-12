@@ -25,6 +25,9 @@ module.exports = {
 						.setName("user")
 						.setDescription("The user to view (Default: Current User)")))
 		.addSubcommand(subcommand => 
+			subcommand.setName("serverstats")
+				.setDescription("View the server's patzicoin stats"))
+		.addSubcommand(subcommand => 
 			subcommand.setName("about")
 				.setDescription("About PatziCoins"))
 		.addSubcommand(subcommand => 
@@ -203,6 +206,7 @@ module.exports = {
 				.setTitle("Beg - PatziCoin")
 				.setColor("#FF0000")
 				.setDescription(`"Go away! You can beg again <t:${lastBeg+delay}:R> (<t:${lastBeg+delay}:f>)"\n -craig`)
+				.setTimestamp()
 			return interaction.reply({embeds: [embed]});
 		} else {
 			let amount = Math.floor(Math.random() * (100 - 1 + 1)) + 1;
@@ -214,8 +218,29 @@ module.exports = {
 				.setTitle("Beg - PatziCoin")
 				.setColor("#00FF00")
 				.setDescription(`"Here's **${amount} PatziCoins**, now go away!"\n -craig`)
+				.setTimestamp()
 			return interaction.reply({embeds: [embed]});
 		}
+	} else if(subcommand == "serverstats"){
+		var le = 0
+
+		list = await db.findAll({
+			attributes: ['coins', 'bank']
+		})
+
+		list = list.sort((a, b) => b.coins - a.coins)
+		list = list.slice(0, list.length);
+
+		for(var i=0; i < list.length; i++){
+			le+=list[i].coins
+		}
+
+		const embed = new MessageEmbed()
+			.setTitle("Server Stats - PatziCoin")
+			.setColor("#0099ff")
+			.setDescription(`**Total Users**: ${list.length}\n**Total PatziCoins**: ${le} 🪙 (avg. ${Math.round((le/list.length)*100)/100} per member)\n**Total Bank**: *tba*`)
+			.setTimestamp()
+		return interaction.reply({embeds: [embed]});
 	}
 	},
 };
