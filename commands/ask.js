@@ -20,7 +20,12 @@ const responces=[
 	`Please stop asking.`,
 	`I'm not sure.`,
 	`PatziBot approves!`,
-	` https://cdn.discordapp.com/attachments/909577900133593098/958375269167669399/file.jpg `
+	` https://cdn.discordapp.com/attachments/909577900133593098/958375269167669399/file.jpg `,
+	`please deactivate all social media asap`,
+	`KILL`,
+	`Thinking...`,
+	`yeah, no,,,`,
+	``
 ]
 
 module.exports = {
@@ -33,8 +38,8 @@ module.exports = {
 				.setDescription("The question to ask")),
 	async execute(interaction) {
 		const question = interaction.options.getString('question')
-		if (question.toUpperCase().includes("HOMOPHOBIC") || question.toUpperCase().includes("TRANSPHOBIC")){
-			await interaction.reply({content: 'if you are seeing this, <@284804878604435476> messed up somehow.', ephemeral: true})
+		if (question.toUpperCase().includes("HOMOPHOBIC") || question.toUpperCase().includes("TRANSPHOBIC") || question.toUpperCase().includes("FAGGOT")){
+			await interaction.reply({content: 'patzibot has chosen not to answer this.', ephemeral: true})
 		} else {
 			await interaction.deferReply();
 			await wait(1000);
