@@ -27,11 +27,12 @@ module.exports = {
                 .addChoice('(FNAF) Bad Ending', 'fnaf_bad_ending')
                 .addChoice('Royalty Free Family Guy theme', 'familyguymidi')
                 .addChoice('Vine Boom (Go!Animate)', 'goanimate_vine_boom')
-                .addChoice('Scream', 'scream')
+                .addChoice('Homer Simpson Scream', 'scream')
                 .addChoice('Damn!', 'damn')
-                .addChoice('sad spunch','boo-womp')
-                .addChoice('nerd emoji remix','nerd')
-                .addChoice('Hello everybody my name is Markiplier!','markiplier')
+                .addChoice('Boo-womp','boo-womp')
+                .addChoice('🤓','nerd')
+                .addChoice('Congratulations, You Won!','congrats-u-won')
+                .addChoice('Hello everybody my name is Markiplier','markiplier')
                 .addChoice('It\'s raining tacos! (sahd forced me to add this)', 'raining-tacos')),
 
 	async execute(interaction) {
