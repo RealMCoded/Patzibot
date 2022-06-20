@@ -18,6 +18,7 @@ const responces=[
 	`I would say no, but just to troll you i'm saying yes.`,
 	`You should know yourself.`,
 	`Please stop asking.`,
+	`Leave me alone.`,
 	`I'm not sure.`,
 	`PatziBot approves!`,
 	` https://cdn.discordapp.com/attachments/909577900133593098/958375269167669399/file.jpg `,
