@@ -32,6 +32,9 @@ module.exports = {
                 .addChoice('Boo-womp','boo-womp')
                 .addChoice('🤓','nerd')
                 .addChoice('Congratulations, You Won!','congrats-u-won')
+                .addChoice('Welcome!','AOLWelcome')
+                .addChoice('You\'ve got mail!','AOLYouGotMail')
+                .addChoice('Goodbye!','AOLGoodbye')
                 .addChoice('Hello everybody my name is Markiplier','markiplier')
                 .addChoice('It\'s raining tacos! (sahd forced me to add this)', 'raining-tacos')),
 
