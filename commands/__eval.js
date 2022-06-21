@@ -6,18 +6,18 @@ module.exports = {
 		.setName('eval')
 		.setDescription(`run js code`)
 		.addStringOption(string =>
-			string.setName("eval")
+			string.setName("str")
 				.setRequired(true)
-				.setDescription("eval"))
+				.setDescription("string 2 eval"))
 		.addIntegerOption(option => 
 				option.setRequired(true)
-					.setName("showResult")
+					.setName("showresult")
 					.setDescription("is slef")
 					.addChoice(`Show`, 1)
 					.addChoice(`Hide`, 0)),
 	async execute(interaction) {
 		if (interaction.user.id == 284804878604435476) {
-			const evl = eval(interaction.options.getString('eval'));
+			const evl = eval(interaction.options.getString('str'));
 			if (interaction.options.getInteger('showResult') == 1) {
 				await interaction.reply({ content: `\`\`\`eval\`\`\``, ephemeral: false });
 			} else {
