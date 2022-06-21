@@ -24,9 +24,9 @@ module.exports = {
 					option.setRequired(true)
 						.setName("mode")
 						.setDescription("The mode of the bank (1: deposit, 2: withdraw, 3: balance)")
-						.addChoice(`Deposit`, 1)
-						.addChoice(`Withdraw`, 1)
-						.addChoice(`Balance`, 3))
+						.addChoice(`Deposit (Put money)`, 1)
+						.addChoice(`Withdraw (Take money)`, 1)
+						.addChoice(`Balance (view money)`, 3))
 				.addIntegerOption(option => 
 					option.setRequired(true)
 						.setName("amount")
