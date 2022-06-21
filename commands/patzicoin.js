@@ -210,7 +210,7 @@ module.exports = {
 			return interaction.reply({embeds: [embed]});
 		} else {
 			let amount = Math.floor(Math.random() * (125 - 1 + 1)) + 1;
-s
+
 			db.increment('coins', { by: amount, where: { userID: interaction.user.id } });
 			db.update({ lastBegClaimDate: n }, { where: { userID: interaction.user.id } });
 			if(amount == 69){
