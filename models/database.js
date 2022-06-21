@@ -44,6 +44,10 @@ const Patzicoin = sequelize.define('patzicoin', {
     type: Sequelize.STRING,
     defaultValue: "0"
   },
+  /*lastRobDate: {
+    type: Sequelize.STRING,
+    defaultValue: "0"
+  },*/
   inv: {
     type: Sequelize.STRING,
     defaultValue: '[]'
