@@ -18,6 +18,20 @@ module.exports = {
 						.setName("page")
 						.setDescription("The page of users to show (10 users/page) (Default: 1)")))
 		.addSubcommand(subcommand => 
+			subcommand.setName("bank")
+				.setDescription("PatziCoin Leaderboard")
+				.addIntegerOption(option => 
+					option.setRequired(true)
+						.setName("mode")
+						.setDescription("The mode of the bank (1: deposit, 2: withdraw, 3: balance)")
+						.addChoice(`Deposit`, 1)
+						.addChoice(`Withdraw`, 1)
+						.addChoice(`Balance`, 3))
+				.addIntegerOption(option => 
+					option.setRequired(true)
+						.setName("amount")
+						.setDescription("The amount of PatziCoin to exchange (0 for all) (ignored for balance)")))
+		.addSubcommand(subcommand => 
 			subcommand.setName("userstats")
 				.setDescription("View a user's stats")
 				.addUserOption(option => 
@@ -52,6 +66,61 @@ module.exports = {
 				.setTitle("About PatziCoins")
 				.setDescription("PatziCoins are a currency used in the Patzi's World Discord server. They can be used to buy special items and rewards.\n\nYou can earn PatziCoins by chatting in the server, and you can spend them on special items and rewards.\n\nNote: The PatziCoin system is currently in Beta and may change at any time.")
 			interaction.reply({embeds: [embed]});
+		} else if(subcommand == "bank") {
+			const usr = interaction.user
+			const mode = interaction.options.getInteger("mode");
+			var amount = interaction.options.getInteger("amount");
+
+			const tag = await db.findOne({ where: { userID: usr.id } });
+			if (!tag) {
+				interaction.reply("You don't have any PatziCoins!");
+				return;
+			}
+
+			//check if amount is above 0
+			if (amount < 0) {
+				interaction.reply("You can't withdraw negative PatziCoins!");
+				return;
+			}
+
+			if(amount == 0) amount = tag.bank
+
+			if (mode == 1) {
+				if (amount > tag.coins) {
+					interaction.reply("You don't have that many PatziCoins!");
+					return;
+				} else {
+					tag.update({
+						coins: tag.coins - amount,
+						bank: tag.bank + amount
+					});
+					const embed = new MessageEmbed()
+						.setTitle("Deposit PatziCoins")
+						.setDescription(`You've deposited **${amount}** PatziCoins into your bank!`)
+						.setColor("#00ff00")
+					interaction.reply({embeds: [embed]});
+				}
+			} else if (mode == 2) {
+				if (amount > tag.bank) {
+					interaction.reply("You don't have that many PatziCoins in your bank!");
+					return;
+				} else {
+					tag.update({
+						coins: tag.coins + amount,
+						bank: tag.bank - amount
+					});
+					const embed = new MessageEmbed()
+						.setTitle("Withdraw PatziCoins")
+						.setDescription(`You've withdrawn **${amount}** PatziCoins from your bank!`)
+						.setColor("#00ff00")
+					interaction.reply({embeds: [embed]});
+				}
+			} else if (mode == 3) {
+				const embed = new MessageEmbed()
+					.setTitle("PatziCoin Bank")
+					.setDescription(`You have **${tag.bank}** PatziCoins in your bank!`)
+				interaction.reply({embeds: [embed]});
+			}
 		} else if(subcommand == "work"){
 			if(recent.has(interaction.user.id)){
 				interaction.reply({content:`⏰ **You cannot work for PatziCoins right now!**\n**You have to wait a while to use it again!**`,ephemeral: true});
@@ -161,6 +230,7 @@ module.exports = {
         if (tag) {
 			const correct = tag.get("coins")
 			const invjson = tag.get("inv")
+			const bank = tag.get("bank")
 			const inv = JSON.parse(invjson)
 
 			var invstr = ""
@@ -173,7 +243,7 @@ module.exports = {
 			const embed = new MessageEmbed()
 				.setTitle(`PatziCoin Stats for ${usrnm.tag}`)
 				.setColor("#0099ff")
-				.setDescription(`**PatziCoins**: ${correct} 🪙\n**Bank Bal**: *tba*\n\n**Inventory**: ${invstr}`)
+				.setDescription(`**PatziCoins**: ${correct} 🪙\n**Bank Balance**: ${bank}\n\n**Inventory**: ${invstr}`)
 				.setTimestamp()
 
 			return interaction.reply({embeds: [embed]});

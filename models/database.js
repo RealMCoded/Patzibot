@@ -47,7 +47,11 @@ const Patzicoin = sequelize.define('patzicoin', {
   inv: {
     type: Sequelize.STRING,
     defaultValue: '[]'
-  }
+  }/*,
+  settings: {
+    type: Sequelize.STRING,
+    defaultValue: '{"canDmOnBegCooldown":true,"hasDmOnBegCooldown"false,"canBossDM":false}'
+  }*/
 })
 
 module.exports = { Tags, Patzicoin }
