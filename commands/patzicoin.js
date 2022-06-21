@@ -64,6 +64,7 @@ module.exports = {
 						.addChoice('McDonalds (Pay: 15-30 | 5% lose rate)', `1`)
 						.addChoice('Dollar Store (Pay: 35-50 | 10% lose rate)', `2`))),
 	async execute(interaction) {
+		const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 		const subcommand = interaction.options.getSubcommand();
 		const db = interaction.client.db.Patzicoin;
 
@@ -79,13 +80,13 @@ module.exports = {
 
 			const tag = await db.findOne({ where: { userID: usr.id } });
 			if (!tag) {
-				interaction.reply("You don't have any PatziCoins!");
+				interaction.reply("❌ **You don't have any PatziCoins!**");
 				return;
 			}
 
 			//check if amount is above 0
 			if (amount < 0) {
-				interaction.reply("You can't withdraw negative PatziCoins!");
+				interaction.reply("❌ **You can't withdraw negative PatziCoins!**");
 				return;
 			}
 
@@ -93,7 +94,7 @@ module.exports = {
 
 			if (mode == 1) {
 				if (amount > tag.coins) {
-					interaction.reply("You don't have that many PatziCoins!");
+					interaction.reply("❌ **You don't have that many PatziCoins!**");
 					return;
 				} else {
 					tag.update({
@@ -132,7 +133,7 @@ module.exports = {
 			const target = interaction.options.getUser("user");
 
 			if(usr == target) {
-				interaction.reply("You can't rob yourself!");
+				interaction.reply("❌ **You can't rob yourself!**");
 				return;
 			}
 
@@ -157,7 +158,7 @@ module.exports = {
 					.setColor("#ff0000")
 				interaction.reply({embeds: [embed]});
 			} else {
-				const stole = Math.floor(Math.random() * (targetTag.coins - 1)) + 1; //1-targetTag.coins
+				const stole = Math.floor(Math.random() * (clamp(targetTag.coins, 0, 250) - 1)) + 1; //1-targetTag.coins
 				const embed = new MessageEmbed()
 					.setTitle("Robbery")
 					.setDescription(`**You've successfully robbed ${target.username}**!\nYou stole **${stole}** PatziCoins!`)
