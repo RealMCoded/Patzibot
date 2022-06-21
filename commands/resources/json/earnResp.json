@@ -32,5 +32,11 @@
         "\\*cry's* why",
         "I'll have to give you a deeeeeomotion!",
         "Boo!"
+    ],
+    "ROB_WIN":[
+        "You stole ${mone} from ${persn}"
+    ],
+    "ROB_OOPS":[
+        "fuck."
     ]
 }

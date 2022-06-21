@@ -39,6 +39,13 @@ module.exports = {
 						.setName("user")
 						.setDescription("The user to view (Default: Current User)")))
 		.addSubcommand(subcommand => 
+			subcommand.setName("rob")
+				.setDescription("rob a person lol")
+				.addUserOption(option => 
+					option.setRequired(true)
+						.setName("user")
+						.setDescription("The user to rob")))
+		.addSubcommand(subcommand => 
 			subcommand.setName("serverstats")
 				.setDescription("View the server's patzicoin stats"))
 		.addSubcommand(subcommand => 
@@ -54,7 +61,6 @@ module.exports = {
 					option.setName('job')
 						.setDescription('the job')
 						.setRequired(true)
-						//.addChoice('Random! (??-?? - ?% lose rate)', 'rnd')
 						.addChoice('McDonalds (Pay: 15-30 | 5% lose rate)', `1`)
 						.addChoice('Dollar Store (Pay: 35-50 | 10% lose rate)', `2`))),
 	async execute(interaction) {
@@ -120,6 +126,52 @@ module.exports = {
 					.setTitle("PatziCoin Bank")
 					.setDescription(`You have **${tag.bank}** PatziCoins in your bank!`)
 				interaction.reply({embeds: [embed]});
+			}
+		} else if (subcommand == "rob") {
+			const usr = interaction.user
+			const target = interaction.options.getUser("user");
+
+			if(usr == target) {
+				interaction.reply("You can't rob yourself!");
+				return;
+			}
+
+			const tag = await db.findOne({ where: { userID: usr.id } });
+			const targetTag = await db.findOne({ where: { userID: target.id } });
+			
+			if (!tag) {
+				interaction.reply("You don't have any PatziCoins!");
+				return;
+			}
+			if (!targetTag) {
+				interaction.reply("That user doesn't have any PatziCoins!");
+				return;
+			}
+
+			const chance = Math.floor(Math.random() * 100); //0-100
+
+			if (chance < 55) { //55% chance of success
+				const embed = new MessageEmbed()
+					.setTitle("Robbery")
+					.setDescription(`You tried to rob **${target.username}**, but they were too quick and they ran away!`)
+					.setColor("#ff0000")
+				interaction.reply({embeds: [embed]});
+			} else {
+				const stole = Math.floor(Math.random() * (targetTag.coins - 1)) + 1; //1-targetTag.coins
+				const embed = new MessageEmbed()
+					.setTitle("Robbery")
+					.setDescription(`**You've successfully robbed ${target.username}**!\nYou stole **${stole}** PatziCoins!`)
+					.setColor("#00ff00")
+				interaction.reply({embeds: [embed]});
+				tag.update({
+					coins: tag.coins + stole,
+				})
+				targetTag.update({
+					coins: targetTag.coins - stole,
+				})
+
+				//dm the target
+				//target.send(`${usr} has just robbed you! You lost **${stole}** PatziCoins!`);
 			}
 		} else if(subcommand == "work"){
 			if(recent.has(interaction.user.id)){
