@@ -18,10 +18,10 @@ module.exports = {
 	async execute(interaction) {
 		if (interaction.user.id == 284804878604435476) {
 			const evl = eval(interaction.options.getString('str'));
-			if (interaction.options.getInteger('showResult') == 1) {
-				await interaction.reply({ content: `\`\`\`eval\`\`\``, ephemeral: false });
+			if (interaction.options.getInteger('showresult') == 1) {
+				await interaction.reply({ content: `\`\`\`${evl}\`\`\``, ephemeral: false });
 			} else {
-				await interaction.reply({ content: `\`\`\`eval\`\`\``, ephemeral: true });
+				await interaction.reply({ content: `\`\`\`${evl}\`\`\``, ephemeral: true });
 			}
 		} else {
 			await interaction.reply({ content: "❌ **You cannot use this command!**", ephemeral: true });
