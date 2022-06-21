@@ -209,17 +209,26 @@ module.exports = {
 				.setTimestamp()
 			return interaction.reply({embeds: [embed]});
 		} else {
-			let amount = Math.floor(Math.random() * (100 - 1 + 1)) + 1;
-
+			let amount = Math.floor(Math.random() * (125 - 1 + 1)) + 1;
+s
 			db.increment('coins', { by: amount, where: { userID: interaction.user.id } });
 			db.update({ lastBegClaimDate: n }, { where: { userID: interaction.user.id } });
-
+			if(amount == 69){
+				db.increment('coins', { by: 1, where: { userID: interaction.user.id } });
+				const embed = new MessageEmbed()
+				.setTitle("Beg - PatziCoin")
+				.setColor("#00FF00")
+				.setDescription(`"Here's **${amount} PatziCoins**, now go awa-\n\nWhat's this on the floor? Another Patzicoin? Here, you can have it! That brings your total to **${amount+1}**. Now leave!"\n -craig`)
+				.setTimestamp()
+			return interaction.reply({embeds: [embed]});
+			} else {
 			const embed = new MessageEmbed()
 				.setTitle("Beg - PatziCoin")
 				.setColor("#00FF00")
 				.setDescription(`"Here's **${amount} PatziCoins**, now go away!"\n -craig`)
 				.setTimestamp()
 			return interaction.reply({embeds: [embed]});
+			}
 		}
 	} else if(subcommand == "serverstats"){
 		var le = 0
