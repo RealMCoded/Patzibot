@@ -4,7 +4,7 @@ const { MessageEmbed } = require('discord.js');
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('eval')
-		.setDescription(`run js code`)
+		.setDescription(`Executes JavaScript code. Only usable by the bot owner!`)
 		.addStringOption(string =>
 			string.setName("str")
 				.setRequired(true)
@@ -17,7 +17,12 @@ module.exports = {
 					.addChoice(`Hide`, 0)),
 	async execute(interaction) {
 		if (interaction.user.id == 284804878604435476) {
-			const evl = eval(interaction.options.getString('str'));
+			var evl = eval(interaction.options.getString('str'));
+			if(isJson(evl)){
+				evl = JSON.parse(evl);
+			} else {
+				evl = evl.toString();
+			}
 			if (interaction.options.getInteger('showresult') == 1) {
 				await interaction.reply({ content: `\`\`\`${evl}\`\`\``, ephemeral: false });
 			} else {
@@ -28,3 +33,12 @@ module.exports = {
 		}
 	},
 };
+
+function isJson(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
