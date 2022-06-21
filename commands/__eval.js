@@ -19,7 +19,7 @@ module.exports = {
 		if (interaction.user.id == 284804878604435476) {
 			var evl = eval(interaction.options.getString('str'));
 			if(isJson(evl)){
-				evl = JSON.parse(evl);
+				evl = JSON.stringify(evl);
 			} else {
 				evl = evl.toString();
 			}
