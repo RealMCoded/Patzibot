@@ -308,6 +308,8 @@ module.exports = {
 			attributes: ['coins', 'bank']
 		})
 
+		list = list.sort((a, b) => (b.coins + b.bank) - (a.coins + a.bank));
+
 		for(var i=0; i < list.length; i++){
 			le+=list[i].coins
 			le2+=list[i].bank
