@@ -192,10 +192,10 @@ module.exports = {
                 }, 10000);
 			var le = ""
 			list = await db.findAll({
-				attributes: ['coins', 'userID']
+				attributes: ['coins', 'bank', 'userID']
 			})
 
-			list = list.sort((a, b) => b.coins - a.coins)
+			list = list.sort((a, b) => (b.coins + b.bank) - (a.coins + a.bank));
 			list = list.slice((page-10), page);
 
 			for(var i=0; i < list.length; i++){
@@ -301,23 +301,22 @@ module.exports = {
 			}
 		}
 	} else if(subcommand == "serverstats"){
-		var le = 0
+		var le
+		var le2
 
 		list = await db.findAll({
 			attributes: ['coins', 'bank']
 		})
 
-		list = list.sort((a, b) => b.coins - a.coins)
-		list = list.slice(0, list.length);
-
 		for(var i=0; i < list.length; i++){
 			le+=list[i].coins
+			le2+=list[i].bank
 		}
 
 		const embed = new MessageEmbed()
 			.setTitle("Server Stats - PatziCoin")
 			.setColor("#0099ff")
-			.setDescription(`**Total Users**: ${list.length}\n**Total PatziCoins**: ${le} 🪙 (avg. ${Math.round((le/list.length)*100)/100} per member)\n**Total Bank**: *tba*`)
+			.setDescription(`**Total Users**: ${list.length}\n**Total PatziCoins**: ${le} 🪙 (avg. ${Math.round((le/list.length)*100)/100} per member)\n**Total Bank**: ${le2}`)
 			.setTimestamp()
 		return interaction.reply({embeds: [embed]});
 	}
