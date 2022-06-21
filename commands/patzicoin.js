@@ -5,6 +5,8 @@ const store = require('./resources/json/store.json')
 const wait = require('node:timers/promises').setTimeout;
 
 const recent= new Set();
+const recentrobbers = new Set();
+const recentlyrobbed = new Set();
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -136,6 +138,10 @@ module.exports = {
 				interaction.reply("❌ **You can't rob yourself!**");
 				return;
 			}
+			if(recentrobbers.includes(usr.id)) {
+				interaction.reply("⏰ **You can't rob right now, you must wait 5 minutes since your last rob!**");
+				return;
+			}
 
 			const tag = await db.findOne({ where: { userID: usr.id } });
 			const targetTag = await db.findOne({ where: { userID: target.id } });
@@ -170,7 +176,10 @@ module.exports = {
 				targetTag.update({
 					coins: targetTag.coins - stole,
 				})
-
+				recentrobbers.add(usr.id);
+				setTimeout(() => {
+					recentrobbers.delete(usr.id);
+				} , 300000);
 				//dm the target
 				//target.send(`${usr} has just robbed you! You lost **${stole}** PatziCoins!`);
 			}
