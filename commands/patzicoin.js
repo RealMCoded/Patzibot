@@ -301,14 +301,12 @@ module.exports = {
 			}
 		}
 	} else if(subcommand == "serverstats"){
-		var le
-		var le2
+		var le = 0
+		var le2 = 0
 
 		list = await db.findAll({
 			attributes: ['coins', 'bank']
 		})
-
-		list = list.sort((a, b) => (b.coins + b.bank) - (a.coins + a.bank));
 
 		for(var i=0; i < list.length; i++){
 			le+=list[i].coins
