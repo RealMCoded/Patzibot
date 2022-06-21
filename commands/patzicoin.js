@@ -139,7 +139,7 @@ module.exports = {
 				return;
 			}
 			if(recentrobbers.includes(usr.id)) {
-				interaction.reply("⏰ **You can't rob right now, you must wait 5 minutes since your last rob!**");
+				interaction.reply({content: "⏰ **You can't rob right now, you must wait 5 minutes since your last rob!**", ephemeral: true});
 				return;
 			}
 
