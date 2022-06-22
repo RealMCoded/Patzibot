@@ -92,9 +92,8 @@ module.exports = {
 				return;
 			}
 
-			if(amount == 0) amount = tag.bank
-
 			if (mode == 1) {
+				if(amount == 0) amount = tag.coins
 				if (amount > tag.coins) {
 					interaction.reply("❌ **You don't have that many PatziCoins!**");
 					return;
@@ -110,6 +109,7 @@ module.exports = {
 					interaction.reply({embeds: [embed]});
 				}
 			} else if (mode == 2) {
+				if(amount == 0) amount = tag.bank
 				if (amount > tag.bank) {
 					interaction.reply("You don't have that many PatziCoins in your bank!");
 					return;
@@ -163,6 +163,10 @@ module.exports = {
 					.setDescription(`You tried to rob **${target.username}**, but they were too quick and they ran away!`)
 					.setColor("#ff0000")
 				interaction.reply({embeds: [embed]});
+				recentrobbers.add(usr.id);
+				setTimeout(() => {
+					recentrobbers.delete(usr.id);
+				} , 300000);
 			} else {
 				const stole = Math.floor(Math.random() * (clamp(targetTag.coins, 0, 250) - 1)) + 1; //1-targetTag.coins
 				const embed = new MessageEmbed()
