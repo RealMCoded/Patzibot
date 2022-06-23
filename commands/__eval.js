@@ -18,27 +18,13 @@ module.exports = {
 	async execute(interaction) {
 		if (interaction.user.id == 284804878604435476) {
 			var evl = eval(interaction.options.getString('str'));
-			if(isJson(evl)){
-				evl = JSON.stringify(evl);
-			} else {
-				evl = evl.toString();
-			}
 			if (interaction.options.getInteger('showresult') == 1) {
-				await interaction.reply({ content: `\`\`\`${evl}\`\`\``, ephemeral: false });
+				await interaction.reply({ content: `\`\`\`${JSON.stringify(evl)}\`\`\``, ephemeral: false });
 			} else {
-				await interaction.reply({ content: `\`\`\`${evl}\`\`\``, ephemeral: true });
+				await interaction.reply({ content: `\`\`\`${JSON.stringify(evl)}\`\`\``, ephemeral: true });
 			}
 		} else {
 			await interaction.reply({ content: "❌ **You cannot use this command!**", ephemeral: true });
 		}
 	},
 };
-
-function isJson(str) {
-    try {
-        JSON.parse(str);
-    } catch (e) {
-        return false;
-    }
-    return true;
-}
