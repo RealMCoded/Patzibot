@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
+const { bankMaxBal } = require('../config.json');
 const earnResp = require('./resources/json/earnResp.json')
 const store = require('./resources/json/store.json')
 const wait = require('node:timers/promises').setTimeout;
@@ -96,6 +97,9 @@ module.exports = {
 				if(amount == 0) amount = tag.coins
 				if (amount > tag.coins) {
 					interaction.reply("❌ **You don't have that many PatziCoins!**");
+					return;
+				} else if ((amount + tag.bank) > bankMaxBal) {
+					interaction.reply(`❌ **You can't have more than ${bankMaxBal} PatziCoins in your bank! You are ${(amount + tag.bank) - bankMaxBal} over!**`);
 					return;
 				} else {
 					tag.update({
@@ -309,7 +313,7 @@ module.exports = {
 			const embed = new MessageEmbed()
 				.setTitle(`PatziCoin Stats for ${usrnm.tag}`)
 				.setColor("#0099ff")
-				.setDescription(`**PatziCoins**: ${correct} 🪙\n**Bank Balance**: ${bank}\n\n**Inventory**: ${invstr}`)
+				.setDescription(`**PatziCoins**: ${correct} 🪙\n**Bank Balance**: ${bank}/${bankMaxBal}\n\n**Inventory**: ${invstr}`)
 				.setTimestamp()
 
 			return interaction.reply({embeds: [embed]});

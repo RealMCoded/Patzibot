@@ -6,5 +6,6 @@
     "SQL_USER":"",
     "SQL_PASS":"",
     "suggestionHook":"",
-    "logWebhookURL":""
+    "logWebhookURL":"",
+    "bankMaxBal":2006
 }
