@@ -63,14 +63,14 @@ client.on("ready", () => {
 
 	//Random message
 	setInterval(() => {
-		let rnd = Math.floor(Math.random() * 501)
+		let rnd = Math.floor(Math.random() * 551)
 		if (rnd == 1) {
 			const randomIndex = Math.floor(Math.random() * (rndmsg.length - 1) + 1);
 			console.log(`- I sent the funny :)\n`)
 			client.channels.cache.get("909565157846429809").send(rndmsg[randomIndex])
 		}
 		//console.log(rnd)
-	  }, 30000);
+	  }, 35000);
 });
 
 //All slash commands. check "commands" folder
