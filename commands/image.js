@@ -5,6 +5,7 @@ const path = require("path")
 const Jimp = require("jimp")
 const fs = require("fs")
 const font = path.join(__dirname, `/resources/font/Asimov.fnt`)
+const fontmc = path.join(__dirname, `/resources/font/minecraft.fnt`)
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -33,7 +34,15 @@ module.exports = {
 			.addStringOption(string =>
 				string.setName("text")
 					.setRequired(true)
-					.setDescription("the text for the shoebird to say"))),
+					.setDescription("the text for the shoebird to say")))
+		.addSubcommand(subcommand =>
+			subcommand
+			.setName("minecraft-death")
+			.setDescription("You died!")
+			.addStringOption(string =>
+				string.setName("text")
+					.setRequired(true)
+					.setDescription("the text for the death screen to show"))),
 	async execute(interaction) {
 		const subcommand = interaction.options.getSubcommand();
 		if (subcommand === 'box-of-shame') {
@@ -105,6 +114,32 @@ module.exports = {
 			interaction.reply({ files: [new MessageAttachment(fs.readFileSync(path.join(__dirname, `/resources/_TMP/_SHOEBIRD.png`)))] });
 			await wait(500)
 			fs.unlinkSync(path.join(__dirname, `/resources/_TMP/_SHOEBIRD.png`))
+
+		} else if (subcommand === 'minecraft-death') {
+
+			const text = interaction.options.getString('text')
+
+			Jimp.read(path.join(__dirname, `/resources/png/death.png`))
+			.then(lenna => {
+				//return lenna
+
+				Jimp.loadFont(fontmc).then (font => {
+					lenna.print(font, 240, 170, {
+						text: text,
+						alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
+    					//alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE
+					}, 390, Number.MAX_SAFE_INTEGER)
+					  .write(path.join(__dirname, `/resources/_TMP/_DEATH.png`)); // save
+				})
+			  })
+				.catch(err => {
+					console.error(err);
+			});
+			await wait(500) //wait juuuuuust incase you know lol
+
+			interaction.reply({ files: [new MessageAttachment(fs.readFileSync(path.join(__dirname, `/resources/_TMP/_DEATH.png`)))] });
+			await wait(500)
+			fs.unlinkSync(path.join(__dirname, `/resources/_TMP/_DEATH.png`))
 
 		} else {
 			await interaction.reply({content: 'Ultra rare error! The subcommand was not defined!', ephemeral: true})
