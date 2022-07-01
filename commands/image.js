@@ -128,7 +128,7 @@ module.exports = {
 						text: text,
 						alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
     					//alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE
-					}, 1024, Number.MAX_SAFE_INTEGER)
+					}, 390, Number.MAX_SAFE_INTEGER)
 					  .write(path.join(__dirname, `/resources/_TMP/_DEATH.png`)); // save
 				})
 			  })
