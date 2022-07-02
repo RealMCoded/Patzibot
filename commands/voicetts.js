@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const voiceDiscord = require('@discordjs/voice');
 const googleTTS = require('google-tts-api');
+const { logWebhookURL } = require('../config.json')
 const path = require("path")
 const wait = require('node:timers/promises').setTimeout;
 
@@ -87,7 +88,13 @@ module.exports = {
 		connection.subscribe(player);
 
         await interaction.editReply({ content: "✅ **Played!**", ephemeral: true })
-		//console.log(`${interaction.user.tag} requested voice "${voice}" (with pitch ${pitch} and speed ${speed}) to say "${text}"\n`)
+		const webhookClient = new WebhookClient({ url: logWebhookURL });
+		const embed = new MessageEmbed()
+				.setTitle("Patzibot Logs - `/voicetts`")
+				.setDescription(`${interaction.user.tag} requested to say "${text}"`)
+				.setColor("#00ff00")
+				.setTimestamp();
+			webhookClient.send({embeds: [embed]});
 		console.log(`${interaction.user.tag} requested to say "${text}"\n`)
 
 		player.on(voiceDiscord.AudioPlayerStatus.Idle, () => {
