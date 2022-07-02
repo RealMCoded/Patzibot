@@ -30,7 +30,8 @@ module.exports = {
             "You're a true Patzi fan.",
             "You should get promoted to Owner.",
             "You finally did it! You reached pink colour!",
-            "Was that the brain of 87?"
+            "Was that the brain of 87?",
+            "Not even i could get that correct!"
         ]
 
         const timeoutMessages = [
@@ -40,6 +41,7 @@ module.exports = {
             // stuartt
             "my hot pockets are ready.",
             "Yo. This is getting boooring... Get going!",
+            "zzz",
 			"Jeez! Wake me up when you're ready."
         ]
 
