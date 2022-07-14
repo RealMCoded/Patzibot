@@ -29,6 +29,14 @@ module.exports = {
 					.setDescription("the text for patzi to say")))
 		.addSubcommand(subcommand =>
 			subcommand
+			.setName("walterwhite")
+			.setDescription("things walter white may or may not have said")
+			.addStringOption(string =>
+				string.setName("text")
+					.setRequired(true)
+					.setDescription("the text for walter white to say")))
+		.addSubcommand(subcommand =>
+			subcommand
 			.setName("shoebird")
 			.setDescription("things a shoebird may or may not have said")
 			.addStringOption(string =>
@@ -89,6 +97,31 @@ module.exports = {
 			interaction.reply({ files: [new MessageAttachment(fs.readFileSync(path.join(__dirname, `/resources/_TMP/_PATZI.png`)))] });
 			await wait(500)
 			fs.unlinkSync(path.join(__dirname, `/resources/_TMP/_PATZI.png`))
+
+		} else if (subcommand === 'walterwhite') {
+
+			const text = interaction.options.getString('text')
+
+			Jimp.read(path.join(__dirname, `/resources/png/walter.png`))
+			.then(lenna => {
+				//return lenna
+				Jimp.loadFont(font).then (font => {
+					lenna.print(font, 4, 8, {
+						text: text,
+						alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
+    					//alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE //makes text invisible?
+					}, 390, Number.MAX_SAFE_INTEGER)
+					  .write(path.join(__dirname, `/resources/_TMP/_WALTER.png`)); // save
+				})
+			  })
+				.catch(err => {
+					console.error(err);
+			});
+			await wait(500) //wait juuuuuust incase you know lol
+
+			interaction.reply({ files: [new MessageAttachment(fs.readFileSync(path.join(__dirname, `/resources/_TMP/_WALTER.png`)))] });
+			await wait(500)
+			fs.unlinkSync(path.join(__dirname, `/resources/_TMP/_WALTER.png`))
 
 		} else if (subcommand === 'shoebird') {
 
