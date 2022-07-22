@@ -70,7 +70,7 @@ client.on("ready", () => {
 			client.channels.cache.get("909565157846429809").send(rndmsg[randomIndex])
 		}
 		//console.log(rnd)
-	  }, 40000);
+	  }, 60000);
 });
 
 //All slash commands. check "commands" folder
