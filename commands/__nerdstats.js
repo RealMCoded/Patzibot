@@ -4,10 +4,9 @@ const perm = require('./powerList.json');
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('nerdstats')
-		.setDescription(`get node info`),
+		.setName('nerd-info-ignore-this-command-it-does-nothing-interesting')
+		.setDescription(`get information on the bot server (like ram useage.)`),
 	async execute(interaction) {
-		if (interaction.user.id == 284804878604435476) {
 			//store node memory usage
 			const mem = `${Math.round(process.memoryUsage().heapUsed / 1024 / 1024 * 100) / 100} MB`;
 			//store node uptime
@@ -34,8 +33,5 @@ module.exports = {
 				);
 
 			await interaction.reply({embeds: [embed], ephemeral: true });
-		} else {
-			await interaction.reply({ content: "❌ **You cannot use this command!**", ephemeral: true });
-		}
 	},
 };

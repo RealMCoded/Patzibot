@@ -24,7 +24,7 @@ module.exports = {
 				await interaction.reply({ content: `\`\`\`${JSON.stringify(evl)}\`\`\``, ephemeral: true });
 			}
 		} else {
-			await interaction.reply({ content: "❌ **You cannot use this command!**", ephemeral: true });
+			await interaction.reply({ content: "This command can only be used by <@284804878604435476>.\n\nNothing personal, i just don't want anyone to mess with my insides.", ephemeral: true });
 		}
 	},
 };

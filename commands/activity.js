@@ -1,4 +1,4 @@
-//stolen from zai
+//stolen from zai bit with changes lol
 
 const {SlashCommandBuilder} = require('@discordjs/builders');
 const { DiscordTogether } = require('discord-together');
