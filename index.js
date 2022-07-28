@@ -86,7 +86,7 @@ client.on('interactionCreate', async interaction => {
 	} catch (error) {
 		console.log(`${error}\n\n`)
 		if (interaction.user.id !== "284804878604435476") {
-            await interaction.reply({content: 'if you are seeing this, <@284804878604435476> messed up somehow.', ephemeral: true})
+            await interaction.reply({content: 'if you are seeing this, stuartt fucked up. please @ him with a screenshot of this error.\n\n\`\`\`${error}\`\`\`', ephemeral: true})
         } else {
             await interaction.reply({content: `wow good job you fucked something up (again)\n\n\`\`\`${error}\`\`\``, ephemeral: true})
         }
@@ -142,6 +142,7 @@ process.on('uncaughtException', (error, origin) => {
     console.log(error)
     console.log('----- Exception origin -----')
     console.log(origin)
+	client.channels.cache.get("909565157846429809").send(`<@284804878604435476> [E]\n\`\`\`${error}\`\`\`\n\n\`\`\`${origin}\`\`\``)
 })
 
 process.on('unhandledRejection', (reason, promise) => {
@@ -149,6 +150,7 @@ process.on('unhandledRejection', (reason, promise) => {
     console.log(promise)
     console.log('----- Reason -----')
     console.log(reason)
+	client.channels.cache.get("909565157846429809").send(`<@284804878604435476> [R]\n\`\`\`${promise}\`\`\`\n\n\`\`\`${reason}\`\`\``)
 })
 
 client.login(token);
