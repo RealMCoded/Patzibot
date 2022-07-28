@@ -4,7 +4,7 @@ const perm = require('./powerList.json');
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('nerd-info-ignore-this-command-it-does-nothing-interesting')
+		.setName('nerd-info-ignore-this-command')
 		.setDescription(`get information on the bot server (like ram useage.)`),
 	async execute(interaction) {
 			//store node memory usage
