@@ -23,13 +23,14 @@ module.exports = {
 			const cpuSpeed = `${Math.round(process.cpuUsage().system / 1000 / 1000 * 100) / 100} MHz`;
 			//store node total cpu usage
 			const cpuUsage = `${Math.round(process.cpuUsage().user / 1000 / 1000 * 100) / 100} MHz`;
+			const ping = `${interaction.message.client.ws.ping}ms`;
 
 			//create new MessageEmbed
 			const embed = new MessageEmbed()
 				.setColor('#0099ff')
 				.setTitle('Node Stats')
 				.setDescription(
-					`**Memory Usage**: \`${mem}\`\n**Uptime**: \`${uptime}\`\n**Version**: \`${version}\`\n**Platform**: \`${platform}\`\n**Arch**: \`${arch}\`\n**CPU Speed**: \`${cpuSpeed}\`\n**CPU Usage**: \`${cpuUsage}\``
+					`**Memory Usage**: \`${mem}\`\n**Uptime**: \`${uptime}\`\n**Version**: \`${version}\`\n**Platform**: \`${platform}\`\n**Arch**: \`${arch}\`\n**CPU Speed**: \`${cpuSpeed}\`\n**CPU Usage**: \`${cpuUsage}\`\n**Ping**: \`${ping}\``
 				);
 
 			await interaction.reply({embeds: [embed], ephemeral: true });
