@@ -4,6 +4,7 @@ const { token, guildId, SQL_USER, SQL_PASS } = require('./config.json');
 const Sequelize = require('sequelize');
 const status = require('./commands/resources/json/status.json');
 const rndmsg = require('./commands/resources/json/randommsg.json');
+const Markov = require('js-markov');
 
 const client = new Client({ ws: { properties: { browser: "Discord iOS" }}, intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS] });
 
@@ -63,11 +64,34 @@ client.on("ready", () => {
 
 	//Random message
 	setInterval(() => {
-		let rnd = Math.floor(Math.random() * 551)
+		let rnd = Math.floor(Math.random() * 351)
 		if (rnd == 1) {
+			/*
 			const randomIndex = Math.floor(Math.random() * (rndmsg.length - 1) + 1);
 			console.log(`[INFO] I sent the funny :)\n`)
 			client.channels.cache.get("909565157846429809").send(rndmsg[randomIndex])
+			*/
+
+			fs.readFile('markov.txt', function(err, data) {
+				var markov = new Markov();
+				let arr = new Array();
+
+				if(err) throw err;
+
+				const parr = data.toString().replace(/\r\n/g,'\n').split('\n');
+
+				for(let i of parr) {if(i.length > 0) arr.push(i);}
+
+				markov.addStates(arr);
+
+				markov.train();
+
+				var txt = markov.generateRandom(100);
+
+				client.channels.cache.get("909565157846429809").send(txt)
+				console.log(`[INFO] New markov generated! ${txt}\n`)
+			});
+
 		}
 		//console.log(rnd)
 	  }, 60000);
@@ -100,6 +124,17 @@ client.on('messageCreate', async message => {
 	if (message.author.bot) return
 
 	if(message.guild.id !== guildId) return
+
+	if(message.channel.id == "909565157846429809") {
+		let msg = message.content
+		//remove any links
+		msg = msg.replace(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g, '')
+
+		if (msg.length == 0) return;
+		
+		//write message to file
+		fs.appendFileSync('./markov.txt', `${msg}\n`)
+	}
 
 	try {
 		//gib parti coin for talkin :)
