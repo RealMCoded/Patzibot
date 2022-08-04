@@ -62,39 +62,6 @@ client.on("ready", () => {
 		});
 	}, 90000);
 
-	//Random message
-	setInterval(() => {
-		let rnd = Math.floor(Math.random() * 351)
-		if (rnd == 1) {
-			/*
-			const randomIndex = Math.floor(Math.random() * (rndmsg.length - 1) + 1);
-			console.log(`[INFO] I sent the funny :)\n`)
-			client.channels.cache.get("909565157846429809").send(rndmsg[randomIndex])
-			*/
-
-			fs.readFile('markov.txt', function(err, data) {
-				var markov = new Markov();
-				let arr = new Array();
-
-				if(err) throw err;
-
-				const parr = data.toString().replace(/\r\n/g,'\n').split('\n');
-
-				for(let i of parr) {if(i.length > 0) arr.push(i);}
-
-				markov.addStates(arr);
-
-				markov.train();
-
-				var txt = markov.generateRandom(100);
-
-				client.channels.cache.get("909565157846429809").send(txt)
-				console.log(`[INFO] New markov generated! ${txt}\n`)
-			});
-
-		}
-		//console.log(rnd)
-	  }, 60000);
 });
 
 //All slash commands. check "commands" folder
@@ -124,6 +91,30 @@ client.on('messageCreate', async message => {
 	if (message.author.bot) return
 
 	if(message.guild.id !== guildId) return
+
+	//2% chance of random message
+	if(Math.random() < 0.02 && message.channel.id == "909565157846429809"){
+		fs.readFile('markov.txt', function(err, data) {
+			var markov = new Markov();
+			let arr = new Array();
+
+			if(err) throw err;
+
+			const parr = data.toString().replace(/\r\n/g,'\n').split('\n');
+
+			for(let i of parr) {if(i.length > 0) arr.push(i);}
+
+			markov.addStates(arr);
+
+			markov.train();
+
+			var txt = markov.generateRandom(100);
+
+			client.channels.cache.get("909565157846429809").send(txt)
+			client.channels.cache.get("983506793193938984").send("<@284804878604435476> hey i generated a markov thing")
+			console.log(`[INFO] New markov generated! ${txt}\n`)
+		});
+	}
 
 	if(message.channel.id == "909565157846429809") {
 		let msg = message.content
