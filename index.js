@@ -123,7 +123,7 @@ client.on('messageCreate', async message => {
 	if(message.channel.id == "909565157846429809") {
 		let msg = message.content
 		if (msg.includes("@everyone") || msg.includes("@here")) return;
-		if (msg.includes("<@!") || msg.includes("<@")) return;
+		//if (msg.includes("<@!") || msg.includes("<@")) return;
 		//remove any links
 		msg = msg.replace(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g, '')
 
