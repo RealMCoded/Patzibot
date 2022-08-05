@@ -110,14 +110,20 @@ client.on('messageCreate', async message => {
 
 			var txt = markov.generateRandom(100);
 
-			client.channels.cache.get("909565157846429809").send(txt)
-			client.channels.cache.get("983506793193938984").send("<@284804878604435476> hey i generated a markov thing")
-			console.log(`[INFO] New markov generated! ${txt}\n`)
+			try {
+				client.channels.cache.get("909565157846429809").send(txt)
+				client.channels.cache.get("983506793193938984").send("New markov generated: `" + txt + "`")
+				console.log(`[INFO] New markov generated! ${txt}\n`)
+			} catch(err) {
+				console.log(`[ERROR] ${err}\n`)
+			}
 		});
 	}
 
 	if(message.channel.id == "909565157846429809") {
 		let msg = message.content
+		if (msg.includes("@everyone") || msg.includes("@here")) return;
+		if (msg.includes("<@!") || msg.includes("<@")) return;
 		//remove any links
 		msg = msg.replace(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g, '')
 
