@@ -1,6 +1,6 @@
 const fs = require('node:fs');
-const { Client, Collection, Intents } = require('discord.js');
-const { token, guildId, SQL_USER, SQL_PASS } = require('./config.json');
+const { Client, Collection, Intents, WebhookClient } = require('discord.js');
+const { token, guildId, SQL_USER, SQL_PASS, logWebhookURL } = require('./config.json');
 const Sequelize = require('sequelize');
 const status = require('./commands/resources/json/status.json');
 const rndmsg = require('./commands/resources/json/randommsg.json');
@@ -174,7 +174,8 @@ process.on('uncaughtException', (error, origin) => {
     console.log(error)
     console.log('----- Exception origin -----')
     console.log(origin)
-	client.channels.cache.get("909565157846429809").send(`<@284804878604435476> [E]\n\`\`\`${error}\`\`\`\n\n\`\`\`${origin}\`\`\``)
+	let webhookClient = new WebhookClient({ url: logWebhookURL });
+	webhookClient.send(`<@284804878604435476> [ERR]\n\`\`\`${error}\`\`\`\n\n\`\`\`${origin}\`\`\``);
 })
 
 process.on('unhandledRejection', (reason, promise) => {
@@ -182,7 +183,8 @@ process.on('unhandledRejection', (reason, promise) => {
     console.log(promise)
     console.log('----- Reason -----')
     console.log(reason)
-	client.channels.cache.get("909565157846429809").send(`<@284804878604435476> [R]\n\`\`\`${promise}\`\`\`\n\n\`\`\`${reason}\`\`\``)
+	let webhookClient = new WebhookClient({ url: logWebhookURL });
+	webhookClient.send(`<@284804878604435476> [REJ]\n\`\`\`${promise}\`\`\`\n\n\`\`\`${reason}\`\`\``);
 })
 
 client.login(token);
