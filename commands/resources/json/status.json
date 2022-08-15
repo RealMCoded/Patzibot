@@ -17,13 +17,25 @@
 
     {"activity":"uhhhhhhhhhhhhh","type":"COMPETING"},
 
-    {"activity":"🏳️‍⚧️ Trans Rights!","type":"PLAYING"},
+    {"activity":"🏳️‍⚧️ Trans Rights!","type":"STREAMING"},
 
-    {"activity":"🏳️‍⚧️ Trans Rights!","type":"PLAYING"},
+    {"activity":"🏳️‍⚧️ Trans Rights!","type":"STREAMING"},
 
     {"activity":"KingMusics","type":"LISTENING"},
 
     {"activity":"idk","type":"PLAYING"},
 
-    {"activity":"Patzi: The Movie","type":"WATCHING"}
+    {"activity":"Patzi: The Movie","type":"WATCHING"},
+
+    {"activity":"Ender burn alive","type":"WATCHING"},
+
+    {"activity":"with legos :)","type":"PLAYING"},
+
+    {"activity":"Thearchy","type":"LISTENING"},
+
+    {"activity":"Your home address","type":"STREAMING"},
+
+    {"activity":"the end of the world","type":"STREAMING"},
+
+    {"activity":"something","type":"COMPETING"}
 ]
