@@ -37,13 +37,24 @@ client.once('ready', () => {
 	 const randomIndex = Math.floor(Math.random() * (status.length - 1) + 1);
 	 //const newActivity = status[randomIndex].activity;
  
-	 client.user.setPresence({
-	   activities: [{
-		   name: status[randomIndex].activity, 
-		   type: status[randomIndex].type,
-	   }],
-		   //status: "idle"
-	   });
+	if (status[randomIndex].type == "STREAMING"){
+		client.user.setPresence({
+			activities: [{
+				name: status[randomIndex].activity, 
+				type: status[randomIndex].type,
+				url: "https://www.youtube.com/watch?v=GQ6rr1otWpg",
+			}],
+				//status: "idle"
+		});
+	} else {
+		client.user.setPresence({
+			activities: [{
+				name: status[randomIndex].activity, 
+				type: status[randomIndex].type,
+			}],
+				//status: "idle"
+		});
+	}
 });
 
 client.on("ready", () => {
@@ -53,13 +64,24 @@ client.on("ready", () => {
 	  const randomIndex = Math.floor(Math.random() * (status.length - 1) + 1);
 	  //const newActivity = status[randomIndex].activity;
   
-	  client.user.setPresence({
-		activities: [{
-			name: status[randomIndex].activity, 
-			type: status[randomIndex].type,
-		}],
-			//status: "idle"
-		});
+	  if (status[randomIndex].type == "STREAMING"){
+			client.user.setPresence({
+				activities: [{
+					name: status[randomIndex].activity, 
+					type: status[randomIndex].type,
+					url: "https://www.youtube.com/watch?v=GQ6rr1otWpg",
+				}],
+					//status: "idle"
+			});
+		} else {
+			client.user.setPresence({
+				activities: [{
+					name: status[randomIndex].activity, 
+					type: status[randomIndex].type,
+				}],
+					//status: "idle"
+			});
+		}
 	}, 90000);
 
 });
