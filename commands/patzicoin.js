@@ -74,7 +74,8 @@ module.exports = {
 						.setDescription('the job')
 						.setRequired(true)
 						.addChoice('McDonalds (Pay: 15-34 | 5% lose rate)', `1`)
-						.addChoice('Corner Store (Pay: 35-50 | 10% lose rate)', `2`))),
+						.addChoice('Corner Store (Pay: 35-50 | 10% lose rate)', `2`)
+						.addChoice('PatziMart (Pay: 50-60 | 15% lose rate)', `3`))),
 	async execute(interaction) {
 		const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 		const subcommand = interaction.options.getSubcommand();
@@ -262,7 +263,7 @@ module.exports = {
 				if(Math.random() < 0.10){
 					var msg = earnResp[`JOB2_BAD`][Math.floor(Math.random() * (earnResp[`JOB2_BAD`].length))]
 					const embed = new MessageEmbed()
-						.setTitle("Work at Dollar Store - PatziCoin")
+						.setTitle("Work at Corner Store - PatziCoin")
 						.setColor(0xFF0000)
 						.setDescription(`"${msg}" - boss\nYou lost **0** PatziCoins.`)
 					interaction.reply({embeds: [embed]});
@@ -270,9 +271,31 @@ module.exports = {
 					var amount = Math.floor(Math.random() * (50 - 35 + 1)) + 35;
 					var msg = earnResp[`JOB2_GOOD`][Math.floor(Math.random() * (earnResp[`JOB2_GOOD`].length))]
 					const embed = new MessageEmbed()
-						.setTitle("Work at Dollar Store - PatziCoin")
+						.setTitle("Work at Corner Store - PatziCoin")
 						.setColor(0x00FF00)
 						.setDescription(`"${msg}" - boss\nYou earned **${amount}** PatziCoins!`)
+					interaction.reply({embeds: [embed]});
+
+					db.increment('coins', { by: amount, where: { userID: interaction.user.id } });
+				}
+
+			}
+			if (method == "3") {
+
+				if(Math.random() < 0.15){
+					var msg = earnResp[`JOB2_BAD`][Math.floor(Math.random() * (earnResp[`JOB2_BAD`].length))]
+					const embed = new MessageEmbed()
+						.setTitle("Work at PatziMart - PatziCoin")
+						.setColor(0xFF0000)
+						.setDescription(`"${msg}" - boss(not patzi)\nYou lost **0** PatziCoins.`)
+					interaction.reply({embeds: [embed]});
+				} else {
+					var amount = Math.floor(Math.random() * (60 - 50 + 1)) + 50;
+					var msg = earnResp[`JOB2_GOOD`][Math.floor(Math.random() * (earnResp[`JOB2_GOOD`].length))]
+					const embed = new MessageEmbed()
+						.setTitle("Work at PatziMart - PatziCoin")
+						.setColor(0x00FF00)
+						.setDescription(`"${msg}" - boss(not patzi)\nYou earned **${amount}** PatziCoins!`)
 					interaction.reply({embeds: [embed]});
 
 					db.increment('coins', { by: amount, where: { userID: interaction.user.id } });
