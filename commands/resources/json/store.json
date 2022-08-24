@@ -1,5 +1,6 @@
 [
-    {"item":"big ma c", "price":10, "desc":"a big mac that you might have made", "forSale":true},
-    {"item":"patzi's head", "price":100000000, "desc":"who", "forSale":false},
-    {"item":"BRUH", "price":1, "desc":"BRUH", "forSale":true}
+    {"item":"A cool looking hat", "price":10, "desc":"this is a really cool looking hat. Has no perks.", "forSale":true, "requiredItems":[], "iconURL":"https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/325/top-hat_1f3a9.png"},
+    {"item":"McDonals Job Application", "price":100, "desc":"Get ready to work at McDonalds!", "forSale":true, "requiredItems":[], "iconURL":"https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/325/memo_1f4dd.png"},
+    {"item":"Corner Store Job Application", "price":500, "desc":"Get ready to work at a Corner Store!", "forSale":true, "requiredItems":[1], "iconURL":"https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/325/memo_1f4dd.png"},
+    {"item":"PatziMart Job Application", "price":500, "desc":"Get ready to work at PatziMart!", "forSale":true, "requiredItems":[1,2], "iconURL":"https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/325/memo_1f4dd.png"}
 ]
