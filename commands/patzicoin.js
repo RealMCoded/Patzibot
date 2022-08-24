@@ -65,7 +65,8 @@ module.exports = {
 						.setDescription('the place to look')
 						.setRequired(true)
 						.addChoice('McDonalds Dumpster (Pay: 5-15 | 3% lose rate)', `1`)
-						.addChoice('Break into a car (Pay: 50-100 | 50% lose rate)', `2`)))
+						.addChoice('Break into a car (Pay: 50-100 | 50% lose rate)', `2`)
+						.addChoice('Break into Patzi\'s House (Pay: 1000-10000 | 99% lose rate)', `3`)))
 		.addSubcommand(subcommand => 
 			subcommand.setName("work")
 				.setDescription("Work to earn Patzicoins!")
@@ -353,6 +354,26 @@ module.exports = {
 						.setTitle("Break into a car - PatziCoin")
 						.setColor(0x00FF00)
 						.setDescription(`Somehow the alarms didn't go off in the car! You found **${amount}** PatziCoins!`)
+					interaction.reply({embeds: [embed]});
+
+					db.increment('coins', { by: amount, where: { userID: interaction.user.id } });
+				}
+
+			}
+			if (method == "3") {
+
+				if(Math.random() < 0.99){
+					const embed = new MessageEmbed()
+						.setTitle("Break into Patzi's House - PatziCoin")
+						.setColor(0xFF0000)
+						.setDescription(`"GET THE FUCK OUT OF MY HOUSE" - Patzi\nYou lost **0** PatziCoins.`)
+					interaction.reply({embeds: [embed]});
+				} else {
+					var amount = Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000;
+					const embed = new MessageEmbed()
+						.setTitle("Break into Patzi's House - PatziCoin")
+						.setColor(0x00FF00)
+						.setDescription(`You did the impossible. You found **${amount}** PatziCoins!`)
 					interaction.reply({embeds: [embed]});
 
 					db.increment('coins', { by: amount, where: { userID: interaction.user.id } });
