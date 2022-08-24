@@ -92,24 +92,36 @@ module.exports = {
 
 			const tag = await db.findOne({ where: { userID: usr.id } });
 			if (!tag) {
-				interaction.reply("❌ **You don't have any PatziCoins!**");
-				return;
+				const embed = new MessageEmbed()
+						.setTitle("PatziCoins")
+						.setDescription(`**You don't have any PatziCoins!**`)
+						.setColor("#FF0000")
+				return interaction.reply({embeds: [embed]});
 			}
 
 			//check if amount is above 0
 			if (amount < 0) {
-				interaction.reply("❌ **You can't withdraw negative PatziCoins!**");
-				return;
+				const embed = new MessageEmbed()
+						.setTitle("Withdraw PatziCoins")
+						.setDescription(`**You can't withdraw negative PatziCoins!**`)
+						.setColor("#FF0000")
+				return interaction.reply({embeds: [embed]});
 			}
 
 			if (mode == 1) {
 				if(amount == 0) amount = tag.coins
 				if (amount > tag.coins) {
-					interaction.reply("❌ **You don't have that many PatziCoins!**");
-					return;
+					const embed = new MessageEmbed()
+						.setTitle("Deposit PatziCoins")
+						.setDescription(`**You can't withdraw negative PatziCoins!**`)
+						.setColor("#FF0000")
+					return interaction.reply({embeds: [embed]});
 				} else if ((amount + tag.bank) > bankMaxBal) {
-					interaction.reply(`❌ **You can't have more than ${bankMaxBal} PatziCoins in your bank! You are ${(amount + tag.bank) - bankMaxBal} over!**`);
-					return;
+					const embed = new MessageEmbed()
+						.setTitle("Deposit PatziCoins")
+						.setDescription(`**You can't have more than ${bankMaxBal} PatziCoins in your bank! You are ${(amount + tag.bank) - bankMaxBal} over!**`)
+						.setColor("#FF0000")
+					return interaction.reply({embeds: [embed]});
 				} else {
 					tag.update({
 						coins: tag.coins - amount,
@@ -152,7 +164,11 @@ module.exports = {
 
 			if(usr == target) {
 				interaction.reply("❌ **You can't rob yourself!**");
-				return;
+				const embed = new MessageEmbed()
+						.setTitle("Deposit PatziCoins")
+						.setDescription(`**You can't withdraw negative PatziCoins!**`)
+						.setColor("#FF0000")
+				return interaction.reply({embeds: [embed]});
 			}
 			if(recentrobbers.has(usr.id)) {
 				interaction.reply({content: "⏰ **You can't rob right now, you must wait 5 minutes since your last rob!**", ephemeral: true});
@@ -163,20 +179,26 @@ module.exports = {
 			const targetTag = await db.findOne({ where: { userID: target.id } });
 			
 			if (!tag) {
-				interaction.reply("You don't have any PatziCoins!");
-				return;
+				const embed = new MessageEmbed()
+					.setTitle(`Robbing ${target.username} - PatziCoin`)
+					.setDescription(`You don't have any PatziCoins!`)
+					.setColor("#ff0000")
+				return interaction.reply({embeds: [embed]});
 			}
 			if (!targetTag) {
-				interaction.reply("That user doesn't have any PatziCoins!");
-				return;
+				const embed = new MessageEmbed()
+					.setTitle(`Robbing ${target.username} - PatziCoin`)
+					.setDescription(`**${target.username}** doesn't have any PatziCoins!`)
+					.setColor("#ff0000")
+				return interaction.reply({embeds: [embed]});
 			}
 
 			const chance = Math.floor(Math.random() * 100); //0-100
 
 			if (chance < 55) { //55% chance of success
 				const embed = new MessageEmbed()
-					.setTitle("Robbery")
-					.setDescription(`You tried to rob **${target.username}**, but they were too quick and ran away!`)
+					.setTitle(`Robbing ${target.username} - PatziCoin`)
+					.setDescription(`You tried to rob **${target.username}**, but they got away!`)
 					.setColor("#ff0000")
 				interaction.reply({embeds: [embed]});
 				recentrobbers.add(usr.id);
@@ -186,7 +208,7 @@ module.exports = {
 			} else {
 				const stole = Math.floor(Math.random() * (clamp(targetTag.coins, 0, 250) - 1)) + 1; //1-targetTag.coins
 				const embed = new MessageEmbed()
-					.setTitle("Robbery")
+					.setTitle(`Robbing ${target.username} - PatziCoin`)
 					.setDescription(`**You've successfully robbed ${target.username}**!\nYou stole **${stole}** PatziCoins!`)
 					.setColor("#00ff00")
 				interaction.reply({embeds: [embed]});
