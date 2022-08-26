@@ -117,7 +117,7 @@ module.exports = {
 			const embed = new MessageEmbed()
 				.setTitle(`Patzicoin Store - Item ${item}`)
 				.setDescription(`**Item:** ${shp[item-1].item}\n**Price:** ${shp[item-1].price} Patzicoins\n**Description:** ${shp[item-1].desc}\n**For sale:** ${shp[item-1].forSale}`)
-				.setThumbnail("https://cdn.discordapp.com/attachments/808339703547428884/982120176571011072/iconmonstr-shop-3-240.png?size=2048")
+				.setThumbnail(shp[item-1].iconURL)
 			interaction.reply({embeds: [embed]});
 		}
 	},
