@@ -4,8 +4,8 @@ const shp = require('./resources/json/items.json')
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('patzicoin-store')
-		.setDescription(`patzercon`)
+		.setName('store')
+		.setDescription(`The store where you can buy stuff with PatziCoins!`)
 		.addSubcommand(subcommand => 
 			subcommand.setName("view")
 				.setDescription("View the store")
