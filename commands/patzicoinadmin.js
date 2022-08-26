@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed, WebhookClient } = require('discord.js');
 const { logWebhookURL } = require('../config.json')
+const shp = require('./resources/json/items.json')
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -17,6 +18,28 @@ module.exports = {
 					option.setRequired(true)
 						.setName("amount")
 						.setDescription("The amount of coins to give")))
+		.addSubcommand(subcommand => 
+			subcommand.setName("give-item")
+				.setDescription("give an item to a user")
+				.addUserOption(option =>
+					option.setRequired(true)
+						.setName("user")
+						.setDescription("the user to give item to"))
+				.addIntegerOption(option => 
+					option.setRequired(true)
+						.setName("item-id")
+						.setDescription("the item ID to give (starting from 0)")))
+		.addSubcommand(subcommand => 
+			subcommand.setName("revoke-item")
+				.setDescription("remove an item from a user")
+				.addUserOption(option =>
+					option.setRequired(true)
+						.setName("user")
+						.setDescription("the user to give item to"))
+				.addIntegerOption(option => 
+					option.setRequired(true)
+						.setName("item-id")
+						.setDescription("the item ID to revoke (starting from 0)")))
 		.addSubcommand(subcommand => 
 			subcommand.setName("give")
 				.setDescription("give patzicoin to a user")
@@ -103,6 +126,82 @@ module.exports = {
 				.setColor("#00ff00")
 				.setTimestamp();
 			webhookClient.send({embeds: [embed]});
+		} else if (subcommand == "give-item"){
+			const user = interaction.options.getUser('user');
+			const userID = user.id;
+			var item = interaction.options.getInteger('item-id');
+
+			var dbusr = await db.findOne({ where: { userID: userID } });
+
+			if(!dbusr){
+				interaction.reply({content:`⚠ **this person has never earned a singular patzicoin. ever.**`,ephemeral: true});
+				return;
+			}
+			var inve = dbusr.get("inv");
+			inve = JSON.parse(inve);
+
+			if(inve.includes(item)){
+				interaction.reply({content:`⚠ **they already have this item**`,ephemeral: true});
+				return;
+			}
+
+			inve.push(item);
+			inve = JSON.stringify(inve);
+
+			db.update({
+				inv: inve
+			}, {
+				where: { userID: userID },
+			});
+
+			interaction.reply({ content: `✅ **Gave ${user.username} ${shp[item].item}!**`, ephemeral: true })
+
+			//logging
+			const embed = new MessageEmbed()
+				.setTitle("Patzicoin Logs")
+				.setDescription(`${user.tag} was given **${shp[item].item}**\n\nExecutor: \`\`\`${interaction.user.id} | ${interaction.user.tag}\`\`\``)
+				.setColor("#00ff00")
+				.setTimestamp();
+			webhookClient.send({embeds: [embed]});
+
+		}else if (subcommand == "revoke-item"){
+			const user = interaction.options.getUser('user');
+			const userID = user.id;
+			var item = interaction.options.getInteger('item-id');
+
+			var dbusr = await db.findOne({ where: { userID: userID } });
+
+			if(!dbusr){
+				interaction.reply({content:`⚠ **this person has never earned a singular patzicoin. ever.**`,ephemeral: true});
+				return;
+			}
+			var inve = dbusr.get("inv");
+			inve = JSON.parse(inve);
+
+			if(inve.includes(item)){
+				inve.splice(item, item);
+				inve = JSON.stringify(inve);
+
+				db.update({
+					inv: inve
+				}, {
+					where: { userID: userID },
+				});
+
+				interaction.reply({ content: `✅ **Revoked ${shp[item].item} from ${user.username}!**`, ephemeral: true })
+
+				//logging
+				const embed = new MessageEmbed()
+					.setTitle("Patzicoin Logs")
+					.setDescription(`${user.tag} was removed of **${shp[item].item}**\n\nExecutor: \`\`\`${interaction.user.id} | ${interaction.user.tag}\`\`\``)
+					.setColor("#00ff00")
+					.setTimestamp();
+				webhookClient.send({embeds: [embed]});
+			} else {
+				interaction.reply({content:`⚠ **they do not have this item**`,ephemeral: true});
+				return;
+			}
+
 		}
 	},
 };
