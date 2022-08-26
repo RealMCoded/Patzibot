@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const { bankMaxBal } = require('../config.json');
 const earnResp = require('./resources/json/earnResp.json')
-const store = require('./resources/json/store.json')
+const store = require('./resources/json/items.json')
 const wait = require('node:timers/promises').setTimeout;
 
 const recent= new Set();

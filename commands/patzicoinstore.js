@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
-const shp = require('./resources/json/store.json')
+const shp = require('./resources/json/items.json')
 
 module.exports = {
 	data: new SlashCommandBuilder()
