@@ -3,6 +3,7 @@ const perm = require('./powerList.json');
 const rndmsg = require('./resources/json/randommsg.json');
 const Markov = require('js-markov');
 const fs = require('node:fs');
+const wait = require('node:timers/promises').setTimeout;
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -44,6 +45,10 @@ module.exports = {
 				markov.train();
 
 				var txt = markov.generateRandom(100);
+
+				interaction.channel.sendTyping()
+
+				wait(3500)
 
 				interaction.channel.send(txt)
 				console.log(`[INFO] New markov generated! ${txt}\n`)
