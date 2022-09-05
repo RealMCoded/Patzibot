@@ -5,6 +5,7 @@ const Sequelize = require('sequelize');
 const status = require('./commands/resources/json/status.json');
 const rndmsg = require('./commands/resources/json/randommsg.json');
 const Markov = require('js-markov');
+const wait = require('node:timers/promises').setTimeout;
 
 const client = new Client({ ws: { properties: { browser: "Discord iOS" }}, intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS] });
 
@@ -131,6 +132,10 @@ client.on('messageCreate', async message => {
 			markov.train();
 
 			var txt = markov.generateRandom(100);
+
+			client.channels.cache.get("909565157846429809").sendTyping()
+
+			wait(3500)
 
 			try {
 				client.channels.cache.get("909565157846429809").send(txt)
