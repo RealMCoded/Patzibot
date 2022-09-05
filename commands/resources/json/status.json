@@ -25,6 +25,12 @@
 
     {"activity":"idk","type":"PLAYING"},
 
+    {"activity":"idk","type":"WATCHING"},
+    
+    {"activity":"idk","type":"LISTENING"},
+
+    {"activity":"idk","type":"COMPETING"},
+
     {"activity":"Patzi: The Movie","type":"WATCHING"},
 
     {"activity":"Ender burn alive","type":"WATCHING"},
@@ -37,5 +43,9 @@
 
     {"activity":"the end of the world","type":"STREAMING"},
 
-    {"activity":"the supreme shitting con","type":"COMPETING"}
+    {"activity":"the supreme shitting con","type":"COMPETING"},
+
+    {"activity":"the poopshitters","type":"LISTENING"},
+
+    {"activity":"nothing","type":"PLAYING"}
 ]
