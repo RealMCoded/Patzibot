@@ -133,9 +133,9 @@ client.on('messageCreate', async message => {
 
 			var txt = markov.generateRandom(100);
 
-			client.channels.cache.get("909565157846429809").sendTyping()
+			//client.channels.cache.get("909565157846429809").sendTyping()
 
-			wait(3500)
+			//wait(3500)
 
 			try {
 				client.channels.cache.get("909565157846429809").send(txt)
