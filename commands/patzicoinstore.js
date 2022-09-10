@@ -64,7 +64,7 @@ module.exports = {
 				return;
 			}
 
-			if(shp[item].forSale == false){
+			if(shp[item-1].forSale == false){
 				interaction.reply({content:`⚠ **This item is not for sale!**`,ephemeral: true});
 				return;
 			}
