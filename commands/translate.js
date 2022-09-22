@@ -37,7 +37,6 @@ module.exports = {
 									.addChoice("Spanish", "es")
 									//.addChoice("Swedish", "sv")
 									.addChoice("Turkish", "tr")
-									.addChoice("Ukranian", "uk")
 									.addChoice("Vietnamese", "vi"))
 						.addStringOption(string =>
 							string.setName("from")
@@ -66,7 +65,6 @@ module.exports = {
 								.addChoice("Spanish", "es")
 								//.addChoice("Swedish", "sv")
 								.addChoice("Turkish", "tr")
-								.addChoice("Ukranian", "uk")
 								.addChoice("Vietnamese", "vi")),
 	async execute(interaction) {
 		let _f= interaction.options.getString('from')
@@ -85,7 +83,7 @@ module.exports = {
 		const embed = new MessageEmbed()
             .setTitle(`Translation`)
             .setDescription(`**${languageName.of(_f)}**: "${interaction.options.getString('text')}"\n**${languageName.of(interaction.options.getString('to'))}**: "${json.translatedText}"`)
-			.setFooter("Translation may not be 100% accurate")
+			.setFooter("Translation may not be 100% accurate.")
         await interaction.reply({embeds: [embed]});
 	},
 };
