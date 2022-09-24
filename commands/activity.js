@@ -24,7 +24,8 @@ module.exports = {
         .addChoice('Land-io (16 Players)', 'landio')
         .addChoice('Bobble League (8 Players)', 'bobble')
         .addChoice('Ask Away (10 Players)', 'askaway')
-        .addChoice('Know What I Meme (8 Players)', 'meme')),
+        .addChoice('Know What I Meme (8 Players)', 'meme')
+        .addChoice('Bash Out! ([Unknown] Players)', 'bash')),
     async execute(interaction) {
         let activityStr = interaction.options.getString('type');
         let activityName;
@@ -69,6 +70,9 @@ module.exports = {
             case 'meme':
                 activityName = "Know What I Meme";
                 break;
+            case 'bash':
+                activityName = "Bash Out!";
+                break;
         }
 
         const myApps = {
@@ -76,7 +80,8 @@ module.exports = {
             bobble: '947957217959759964',
             puttpartynew: "945737671223947305",
             askaway: "976052223358406656",
-            meme: "950505761862189096"
+            meme: "950505761862189096",
+            bash: "1006584476094177371"
         }
 
         interaction.client.discordTogether = new DiscordTogether(interaction.client, myApps);
