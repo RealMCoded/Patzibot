@@ -183,7 +183,7 @@ client.on('messageCreate', async message => {
 
 		if (message.content.toUpperCase().split(" ").includes("RATIO")) {
 			message.react('💬')
-				.then(() => message.react('<:retweet:950518370854379530>'))
+				.then(() => message.react('🔁'))
 				.then(() => message.react('❤️'))
 				.catch(error => console.error('One of the emojis failed to react. This might be due to the user deleting their message.'));
 		}
