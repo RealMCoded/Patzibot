@@ -154,15 +154,21 @@ client.on('messageCreate', async message => {
 
 	if(message.channel.id == "909565157846429809") {
 		let msg = message.content
-		if (msg.includes("@everyone") || msg.includes("@here")) return;
+		if (msg.includes("@")) return;
 		//if (msg.includes("<@!") || msg.includes("<@")) return;
 		//remove any links
 		msg = msg.replace(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g, '')
 
 		if (msg.length == 0) return;
 		
+		const allMessage = fs.readFileSync('markov.txt', 'utf8');
+
 		//write message to file
-		fs.appendFileSync('./markov.txt', `${msg}\n`)
+		if (allMessage.includes(msg)) {
+			return;
+		} else {
+			fs.appendFileSync('./markov.txt', `${msg}\n`)
+		}
 	}
 
 	try {
