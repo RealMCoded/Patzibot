@@ -31,8 +31,8 @@ const responces=[
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('ask')
-		.setDescription(`Ask PatziBot a question!`)
+		.setName('ask-original')
+		.setDescription(`The original version of the ask command with premade responses.`)
 		.addStringOption(question =>
 			question.setName("question")
 				.setRequired(true)
