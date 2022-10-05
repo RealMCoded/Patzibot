@@ -26,7 +26,7 @@ const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('
 console.log = function(e) {
 	if (redirectConsoleOutputToWebhook) {
 		let webhookClient = new WebhookClient({ url: logWebhookURL });
-		webhookClient.send(e);
+		webhookClient.send(`\`\`\`\n${e}\n\`\`\``);
 	}
 	process.stdout.write(`${e}\n`);
 }
