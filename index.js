@@ -150,8 +150,6 @@ client.on('messageCreate', async message => {
 			try {
 				client.channels.cache.get("909565157846429809").send(txt)
 				//client.channels.cache.get("983506793193938984").send("New markov generated: `" + txt + "`")
-				let webhookClient = new WebhookClient({ url: logWebhookURL });
-				webhookClient.send("New markov generated: `" + txt + "`");
 				
 				console.log(`[INFO] New markov generated! ${txt}\n`)
 			} catch(err) {
@@ -216,19 +214,21 @@ client.on('messageCreate', async message => {
 });
 
 process.on('uncaughtException', (error, origin) => {
-    console.log('----- Uncaught exception -----')
-    console.log(error)
-    console.log('----- Exception origin -----')
-    console.log(origin)
+    //console.log('----- Uncaught exception -----')
+    //console.log(error)
+    //console.log('----- Exception origin -----')
+    //console.log(origin)
+	console.log(`❌ Uncaught exception\n-----\n${error}\n-----\nException origin\n${origin}`)
 	//let webhookClient = new WebhookClient({ url: logWebhookURL });
 	//webhookClient.send(`<@284804878604435476> [ERR]\n\`\`\`${error}\`\`\`\n\n\`\`\`${origin}\`\`\``);
 })
 
 process.on('unhandledRejection', (reason, promise) => {
-    console.log('----- Unhandled Rejection at -----')
-    console.log(promise)
-    console.log('----- Reason -----')
-    console.log(reason)
+    //console.log('----- Unhandled Rejection at -----')
+    //console.log(promise)
+    //console.log('----- Reason -----')
+    //console.log(reason)
+	console.log(`❌ Unhandled Rejection\n-----\n${promise}\n-----\nReason\n${reason}`)
 	//let webhookClient = new WebhookClient({ url: logWebhookURL });
 	//webhookClient.send(`<@284804878604435476> [REJ]\n\`\`\`${promise}\`\`\`\n\n\`\`\`${reason}\`\`\``);
 })
