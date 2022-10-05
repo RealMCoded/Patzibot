@@ -7,5 +7,6 @@
     "SQL_PASS":"",
     "suggestionHook":"",
     "logWebhookURL":"",
+    "redirectConsoleOutputToWebhook":false,
     "bankMaxBal":2006
 }

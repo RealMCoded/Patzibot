@@ -85,14 +85,14 @@ module.exports = {
 
 		player.play(resource);
 		connection.subscribe(player);
-		const webhookClient = new WebhookClient({ url: logWebhookURL });
+		/*const webhookClient = new WebhookClient({ url: logWebhookURL });
         await interaction.editReply({ content: "✅ **Played!**", ephemeral: true })
 		const embed = new MessageEmbed()
 				.setTitle("Patzibot Logs - `/voicetts`")
 				.setDescription(`${interaction.user.tag} requested to say "${text}"`)
 				.setColor("#00ff00")
 				.setTimestamp();
-		webhookClient.send({embeds: [embed]});
+		webhookClient.send({embeds: [embed]});*/
 		console.log(`${interaction.user.tag} requested to say "${text}"\n`)
 
 		player.on(voiceDiscord.AudioPlayerStatus.Idle, () => {
