@@ -1,8 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const voiceDiscord = require('@discordjs/voice');
 const googleTTS = require('google-tts-api');
-const { MessageEmbed, WebhookClient } = require('discord.js');
-const { logWebhookURL } = require('../config.json')
 const path = require("path")
 const wait = require('node:timers/promises').setTimeout;
 
