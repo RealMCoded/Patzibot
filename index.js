@@ -23,12 +23,41 @@ client.db = require('./models/database.js')
 client.commands = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
+//redef some console functions here
 console.log = function(e) {
-	if (redirectConsoleOutputToWebhook) {
-		let webhookClient = new WebhookClient({ url: logWebhookURL });
-		webhookClient.send(`\`\`\`\n${e}\n\`\`\``);
+	try {
+		if (redirectConsoleOutputToWebhook) {
+			let webhookClient = new WebhookClient({ url: logWebhookURL });
+			webhookClient.send(`\`\`\`\n${e}\n\`\`\``);
+		}
+	} catch(e) {
+		process.stdout.write(`Unable to redirect output: ${e}\n`);
 	}
 	process.stdout.write(`${e}\n`);
+}
+
+console.warn = function(e) {
+	try {
+		if (redirectConsoleOutputToWebhook) {
+			let webhookClient = new WebhookClient({ url: logWebhookURL });
+			webhookClient.send(`\`\`\`\n[WARN] ${e}\n\`\`\``);
+		}
+	} catch(e) {
+		process.stdout.write(`Unable to redirect output: ${e}\n`);
+	}
+	process.stdout.write(`[WARN] ${e}\n`);
+}
+
+console.error = function(e) {
+	try {
+		if (redirectConsoleOutputToWebhook) {
+			let webhookClient = new WebhookClient({ url: logWebhookURL });
+			webhookClient.send(`\`\`\`\n[ERROR] ${e}\n\`\`\``);
+		}
+	} catch(e) {
+		process.stdout.write(`Unable to redirect output: ${e}\n`);
+	}
+	process.stdout.write(`[ERROR] ${e}\n`);
 }
 
 for (const file of commandFiles) {
