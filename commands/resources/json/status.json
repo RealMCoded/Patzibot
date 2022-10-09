@@ -49,5 +49,7 @@
 
     {"activity":"the poopshitters","type":"LISTENING"},
 
-    {"activity":"nothing","type":"PLAYING"}
+    {"activity":"nothing","type":"PLAYING"},
+
+    {"activity":"Battle For Dream Island","type":"COMPETING"}
 ]
