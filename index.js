@@ -180,7 +180,7 @@ client.on('messageCreate', async message => {
 				client.channels.cache.get("909565157846429809").send(txt)
 				//client.channels.cache.get("983506793193938984").send("New markov generated: `" + txt + "`")
 				
-				console.log(`[INFO] New markov generated! ${txt}\n`)
+				console.log(`New markov generated: "${txt}"\n`)
 			} catch(err) {
 				console.log(`[ERROR] ${err}\n`)
 			}
