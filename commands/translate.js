@@ -83,7 +83,7 @@ module.exports = {
 		const embed = new MessageEmbed()
             .setTitle(`Translation`)
             .setDescription(`**${languageName.of(_f)}**: "${interaction.options.getString('text')}"\n**${languageName.of(interaction.options.getString('to'))}**: "${json.translatedText}"`)
-			.setFooter("Translation may not be 100% accurate.")
+			.setFooter({text: `Translation may not be 100% accurate.`})
         await interaction.reply({embeds: [embed]});
 	},
 };

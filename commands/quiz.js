@@ -89,7 +89,7 @@ module.exports = {
         const questionEmbed = new MessageEmbed()
             .setTitle(question)
             .setColor('#007f7f')
-            .setFooter(`You have ${questions[random].time/1000} seconds to answer.`)
+            .setFooter({text: `You have ${questions[random].time/1000} seconds to answer.`})
         const message = await interaction.reply({embeds: [questionEmbed], components: [answerButtons], fetchReply: true});
         const collector = message.createMessageComponentCollector({ componentType: 'BUTTON', time: questions[random].time});
         collector.on('collect', i => {
@@ -104,7 +104,7 @@ module.exports = {
                         .setTitle(question)
                         .setDescription(randomMessage(winMessages))
                         .setColor('#007f00')
-                        .setFooter(`You answered correctly!`)
+                        .setFooter({text: `You answered correctly!`})
                     i.update({embeds: [questionEmbedFinished], components: [answerButtonFinished]})
                     collector.stop();
                 } else {
@@ -112,7 +112,7 @@ module.exports = {
                         .setTitle(question)
                         .setDescription(randomMessage(failMessages))
                         .setColor('#7f0000')
-                        .setFooter(`You answered incorrectly!`)
+                        .setFooter({text: `You answered incorrectly!`})
                     switch (i.component.customId) {
                         case 'answer_wrong1':
                             answerCorrectButton.setStyle('SUCCESS').setDisabled(true);
@@ -150,7 +150,7 @@ module.exports = {
                     .setTitle(question)
                     .setDescription(randomMessage(timeoutMessages))
                     .setColor('#7f7f00')
-                    .setFooter(`You ran out of time!`)
+                    .setFooter({text: `You ran out of time!`})
                 answerCorrectButton.setStyle('SUCCESS').setDisabled(true);
                 answerWrong1Button.setStyle('SECONDARY').setDisabled(true);
                 answerWrong2Button.setStyle('SECONDARY').setDisabled(true);
