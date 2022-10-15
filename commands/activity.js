@@ -2,7 +2,7 @@
 
 const {SlashCommandBuilder} = require('@discordjs/builders');
 const { DiscordTogether } = require('discord-together');
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -88,13 +88,19 @@ module.exports = {
 
         if(interaction.member.voice.channel !== null) {
             interaction.client.discordTogether.createTogetherCode(interaction.member.voice.channel.id, activityStr).then(async invite => {
+                const row = new MessageActionRow().addComponents(
+                    new MessageButton()
+                        .setLabel(`Click this button to join ${activityName}!`)
+                        .setURL(invite.code)
+                        .setStyle('LINK'),
+                    );
                 const embed = new MessageEmbed()
                     .setTitle(`Activity - ${activityName}`)
                     .setThumbnail("https://cdn.discordapp.com/attachments/808339703547428884/999752316313927710/37f3ef42675d1e91462ad139e7e7b723.png")
-                    .setDescription(`[Click here to join ${activityName}!](${invite.code})\n\n*invite valid for 10 minutes!*`)
+                    .setDescription(`Click the button to join the Activity!\n*invite valid for 10 minutes!*`)
                     .setColor("#0099ff")
                     .setTimestamp()
-                return interaction.reply({embeds: [embed], ephemeral: false});
+                return interaction.reply({embeds: [embed], components: [row], ephemeral: false});
             });
         } else {
             const embed = new MessageEmbed()
