@@ -155,7 +155,7 @@ client.on('messageCreate', async message => {
 	if(message.guild.id !== guildId) return
 
 	//2% chance of random message
-	if(Math.random() < 0.02 && message.channel.id == "909565157846429809"){
+	if(Math.random() < 0.015 && message.channel.id == "909565157846429809"){
 		fs.readFile('markov.txt', function(err, data) {
 			var markov = new Markov();
 			let arr = new Array();
@@ -182,7 +182,7 @@ client.on('messageCreate', async message => {
 				
 				console.log(`New markov generated: "${txt}"\n`)
 			} catch(err) {
-				console.log(`[ERROR] ${err}\n`)
+				console.error(err)
 			}
 		});
 	}
