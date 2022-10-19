@@ -25,7 +25,7 @@ module.exports = {
         .addChoice('Bobble League (8 Players)', 'bobble')
         .addChoice('Ask Away (10 Players)', 'askaway')
         .addChoice('Know What I Meme (8 Players)', 'meme')
-        .addChoice('Bash Out! ([Unknown] Players)', 'bash')),
+        .addChoice('Bash Out! (16 Players)', 'bash')),
     async execute(interaction) {
         let activityStr = interaction.options.getString('type');
         let activityName;
