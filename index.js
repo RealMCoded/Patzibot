@@ -6,6 +6,7 @@ const status = require('./commands/resources/json/status.json');
 const rndmsg = require('./commands/resources/json/randommsg.json');
 const Markov = require('js-markov');
 const wait = require('node:timers/promises').setTimeout;
+const { generateMarkov } = require("./util.js")
 
 const client = new Client({ ws: { properties: { browser: "Discord iOS" }}, intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS] });
 
@@ -18,7 +19,7 @@ const sequelize = new Sequelize('database', SQL_USER, SQL_PASS, {
 	// SQLite only
 	storage: 'database.sqlite',
 });
-client.db = require('./models/database.js')
+client.db = require('./database.js')
 
 client.commands = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
@@ -156,35 +157,8 @@ client.on('messageCreate', async message => {
 
 	//2% chance of random message
 	if(Math.random() < 0.015 && message.channel.id == "909565157846429809"){
-		fs.readFile('markov.txt', function(err, data) {
-			var markov = new Markov();
-			let arr = new Array();
-
-			if(err) throw err;
-
-			const parr = data.toString().replace(/\r\n/g,'\n').split('\n');
-
-			for(let i of parr) {if(i.length > 0) arr.push(i);}
-
-			markov.addStates(arr);
-
-			markov.train();
-
-			var txt = markov.generateRandom(100);
-
-			//client.channels.cache.get("909565157846429809").sendTyping()
-
-			//wait(3500)
-
-			try {
-				client.channels.cache.get("909565157846429809").send(txt)
-				//client.channels.cache.get("983506793193938984").send("New markov generated: `" + txt + "`")
-				
-				console.log(`New markov generated: "${txt}"\n`)
-			} catch(err) {
-				console.error(err)
-			}
-		});
+		var msg = await generateMarkov()
+		client.channels.cache.get("909565157846429809").send(msg);
 	}
 
 	if(message.channel.id == "909565157846429809") {
