@@ -18,39 +18,26 @@ module.exports = {
         const subcommand = interaction.options.getSubcommand();
 
         if (subcommand == "version"){
-            revision = require('child_process')
-                .execSync('git rev-parse HEAD')
-                .toString().substring(0, 7);
-            const currentTimestamp = Math.round(+new Date() / 1000);
-            const timestampColour = currentTimestamp.toString(16).substring(2, 10);
-            const embed = new MessageEmbed()
-                //.setThumbnail("https://cdn.discordapp.com/avatars/876729461188464660/43fb19cac4985b40677f47e1d8b476d4.png?size=4096")
-                .setTitle('PatziBot')
-                .setDescription(`Version ${project.version} (commit \`${revision}\`)\n\nBot created by <@284804878604435476>\n\nIcon created by <@518567024545497113>\n\n\`/kill\`, \`/quiz\` command created by Zai#1113`)
-                .setColor(`${timestampColour}`);
-            await interaction.reply({embeds: [embed]});
+            try {
+                revision = require('child_process')
+                    .execSync('git rev-parse HEAD')
+                    .toString().substring(0, 7);
+                //const currentTimestamp = Math.round(+new Date() / 1000);
+                //const timestampColour = currentTimestamp.toString(16).substring(2, 10);
+                const embed = new MessageEmbed()
+                    .setTitle('PatziBot')
+                    .setDescription(`Version ${project.version} ([commit \`${revision}\`](https://github.com/RealMCoded/PatziBot/commit/${revision}))\n\nBot created by stuartt#2419, Icon created by Patzi#0001.\n\`/kill\`, \`/quiz\` command created by Zai#1113`)
+                    .setColor(`${revision.substring(0,6)}`);
+                await interaction.reply({embeds: [embed]});
+            } catch(e) {
+                const embed = new MessageEmbed()
+                    .setTitle('PatziBot')
+                    .setDescription(`Version ${project.version} (\`git not installed :(\`)\n\nBot created by stuartt#2419, Icon created by Patzi#0001.\n\`/kill\`, \`/quiz\` command created by Zai#1113`)
+                    .setColor(`FF0000`);
+                await interaction.reply({embeds: [embed]});
+            }
         } else {
             interaction.reply({content:`⚠ **The intro is not ready yet! Come back later.**`,ephemeral: true});
         }
     },
 };
-
-/*
-module.exports = {
-    data: new SlashCommandBuilder()
-        .setName('about')
-        .setDescription('who am i'),
-    async execute(interaction) {
-        revision = require('child_process')
-            .execSync('git rev-parse HEAD')
-            .toString().substring(0, 7);
-        const currentTimestamp = Math.round(+new Date() / 1000);
-        const timestampColour = currentTimestamp.toString(16).substring(2, 10);
-        const embed = new MessageEmbed()
-            //.setThumbnail("https://cdn.discordapp.com/avatars/876729461188464660/43fb19cac4985b40677f47e1d8b476d4.png?size=4096")
-            .setTitle('PatziBot')
-            .setDescription(`Version ${project.version} (commit \`${revision}\`)\n\nBot created by <@284804878604435476>\n\nIcon created by <@518567024545497113>\n\n\`/kill\`, \`/quiz\` command created by Zai#1113`)
-            .setColor(`${timestampColour}`);
-        await interaction.reply({embeds: [embed]});
-    },
-};*/
