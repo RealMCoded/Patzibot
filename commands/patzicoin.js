@@ -100,10 +100,9 @@ module.exports = {
 			const target = interaction.options.getUser("user");
 
 			if(usr == target) {
-				interaction.reply("❌ **You can't rob yourself!**");
 				const embed = new MessageEmbed()
-						.setTitle("Deposit PatziCoins")
-						.setDescription(`**You can't withdraw negative PatziCoins!**`)
+						.setTitle("Robbing ...yourself... - PatziCoin")
+						.setDescription(`**You can't rob yourself!**`)
 						.setColor("#FF0000")
 				return interaction.reply({embeds: [embed]});
 			}
