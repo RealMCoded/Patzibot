@@ -93,73 +93,8 @@ module.exports = {
 			var amount = interaction.options.getInteger("amount");
 
 			const tag = await db.findOne({ where: { userID: usr.id } });
-			if (!tag) {
-				const embed = new MessageEmbed()
-						.setTitle("PatziCoins")
-						.setDescription(`**You don't have any PatziCoins!**`)
-						.setColor("#FF0000")
-				return interaction.reply({embeds: [embed]});
-			}
 
-			//check if amount is above 0
-			if (amount < 0) {
-				const embed = new MessageEmbed()
-						.setTitle("Withdraw PatziCoins")
-						.setDescription(`**You can't withdraw negative PatziCoins!**`)
-						.setColor("#FF0000")
-				return interaction.reply({embeds: [embed]});
-			}
-
-			if (mode == 1) {
-				if(amount == 0) amount = tag.coins
-				if (amount > tag.coins) {
-					const embed = new MessageEmbed()
-						.setTitle("Deposit PatziCoins")
-						.setDescription(`**You can't withdraw negative PatziCoins!**`)
-						.setColor("#FF0000")
-					return interaction.reply({embeds: [embed]});
-				} else if ((amount + tag.bank) > bankMaxBal) {
-					const embed = new MessageEmbed()
-						.setTitle("Deposit PatziCoins")
-						.setDescription(`**You can't have more than ${bankMaxBal} PatziCoins in your bank! You are ${(amount + tag.bank) - bankMaxBal} over!**`)
-						.setColor("#FF0000")
-					return interaction.reply({embeds: [embed]});
-				} else {
-					tag.update({
-						coins: tag.coins - amount,
-						bank: tag.bank + amount
-					});
-					const embed = new MessageEmbed()
-						.setTitle("Deposit PatziCoins")
-						.setDescription(`You've deposited **${amount}** PatziCoins into your bank!`)
-						.setColor("#00ff00")
-					interaction.reply({embeds: [embed]});
-				}
-			} else if (mode == 2) {
-				if(amount == 0) amount = tag.bank
-				if (amount > tag.bank) {
-					const embed = new MessageEmbed()
-						.setTitle("Withdraw PatziCoins")
-						.setDescription(`You cannot withdraw negative PatziCoins!`)
-						.setColor("#FF0000")
-					return interaction.reply({embeds: [embed]});
-				} else {
-					tag.update({
-						coins: tag.coins + amount,
-						bank: tag.bank - amount
-					});
-					const embed = new MessageEmbed()
-						.setTitle("Withdraw PatziCoins")
-						.setDescription(`You've withdrawn **${amount}** PatziCoins from your bank!`)
-						.setColor("#00ff00")
-					interaction.reply({embeds: [embed]});
-				}
-			} else if (mode == 3) {
-				const embed = new MessageEmbed()
-					.setTitle("PatziCoin Bank")
-					.setDescription(`You have **${tag.bank}** PatziCoins in your bank!`)
-				interaction.reply({embeds: [embed]});
-			}
+			await require(`../patzicoin-functions/bank.js`).bank(mode, amount, tag, interaction)
 		} else if (subcommand == "rob") {
 			const usr = interaction.user
 			const target = interaction.options.getUser("user");
@@ -505,24 +440,7 @@ module.exports = {
 				}
 			}
 		} else if(subcommand == "serverstats"){
-			var le = 0
-			var le2 = 0
-
-			list = await db.findAll({
-				attributes: ['coins', 'bank']
-			})
-
-			for(var i=0; i < list.length; i++){
-				le+=list[i].coins
-				le2+=list[i].bank
-			}
-
-			const embed = new MessageEmbed()
-				.setTitle("Server Stats - PatziCoin")
-				.setColor("#0099ff")
-				.setDescription(`**Total Users with PatziCoins**: ${list.length}\n**Total PatziCoins**: ${le} 🪙 (avg. ${Math.round((le/list.length)*100)/100} per member)\n**Total Bank**: ${le2}`)
-				.setTimestamp()
-			return interaction.reply({embeds: [embed]});
+			await require('../patzicoin-functions/serverstats.js').serverstats(db, interaction)
 		}
 	},
 };
