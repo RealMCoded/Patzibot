@@ -67,6 +67,7 @@ module.exports = {
 								.addChoice("Turkish", "tr")
 								.addChoice("Vietnamese", "vi")),
 	async execute(interaction) {
+		await interaction.deferReply();
 		let _f= interaction.options.getString('from')
 		if (!_f) _f = "auto"
 		const res = await fetch("https://translate.argosopentech.com/translate", {
@@ -84,6 +85,6 @@ module.exports = {
             .setTitle(`Translation`)
             .setDescription(`**${languageName.of(_f)}**: "${interaction.options.getString('text')}"\n**${languageName.of(interaction.options.getString('to'))}**: "${json.translatedText}"`)
 			.setFooter({text: `Translation may not be 100% accurate.`})
-        await interaction.reply({embeds: [embed]});
+        await interaction.editReply({embeds: [embed]});
 	},
 };
