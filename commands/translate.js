@@ -13,8 +13,8 @@ module.exports = {
 					.setDescription("the text to translate"))
 							.addStringOption(string =>
 								string.setName("to")
-									.setRequired(true)
-									.setDescription("the language to translate to")
+									//.setRequired(true)
+									.setDescription("the language to translate to - leave blank for English")
 									.addChoice("English", "en")
 									.addChoice("Arabic", "ar")
 									//.addChoice("Azerbaijani", "ax")
@@ -68,14 +68,15 @@ module.exports = {
 								.addChoice("Vietnamese", "vi")),
 	async execute(interaction) {
 		await interaction.deferReply();
-		let _f= interaction.options.getString('from')
-		if (!_f) _f = "auto"
+		let _f = interaction.options.getString('from') || "auto"
+		let _t = interaction.options.getString('to') || "en"
+		//if (!_f) _f = "auto"
 		const res = await fetch("https://translate.argosopentech.com/translate", {
 			method: "POST",
 			body: JSON.stringify({
 				q: interaction.options.getString('text'),
 				source: _f,
-				target: interaction.options.getString('to')
+				target: _t
 			}),
 			headers: { "Content-Type": "application/json" }
 		});
@@ -83,7 +84,7 @@ module.exports = {
 		const json = await res.json();
 		const embed = new MessageEmbed()
             .setTitle(`Translation`)
-            .setDescription(`**${languageName.of(_f)}**: "${interaction.options.getString('text')}"\n**${languageName.of(interaction.options.getString('to'))}**: "${json.translatedText}"`)
+            .setDescription(`**${languageName.of(_f)}**: "${interaction.options.getString('text')}"\n**${languageName.of(_t)}**: "${json.translatedText}"`)
 			.setFooter({text: `Translation may not be 100% accurate.`})
         await interaction.editReply({embeds: [embed]});
 	},
