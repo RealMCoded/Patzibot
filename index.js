@@ -3,7 +3,6 @@ const { Client, Collection, Intents, WebhookClient } = require('discord.js');
 const { token, guildId, SQL_USER, SQL_PASS, logWebhookURL, redirectConsoleOutputToWebhook } = require('./config.json');
 const Sequelize = require('sequelize');
 const status = require('./commands/resources/json/status.json');
-const rndmsg = require('./commands/resources/json/randommsg.json');
 const Markov = require('js-markov');
 const wait = require('node:timers/promises').setTimeout;
 const { generateMarkov } = require("./util.js")

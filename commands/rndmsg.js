@@ -1,6 +1,4 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const perm = require('./powerList.json');
-const rndmsg = require('./resources/json/randommsg.json');
 const { generateMarkov } = require("../util.js")
 
 module.exports = {
