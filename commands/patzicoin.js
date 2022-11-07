@@ -1,9 +1,9 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
-const { bankMaxBal } = require('../config.json');
+//const { bankMaxBal } = require('../config.json');
 const earnResp = require('./resources/json/earnResp.json')
-const store = require('./resources/json/items.json')
-const wait = require('node:timers/promises').setTimeout;
+//const store = require('./resources/json/items.json')
+//const wait = require('node:timers/promises').setTimeout;
 
 const recent= new Set();
 const recentrobbers = new Set();
@@ -323,78 +323,14 @@ module.exports = {
 			}
 		} else if(subcommand == "lb"){
 			const page = (interaction.options.getInteger("page") || 1)*10;
-			await interaction.deferReply();
-			var timr = setTimeout(() => {
-                // notify the user why it's taking so damn long
-                interaction.editReply(`<a:typing:944765274475864094> ***This is taking longer than expected. If you requested a large amount of users, this is normal.\n\nTo be under fair use of Discord's API, we need to slow requests down a little so we don't get our ass beaten. We currently wait 25 milliseconds between each request.\n\nWe plan to change this in the future with pages (15 people/page)\n\n(We're at ${gli}/${list.length} users btw!)***`);
-                }, 10000);
-			var le = ""
-			list = await db.findAll({
-				attributes: ['coins', 'bank', 'userID']
-			})
-
-			list = list.sort((a, b) => (b.coins + b.bank) - (a.coins + a.bank));
-			list = list.slice((page-10), page);
-
-			for(var i=0; i < list.length; i++){
-
-				//TODO: Prevent rate limiting for this, causing it to hang. - mildly fixed
-				var gli = i
-				let user = await interaction.client.users.fetch(list[i].userID);
-				if(user){
-					var le = le + "**#" + ((i+1)+(page-10)).toString() + "** | `" + user.tag + "`: **" + (list[i].coins + list[i].bank).toString() + "** 🪙\n"
-				} else {
-					var le = le + "**#" + (i+1).toString() + "** | `Unknown#" + list[i].userID + "`: **" + (list[i].coins + list[i].bank).toString() + "** 🪙\n"
-				}
-				console.log(`[patzicoin.js] FETCHED! (${i+1} / ${list.length})\n`)
-				await wait(250);
-			}
-
-			const embed = new MessageEmbed()
-				.setTitle(`PatziCoin Leaderboard | Page ${(page/10).toString()}`)
-				.setColor("#0099ff")
-				.setDescription(`${le}`)
-				.setTimestamp()
-
-			clearTimeout(timr)
-			return interaction.editReply({ content:"_ _", embeds: [embed]});
+			
+			await require(`../patzicoin-functions/leaderboard.js`).lb(page, db, interaction)
 		} else if(subcommand == "userstats"){
 			const usr = interaction.options.getUser("user") || interaction.member.user;
 
 			const tag = await db.findOne({ where: { userID: usr.id } });
 
-			const usrnm = await interaction.client.users.fetch(usr.id);
-              
-        if (tag) {
-			const correct = tag.get("coins")
-			const invjson = tag.get("inv")
-			const bank = tag.get("bank")
-			const inv = JSON.parse(invjson)
-
-			var invstr = ""
-			for(var i=0; i < inv.length; i++){
-				var item = inv[i]
-				var itemname = store[item].item
-				invstr = invstr + itemname + "\n"
-			}
-
-			const embed = new MessageEmbed()
-				.setTitle(`PatziCoin Stats for ${usrnm.tag}`)
-				.setColor("#0099ff")
-				.setDescription(`**PatziCoins**: ${correct} 🪙\n**Bank Balance**: ${bank}/${bankMaxBal}\n\n**Inventory**: ${invstr}`)
-				.setTimestamp()
-
-			return interaction.reply({embeds: [embed]});
-		} else {
-			const embed = new MessageEmbed()
-				.setTitle(`PatziCoin Stats for ${usrnm.tag}`)
-				.setColor("#0099ff")
-				.setDescription(`***No stats found for ${usrnm.tag} :(***`)
-				.setTimestamp()
-
-			return interaction.reply({embeds: [embed]});
-		}
-
+			await require(`../patzicoin-functions/userstats.js`).userstats(usr, tag, interaction)
 		} else if(subcommand == "beg"){
 			let delay = 18000 //~5 hours
 			var dbusr = await db.findOrCreate({
