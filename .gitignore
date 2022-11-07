@@ -4,3 +4,4 @@ commands/resources/json/quiz.json
 database.sqlite
 *.old
 markov.txt
+package-lock.json
