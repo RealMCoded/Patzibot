@@ -126,7 +126,7 @@ client.on("ready", () => {
 
 //All slash commands. check "commands" folder
 client.on('interactionCreate', async interaction => {
-	if (!interaction.isCommand()) return;
+	//if (!interaction.isCommand()) return;
 
 	const command = client.commands.get(interaction.commandName);
 
