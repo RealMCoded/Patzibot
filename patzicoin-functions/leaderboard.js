@@ -21,9 +21,9 @@ module.exports = {
 				var gli = i
 				let user = await interaction.client.users.fetch(list[i].userID);
 				if(user){
-					var le = le + "**#" + ((i+1)+(page-10)).toString() + "** | `" + user.tag + "`: **" + (list[i].coins + list[i].bank).toString() + "** 🪙\n"
+					var le = le + "**#" + ((i+1)+(page-10)).toString() + "** | `" + user.tag + "`: **" + (list[i].coins + list[i].bank).toString() + "** 🪙 "+ (list[i].userID == interaction.user.id ? ' < __You__' : '') + "\n"
 				} else {
-					var le = le + "**#" + (i+1).toString() + "** | `Unknown#" + list[i].userID + "`: **" + (list[i].coins + list[i].bank).toString() + "** 🪙\n"
+					var le = le + "**#" + (i+1).toString() + "** | `Unknown#" + list[i].userID + "`: **" + (list[i].coins + list[i].bank).toString() + "** 🪙"+ (list[i].userID == interaction.user.id ? ' < __You__' : '') + "\n"
 				}
 				//console.log(`[patzicoin.js] FETCHED! (${i+1} / ${list.length})\n`)
 				await wait(250);
