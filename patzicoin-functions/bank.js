@@ -41,7 +41,7 @@ module.exports = {
 					});
 					const embed = new MessageEmbed()
 						.setTitle("Deposit PatziCoins")
-						.setDescription(`You've deposited **${amount}** PatziCoins into your bank!`)
+						.setDescription(`You've deposited **${amount}** PatziCoins into your bank!\nYour bank balance is now **${tag.bank}**.`)
 						.setColor("#00ff00")
 					interaction.reply({embeds: [embed]});
 				}
