@@ -109,7 +109,7 @@ module.exports = {
 		} else if(subcommand == "info"){
 			var item = interaction.options.getInteger('item');
 
-			if((item > shp.length) || (item < 0)){
+			if((item > shp.length) || (item < 1)){
 				interaction.reply({content:`⚠ **Invalid item!**`,ephemeral: true});
 				return;
 			}
