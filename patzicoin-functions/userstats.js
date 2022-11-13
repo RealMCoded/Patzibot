@@ -22,6 +22,9 @@ module.exports = {
 				}
 				invstr = invstr + itemname + "\n"
 			}
+			if(invstr == ""){
+				invstr = "( empty )\n"
+			}
 
 			const embed = new MessageEmbed()
 				.setTitle(`PatziCoin Stats for ${usrnm.tag}`)
