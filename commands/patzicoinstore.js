@@ -39,10 +39,12 @@ module.exports = {
 			for(var i = 0; i < shp.length; i++){
 				var showOffsale = interaction.options.getInteger('offsale') || 0
 				if(showOffsale == 1) {
-					if(shp[i].forSale == true) {
-						shop += `${i+1}. ${shp[i].item} - **${shp[i].price}** 🪙\n"${shp[i].desc}"\n\n`
-					} else {
-						shop += `~~${i+1}. ${shp[i].item} - **${shp[i].price}** 🪙\n"${shp[i].desc}"~~\n\n`
+					if(shp[i].showInStore == true) {
+						if(shp[i].forSale == true) {
+							shop += `${i+1}. ${shp[i].item} - **${shp[i].price}** 🪙\n"${shp[i].desc}"\n\n`
+						} else {
+							shop += `~~${i+1}. ${shp[i].item} - **${shp[i].price}** 🪙\n"${shp[i].desc}"~~\n\n`
+						}
 					}
 				} else {
 					if(shp[i].forSale == true) {
