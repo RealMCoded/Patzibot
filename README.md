@@ -8,19 +8,11 @@ Starting the bot is simple. All you need to have installed is [Node.js](https://
 
 It's nothing that special. Just install requirements, edit `config.json` and run!
 
-Clone the repository with
 ```
 git clone https://github.com/RealMCoded/Patzibot
-```
-
-Install all requirements
-```
-npm install
-```
-
-Start the bot
-```
-node .
+cd PatziBot
+npm i
+npm run start
 ```
 
 ## config.json
