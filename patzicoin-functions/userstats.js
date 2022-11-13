@@ -14,8 +14,12 @@ module.exports = {
 
 			var invstr = ""
 			for(var i=0; i < inv.length; i++){
+				try {
 				var item = inv[i]
 				var itemname = store[item].item
+				} catch(e){
+					var itemname = `Undefined item #${item}` 
+				}
 				invstr = invstr + itemname + "\n"
 			}
 
