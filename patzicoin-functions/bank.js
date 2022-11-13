@@ -60,7 +60,7 @@ module.exports = {
 					});
 					const embed = new MessageEmbed()
 						.setTitle("Withdraw PatziCoins")
-						.setDescription(`You've withdrawn **${amount}** PatziCoins from your bank!`)
+						.setDescription(`You've withdrawn **${amount}** PatziCoins from your bank!\nYour bank balance is now **${tag.bank}**.`)
 						.setColor("#00ff00")
 					interaction.reply({embeds: [embed]});
 				}
