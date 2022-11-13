@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 //const { bankMaxBal } = require('../config.json');
+const { random, random_range } = require(`../util.js`)
 const earnResp = require('./resources/json/earnResp.json')
 //const store = require('./resources/json/items.json')
 //const wait = require('node:timers/promises').setTimeout;
@@ -145,7 +146,7 @@ module.exports = {
 				const stole = Math.floor(Math.random() * (clamp(targetTag.coins, 0, 250) - 1)) + 1; //1-targetTag.coins
 				const embed = new MessageEmbed()
 					.setTitle(`Robbing ${target.username} - PatziCoin`)
-					.setDescription(`**You've successfully robbed ${target.username}**!\nYou stole **${stole}** PatziCoins!`)
+					.setDescription(`**You've successfully robbed ${target.username}**!\nYou stole **${stole}** PatziCoins from them!`)
 					.setColor("#00ff00")
 				interaction.reply({embeds: [embed]});
 				tag.update({
@@ -182,7 +183,7 @@ module.exports = {
 						.setDescription(`"${msg}" - boss\nYou lost **0** PatziCoins.`)
 					interaction.reply({embeds: [embed]});
 				} else {
-					var amount = Math.floor(Math.random() * (30 - 15 + 1)) + 15;
+					var amount = random_range(15, 30)
 					var msg = earnResp[`JOB1_GOOD`][Math.floor(Math.random() * (earnResp[`JOB1_GOOD`].length))]
 					const embed = new MessageEmbed()
 						.setTitle("Work at McDonalds - PatziCoin")
@@ -203,7 +204,7 @@ module.exports = {
 						.setDescription(`"${msg}" - boss\nYou lost **0** PatziCoins.`)
 					interaction.reply({embeds: [embed]});
 				} else {
-					var amount = Math.floor(Math.random() * (50 - 35 + 1)) + 35;
+					var amount = random_range(35, 50)
 					var msg = earnResp[`JOB2_GOOD`][Math.floor(Math.random() * (earnResp[`JOB2_GOOD`].length))]
 					const embed = new MessageEmbed()
 						.setTitle("Work at Corner Store - PatziCoin")
@@ -225,7 +226,7 @@ module.exports = {
 						.setDescription(`"${msg}" - boss(not patzi)\nYou lost **0** PatziCoins.`)
 					interaction.reply({embeds: [embed]});
 				} else {
-					var amount = Math.floor(Math.random() * (60 - 50 + 1)) + 50;
+					var amount = random_range(50, 60)
 					var msg = earnResp[`JOB2_GOOD`][Math.floor(Math.random() * (earnResp[`JOB2_GOOD`].length))]
 					const embed = new MessageEmbed()
 						.setTitle("Work at PatziMart - PatziCoin")
@@ -264,7 +265,7 @@ module.exports = {
 						.setDescription(`The dumpster was empty. You found nothing.`)
 					interaction.reply({embeds: [embed]});
 				} else {
-					var amount = Math.floor(Math.random() * (15 - 5 + 1)) + 5;
+					var amount = random_range(5, 15)
 					const embed = new MessageEmbed()
 						.setTitle("Search for PatziCoins at the McDonalds Dumpster  - PatziCoin")
 						.setColor(0x00FF00)
@@ -283,7 +284,7 @@ module.exports = {
 						.setDescription(`You were caught and sent to jail.\nYou lost **0** PatziCoins.`)
 					interaction.reply({embeds: [embed]});
 				} else {
-					var amount = Math.floor(Math.random() * (100 - 50 + 1)) + 50;
+					var amount = random_range(50, 100)
 					const embed = new MessageEmbed()
 						.setTitle("Break into a car - PatziCoin")
 						.setColor(0x00FF00)
@@ -297,7 +298,7 @@ module.exports = {
 			if (method == "3") {
 
 				if(Math.random() < 0.99){
-					var amount = Math.floor(Math.random() * (124 - 1 + 1)) + 1;
+					var amount = random_range(0, 124)
 
 					const embed = new MessageEmbed()
 						.setTitle("Break into Patzi's House - PatziCoin")
@@ -307,7 +308,7 @@ module.exports = {
 
 					db.increment('coins', { by: -amount, where: { userID: interaction.user.id } });
 				} else {
-					var amount = Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000;
+					var amount = random_range(1000, 10000)
 					const embed = new MessageEmbed()
 						.setTitle("Break into Patzi's House - PatziCoin")
 						.setColor(0x00FF00)
@@ -357,7 +358,7 @@ module.exports = {
 					.setTimestamp()
 				return interaction.reply({embeds: [embed]});
 			} else {
-				let amount = Math.floor(Math.random() * (125 - 1 + 1)) + 1;
+				let amount = random_range(1, 125)
 
 				db.increment('coins', { by: amount, where: { userID: interaction.user.id } });
 				db.update({ lastBegClaimDate: n }, { where: { userID: interaction.user.id } });
