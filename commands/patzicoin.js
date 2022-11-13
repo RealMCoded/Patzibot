@@ -297,11 +297,15 @@ module.exports = {
 			if (method == "3") {
 
 				if(Math.random() < 0.99){
+					var amount = Math.floor(Math.random() * (124 - 1 + 1)) + 1;
+
 					const embed = new MessageEmbed()
 						.setTitle("Break into Patzi's House - PatziCoin")
 						.setColor(0xFF0000)
-						.setDescription(`"GET THE FUCK OUT OF MY HOUSE" - Patzi\nYou lost **0** PatziCoins.`)
+						.setDescription(`"GET THE FUCK OUT OF MY HOUSE" - Patzi\nYou lost **${amount}** PatziCoins.`)
 					interaction.reply({embeds: [embed]});
+
+					db.increment('coins', { by: -amount, where: { userID: interaction.user.id } });
 				} else {
 					var amount = Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000;
 					const embed = new MessageEmbed()
