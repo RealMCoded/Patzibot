@@ -31,8 +31,6 @@ if for some reason you want the template that isn't in `config.template`, here y
     "testGuildId":"",
     "guildId":"",
     "token":"",
-    "SQL_USER":"",
-    "SQL_PASS":"",
     "suggestionHook":"",
     "logWebhookURL":""
 }

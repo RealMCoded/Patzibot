@@ -1,6 +1,6 @@
 const fs = require('node:fs');
 const { Client, Collection, Intents, WebhookClient } = require('discord.js');
-const { token, guildId, SQL_USER, SQL_PASS, logWebhookURL, redirectConsoleOutputToWebhook } = require('./config.json');
+const { token, guildId, logWebhookURL, redirectConsoleOutputToWebhook } = require('./config.json');
 const Sequelize = require('sequelize');
 const status = require('./commands/resources/json/status.json');
 const Markov = require('js-markov');
@@ -11,7 +11,7 @@ const client = new Client({ ws: { properties: { browser: "Discord iOS" }}, inten
 
 const chattedRecently = new Set();
 
-const sequelize = new Sequelize('database', SQL_USER, SQL_PASS, {
+const sequelize = new Sequelize('database', "", "", {
 	host: 'localhost',
 	dialect: 'sqlite',
 	logging: false,

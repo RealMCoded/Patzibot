@@ -3,8 +3,6 @@
     "testGuildId":"",
     "guildId":"",
     "token":"",
-    "SQL_USER":"",
-    "SQL_PASS":"",
     "suggestionHook":"",
     "logWebhookURL":"",
     "redirectConsoleOutputToWebhook":false,
