@@ -26,7 +26,7 @@ module.exports = {
 			const embed = new MessageEmbed()
 				.setTitle(`PatziCoin Stats for ${usrnm.tag}`)
 				.setColor("#0099ff")
-				.setDescription(`**PatziCoins**: ${correct} 🪙\n**Bank Balance**: ${bank}/${bankMaxBal}\n\n**Inventory**: ${invstr}`)
+				.setDescription(`**PatziCoins**: ${correct} 🪙\n**Bank Balance**: ${bank}/${bankMaxBal}\n\n**Inventory**:\n\`\`\`${invstr}\`\`\``)
 				.setTimestamp()
 
 			return interaction.reply({embeds: [embed]});
