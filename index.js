@@ -136,6 +136,7 @@ client.on('interactionCreate', async interaction => {
 		await command.execute(interaction);
 	} catch (error) {
 		console.log(`${error}\n\n`)
+		/*
 		if (interaction.user.id !== "284804878604435476") {
             await interaction.reply({content: `if you are seeing this, stuartt fucked up. please @ him with a screenshot of this error.\n\n\`\`\`${error}\`\`\``, ephemeral: true})
 			let webhookClient = new WebhookClient({ url: logWebhookURL });
@@ -143,6 +144,8 @@ client.on('interactionCreate', async interaction => {
         } else {
             await interaction.reply({content: `wow good job you fucked something up (again)\n\n\`\`\`${error}\`\`\``, ephemeral: true})
         }
+		*/
+		await interaction.reply({content: `⚠️Uh Oh! If you're reading this then something bad happened! We've logged the error and will investigate it as soon as possible!\n\n\`\`\`js\n${error}\`\`\``, ephemeral: true})
 	}
 });
 
