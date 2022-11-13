@@ -18,7 +18,7 @@ module.exports = {
 				var item = inv[i]
 				var itemname = store[item].item
 				} catch(e){
-					var itemname = `Undefined item #${item}` 
+					var itemname = `Undefined item #${item+1}` 
 				}
 				invstr = invstr + itemname + "\n"
 			}
