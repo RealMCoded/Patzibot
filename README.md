@@ -32,6 +32,8 @@ if for some reason you want the template that isn't in `config.template`, here y
     "guildId":"",
     "token":"",
     "suggestionHook":"",
-    "logWebhookURL":""
+    "logWebhookURL":"",
+    "redirectConsoleOutputToWebhook":false,
+    "bankMaxBal":2006
 }
 ```
