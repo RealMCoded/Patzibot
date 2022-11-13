@@ -100,6 +100,14 @@ module.exports = {
 			const usr = interaction.user
 			const target = interaction.options.getUser("user");
 
+			if(target.bot){
+				const embed = new MessageEmbed()
+						.setTitle("Robbing a bot! - PatziCoin")
+						.setDescription(`**You can't rob bots!**`)
+						.setColor("#FF0000")
+				return interaction.reply({embeds: [embed]});
+			}
+
 			if(usr == target) {
 				const embed = new MessageEmbed()
 						.setTitle("Robbing ...yourself... - PatziCoin")
