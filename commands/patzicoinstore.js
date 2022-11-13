@@ -117,8 +117,8 @@ module.exports = {
 			}
 
 			const embed = new MessageEmbed()
-				.setTitle(`Patzicoin Store - Item ${item}`)
-				.setDescription(`**Item:** ${shp[item-1].item}\n**Price:** ${shp[item-1].price} Patzicoins\n**Description:** ${shp[item-1].desc}\n**For sale:** ${shp[item-1].forSale}`)
+				.setTitle(`Patzicoin Store - Item #${item}`)
+				.setDescription(`**Name:** ${shp[item-1].item}\n**Price:** ${shp[item-1].price} Patzicoins\n**Description:** ${shp[item-1].desc}\n**For sale:** ${shp[item-1].forSale}\n**Can own Multiple:** ${shp[item-1].canOwnMultiple}\n**Can resell?:** ${shp[item-1].canResell}\n**Can be traded?:** ${shp[item-1].canTrade}`)
 				.setThumbnail(shp[item-1].iconURL)
 			interaction.reply({embeds: [embed]});
 		}
