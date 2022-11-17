@@ -11,12 +11,16 @@ module.exports = {
 			const invjson = tag.get("inv")
 			const bank = tag.get("bank")
 			const inv = JSON.parse(invjson)
+			var verified = false
 
 			var invstr = ""
 			for(var i=0; i < inv.length; i++){
 				try {
 				var item = inv[i]
 				var itemname = store[item].item
+					if (item == 10) {
+						verified = true
+					}
 				} catch(e){
 					var itemname = `Undefined item #${item+1}` 
 				}
@@ -27,7 +31,7 @@ module.exports = {
 			}
 
 			const embed = new MessageEmbed()
-				.setTitle(`PatziCoin Stats for ${usrnm.tag}`)
+				.setTitle(`PatziCoin Stats for ${usrnm.tag} ${(verified == true ? '<:useless_tick:1042895519552389191>' : '')}`)
 				.setColor("#0099ff")
 				.setDescription(`**PatziCoins**: ${correct} 🪙\n**Bank Balance**: ${bank}/${bankMaxBal}\n\n**Inventory**:\n\`\`\`${invstr}\`\`\``)
 				.setTimestamp()
