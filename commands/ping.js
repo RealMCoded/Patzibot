@@ -6,6 +6,6 @@ module.exports = {
 		.setDescription(`Ping the bot!`),
 	async execute(interaction) {
 		//interaction.deferReply()
-		return interaction.editReply(`🏓 **Pong!**\nTook \`${interaction.client.ws.ping}ms\` to respond!`)
+		return interaction.reply(`🏓 **Pong!**\nTook \`${interaction.client.ws.ping}ms\` to respond!`)
 	},
 };
