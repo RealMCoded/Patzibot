@@ -25,13 +25,13 @@ module.exports = {
 
 				await interaction.reply(`<a:typing:944765274475864094>  **Preparing** `);
 				await wait(2000);
-				await interaction.editReply(`<a:typing:944765274475864094>  **Getting ${interaction.options.getUser('user')}'s life expectancy \`(Step 1/3 - Collecting users birth records)\`** `);
+				await interaction.editReply(`<a:typing:944765274475864094>  **Getting when ${interaction.options.getUser('user')} will die \`(Step 1/3 - Collecting users birth records)\`** `);
 				await wait(2500);
-				await interaction.editReply(`<a:typing:944765274475864094>  **Getting ${interaction.options.getUser('user')}'s life expectancy \`(Step 2/3 - Checking users diet (..oh things aren't looking good..))\`** `);
+				await interaction.editReply(`<a:typing:944765274475864094>  **Getting when ${interaction.options.getUser('user')} will die \`(Step 2/3 - Checking users diet (..oh things aren't looking good..))\`** `);
 				await wait(3000);
-				await interaction.editReply(`<a:typing:944765274475864094>  **Getting ${interaction.options.getUser('user')}'s life expectancy \`(Step 3/3 - Simulating users life ${Math.floor(Math.random() * 1000) + 1} times...)\`** `);
+				await interaction.editReply(`<a:typing:944765274475864094>  **Getting when ${interaction.options.getUser('user')} will die \`(Step 3/3 - Simulating users life ${Math.floor(Math.random() * 1000) + 1} times...)\`** `);
 				await wait(4550);
-				await interaction.editReply(`✅ **${interaction.options.getUser('user')}'s life expectancy is <t:${Math.floor(deathdate.getTime() / 1000)}:F>.**`);
+				await interaction.editReply(`✅ **${interaction.options.getUser('user')} will die on <t:${Math.floor(deathdate.getTime() / 1000)}:F>.**`);
 				return;
 			}
 		}

@@ -133,6 +133,15 @@ module.exports = {
 
 			var dbusr = await db.findOne({ where: { userID: userID } });
 
+			if(item > shp.length || item < 1){
+				try {
+					interaction.reply({content:`⚠ **Invalid item! Maybe you were looking for ${shp[item-1].item}, which is item ID ${item-1}**`,ephemeral: true});
+				} catch(e){
+					interaction.reply({content:`⚠ **Invalid item!**`,ephemeral: true});
+				}
+				return;
+			}
+
 			if(!dbusr){
 				interaction.reply({content:`⚠ **this person has never earned a singular patzicoin. ever.**`,ephemeral: true});
 				return;
@@ -170,6 +179,15 @@ module.exports = {
 			var item = interaction.options.getInteger('item-id');
 
 			var dbusr = await db.findOne({ where: { userID: userID } });
+
+			if(item > shp.length || item < 1){
+				try {
+					interaction.reply({content:`⚠ **Invalid item! Maybe you were looking for ${shp[item-1].item}, which is item ID ${item-1}**`,ephemeral: true});
+				} catch(e){
+					interaction.reply({content:`⚠ **Invalid item!**`,ephemeral: true});
+				}
+				return;
+			}
 
 			if(!dbusr){
 				interaction.reply({content:`⚠ **this person has never earned a singular patzicoin. ever.**`,ephemeral: true});
