@@ -9,9 +9,10 @@ module.exports = {
 		.addStringOption(question =>
 			question.setName("question")
 				.setRequired(true)
-				.setDescription("The question to ask")),
+				.setDescription("The question to ask. Under 1500 characters allowed")),
 	async execute(interaction) {
 		const question = interaction.options.getString('question')
+		if (question.length > 1500) {await interaction.reply({content: 'Your question is over **1500** characters!', ephemeral: true}); return;}
 		if (question.toUpperCase().includes("HOMOPHOBIC") || question.toUpperCase().includes("TRANSPHOBIC") || question.toUpperCase().includes("FAGGOT") || question.toUpperCase().includes("QUEER")){
 			await interaction.reply({content: 'patzibot has chosen not to answer this.', ephemeral: true})
 		} else if (question == "" || question =="‍" || question == "​" || question == "ㅤ" || question == "⠀" || question == "_ _" || question == "** **" || question == "*** ***"){
