@@ -7,9 +7,14 @@ module.exports = {
 		.addStringOption(string =>
 			string.setName("string")
 				.setRequired(true)
-				.setDescription("love is in the air?")),
+				.setDescription("love is in the air?"))
+		.addStringOption(string =>
+			string.setName("string2")
+				.setRequired(false)
+				.setDescription("gas leak.")),
 	async execute(interaction) {
 			let str = interaction.options.getString('string')
-			await interaction.reply({ content: "*note: this may look a little* ***funky*** *on mobile.*```ansi\n" + str + "?\n\nWRONG! [2;40m  [2;37mgas leak[0m[2;40m    [0m[2;40m \n                      [0m[2;40m[0m```", ephemeral: false });
+			let str2 = interaction.options.getString('string2') || "gas leak"
+			await interaction.reply({ content: "```ansi\n" + str + "?\n\nWRONG! [2;40m  [2;37m" + str2 + "[0m[2;40m    [0m[2;40m \n                      [0m[2;40m[0m```", ephemeral: false });
 	},
 };
