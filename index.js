@@ -20,6 +20,15 @@ const sequelize = new Sequelize('database', "", "", {
 });
 client.db = require('./database.js')
 
+const patziEmojis = [
+	"<:genocide:931832849169006652>",
+	"<:genocide:931832849169006652>",
+	"<:genocide:931832849169006652>",
+	"<:noswearwords:909955005778366535>",
+	"<:patzi_blunt:909580655510306846>",
+	"<:raise_eyebrow:909593930021085234>"
+]
+
 client.commands = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
@@ -198,10 +207,18 @@ client.on('messageCreate', async message => {
                 }, 60000);
 		}
 
-		if (message.content.toUpperCase().split(" ").includes("RATIO")) {
+		let lookMessage = message.content.toUpperCase()
+
+		if (lookMessage.split(" ").includes("RATIO")) {
 			message.react('💬')
 				.then(() => message.react('🔁'))
 				.then(() => message.react('❤️'))
+				.catch(error => console.error('One of the emojis failed to react. This might be due to the user deleting their message.'));
+		}
+
+		// if a message contains P, A, T, Z, and I react with this.
+		if (lookMessage.includes("P") && lookMessage.includes("A") && lookMessage.includes("T") && lookMessage.includes("Z") && lookMessage.includes("I")) {
+			message.react(patziEmojis[Math.floor(Math.random()*patziEmojis.length)])
 				.catch(error => console.error('One of the emojis failed to react. This might be due to the user deleting their message.'));
 		}
 		//ender O block
@@ -213,7 +230,7 @@ client.on('messageCreate', async message => {
 			}
 		}*/
 	} catch (e) {
-		console.log(`${e}\n\n`)
+		console.error(`${e}\n\n`)
 	}
 
 });
