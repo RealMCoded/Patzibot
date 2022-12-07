@@ -217,7 +217,7 @@ client.on('messageCreate', async message => {
 		}
 
 		// if a message contains P, A, T, Z, and I react with this.
-		if (lookMessage.includes("P") && lookMessage.includes("A") && lookMessage.includes("T") && lookMessage.includes("Z") && lookMessage.includes("I")) {
+		if (lookMessage.includes("P") && lookMessage.includes("A") && lookMessage.includes("T") && lookMessage.includes("Z") && lookMessage.includes("I") && !lookMessage.includes("REACT")) {
 			message.react(patziEmojis[Math.floor(Math.random()*patziEmojis.length)])
 				.catch(error => console.error('One of the emojis failed to react. This might be due to the user deleting their message.'));
 		}
