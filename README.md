@@ -43,6 +43,8 @@ If for some reason you want the template that isn't in `config.template`, here y
 
 ```json
 {
+    "hostID":"",
+    "powerList":["user", "ids", "here"],
     "clientId":"",
     "testGuildId":"",
     "guildId":"",
@@ -54,3 +56,17 @@ If for some reason you want the template that isn't in `config.template`, here y
     "useMarkov": false
 }
 ```
+
+| Key                         | Function                                                                                                                           | type   | Example                                                                                                          |
+|-----------------------------|------------------------------------------------------------------------------------------------------------------------------------|--------|------------------------------------------------------------------------------------------------------------------|
+| hostID                      | The User ID of the instance host.                                                                                                  | string | 284804878604435476                                                                                               |
+| powerList                   | An array of users who can use some more powerful commands.  **Note: You must also add yourself to this list!**                     | array  | ["1234567890", "0987654321", "9475867485"]                                                                       |
+| clientId                    | The User ID of the bot.                                                                                                            | string | 876729461188464660                                                                                               |
+| testGuildId                 | The ID of your testing server.  Can be ignored if you don't plan to use a test server.  Can be ignored if you use global commands. | string | 1040451939969798174                                                                                              |
+| guildId                     | The ID of the main server your bot will be in.  Can be ignored if you use global commands.                                         | string | 909565157116608573                                                                                               |
+| token                       | The token of your bot.                                                                                                             | string | 8t3gW-QPPA-spIreEfBcS9zvmLyCsnH9iNcwyLNxA5ZDxod3l50yqQfUtNIDKnl5pwgO                                             |
+| suggestionHook              | The webhook URL for the suggestions channel.  If left blank, the suggestions feature will be disabled.                             | string | https://discord.com/api/webhooks/1234567890/8t3gW-QPPA-spIreEfBcS9zvmLyCsnH9iNcwyLNxA5ZDxod3l50yqQfUtNIDKnl5pwgO |
+| logWebhookURL               | The webhook URL for the console output to go to.  To disable, set `redirectConsoleLogToWebhook` to `false`.                        | string | https://discord.com/api/webhooks/1234567890/8t3gW-QPPA-spIreEfBcS9zvmLyCsnH9iNcwyLNxA5ZDxod3l50yqQfUtNIDKnl5pwgO |
+| redirectConsoleLogToWebhook | Enable/disable console output going to the `logWebhookURL`.                                                                        | bool   | true                                                                                                             |
+| bankMaxBal                  | The max balance someone can have in their bank                                                                                     | int    | 2006                                                                                                             |
+| useMarkov                   | Toggle the random message feature.                                                                                                 | bool   | true                                                                                                             |
