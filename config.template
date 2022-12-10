@@ -1,4 +1,6 @@
 {
+    "hostID":"",
+    "powerList":["user", "ids", "here"],
     "clientId":"",
     "testGuildId":"",
     "guildId":"",

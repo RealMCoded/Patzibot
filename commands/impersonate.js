@@ -1,5 +1,4 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const perm = require('./powerList.json');
 
 module.exports = {
 	data: new SlashCommandBuilder()

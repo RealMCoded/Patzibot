@@ -3,7 +3,7 @@ const voiceDiscord = require('@discordjs/voice');
 const { AsyncLocalStorage } = require('async_hooks');
 const path = require("path")
 const wait = require('node:timers/promises').setTimeout;
-const perm = require('./powerList.json');
+const { powerList } = require('../config.json');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -20,7 +20,7 @@ module.exports = {
 			subcommand.setName('disconnect')
             .setDescription('Leaves the current VC')),
 	async execute(interaction) {
-        if (perm.includes(interaction.user.id)) {
+        if (powerList.includes(interaction.user.id)) {
             const subcommand = interaction.options.getSubcommand();
             if (subcommand == "disconnect") {
                 await interaction.reply({ content: "command not working", ephemeral: true })
