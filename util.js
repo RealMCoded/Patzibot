@@ -1,3 +1,7 @@
+/*
+    This contains multiple shared functions that are used in the bot multiple times.
+*/
+
 const Markov = require('js-markov');
 const fs = require('node:fs');
 
