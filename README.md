@@ -19,6 +19,8 @@ npm run register global
 npm run start
 ```
 
+If you plan to use the Markov feature in your instance, make a file called `markov.txt` in the directory with the index.js file.
+
 ## Registering commands
 
 Included is an npm script to register commands to 3 locations: `global`, `patzi`, and `test`.
@@ -48,6 +50,7 @@ If for some reason you want the template that isn't in `config.template`, here y
     "suggestionHook":"",
     "logWebhookURL":"",
     "redirectConsoleOutputToWebhook":false,
-    "bankMaxBal":2006
+    "bankMaxBal":2006,
+    "useMarkov": false
 }
 ```

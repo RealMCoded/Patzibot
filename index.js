@@ -1,6 +1,6 @@
 const fs = require('node:fs');
 const { Client, Collection, Intents, WebhookClient } = require('discord.js');
-const { token, guildId, logWebhookURL, redirectConsoleOutputToWebhook } = require('./config.json');
+const { token, guildId, logWebhookURL, redirectConsoleOutputToWebhook, useMarkov } = require('./config.json');
 const Sequelize = require('sequelize');
 const status = require('./commands/resources/json/status.json');
 const Markov = require('js-markov');
@@ -145,15 +145,6 @@ client.on('interactionCreate', async interaction => {
 		await command.execute(interaction);
 	} catch (error) {
 		console.log(`${error}\n\n`)
-		/*
-		if (interaction.user.id !== "284804878604435476") {
-            await interaction.reply({content: `if you are seeing this, stuartt fucked up. please @ him with a screenshot of this error.\n\n\`\`\`${error}\`\`\``, ephemeral: true})
-			let webhookClient = new WebhookClient({ url: logWebhookURL });
-			webhookClient.send(`<@284804878604435476> [ERR]\n\`\`\`${error}\`\`\``);
-        } else {
-            await interaction.reply({content: `wow good job you fucked something up (again)\n\n\`\`\`${error}\`\`\``, ephemeral: true})
-        }
-		*/
 		await interaction.reply({content: `⚠️Uh Oh! If you're reading this then something bad happened! We've logged the error and will investigate it as soon as possible!\n\n\`\`\`js\n${error}\`\`\``, ephemeral: true})
 	}
 });
@@ -166,28 +157,31 @@ client.on('messageCreate', async message => {
 
 	if(message.guild.id !== guildId) return
 
-	//2% chance of random message
-	if(Math.random() < 0.015 && message.channel.id == "909565157846429809"){
-		var msg = await generateMarkov()
-		client.channels.cache.get("909565157846429809").send(msg);
-	}
+	if (useMarkov){
+		//2% chance of random message with markov
+		if(Math.random() < 0.015 && message.channel.id == "909565157846429809"){
+			var msg = await generateMarkov()
+			client.channels.cache.get("909565157846429809").send(msg);
+		}
 
-	if(message.channel.id == "909565157846429809") {
-		let msg = message.content
-		if (msg.includes("@")) return;
-		//if (msg.includes("<@!") || msg.includes("<@")) return;
-		//remove any links
-		msg = msg.replace(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g, '')
+		//log message to markov.txt
+		if(message.channel.id == "909565157846429809") {
+			let msg = message.content
+			if (msg.includes("@")) return;
+			//if (msg.includes("<@!") || msg.includes("<@")) return;
+			//remove any links
+			msg = msg.replace(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g, '')
 
-		if (msg.length == 0) return;
-		
-		const allMessage = fs.readFileSync('markov.txt', 'utf8');
+			if (msg.length == 0) return;
+			
+			const allMessage = fs.readFileSync('markov.txt', 'utf8');
 
-		//write message to file
-		if (allMessage.includes(msg)) {
-			return;
-		} else {
-			fs.appendFileSync('./markov.txt', `${msg}\n`)
+			//write message to file
+			if (allMessage.includes(msg)) {
+				return;
+			} else {
+				fs.appendFileSync('./markov.txt', `${msg}\n`)
+			}
 		}
 	}
 
@@ -207,6 +201,7 @@ client.on('messageCreate', async message => {
                 }, 60000);
 		}
 
+		//Special message events
 		let lookMessage = message.content.toUpperCase()
 
 		if (lookMessage.split(" ").includes("RATIO")) {
@@ -236,23 +231,11 @@ client.on('messageCreate', async message => {
 });
 
 process.on('uncaughtException', (error, origin) => {
-    //console.log('----- Uncaught exception -----')
-    //console.log(error)
-    //console.log('----- Exception origin -----')
-    //console.log(origin)
 	console.log(`❌ Uncaught exception\n-----\n${error}\n-----\nException origin\n${origin}`)
-	//let webhookClient = new WebhookClient({ url: logWebhookURL });
-	//webhookClient.send(`<@284804878604435476> [ERR]\n\`\`\`${error}\`\`\`\n\n\`\`\`${origin}\`\`\``);
 })
 
 process.on('unhandledRejection', (reason, promise) => {
-    //console.log('----- Unhandled Rejection at -----')
-    //console.log(promise)
-    //console.log('----- Reason -----')
-    //console.log(reason)
 	console.log(`❌ Unhandled Rejection\n-----\n${promise}\n-----\nReason\n${reason}`)
-	//let webhookClient = new WebhookClient({ url: logWebhookURL });
-	//webhookClient.send(`<@284804878604435476> [REJ]\n\`\`\`${promise}\`\`\`\n\n\`\`\`${reason}\`\`\``);
 })
 
 client.login(token);

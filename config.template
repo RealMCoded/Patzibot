@@ -6,5 +6,6 @@
     "suggestionHook":"",
     "logWebhookURL":"",
     "redirectConsoleOutputToWebhook":false,
-    "bankMaxBal":2006
+    "bankMaxBal":2006,
+    "useMarkov": false
 }
