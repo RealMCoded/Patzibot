@@ -1,3 +1,3 @@
 @echo off
-node register-test.js
+npm run register test
 pause

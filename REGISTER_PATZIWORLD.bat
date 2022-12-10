@@ -1,3 +1,3 @@
 @echo off
-node register-pw.js
+npm run register patzi
 pause
