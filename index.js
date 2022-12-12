@@ -161,6 +161,7 @@ client.on('messageCreate', async message => {
 		//2% chance of random message with markov
 		if(Math.random() < 0.015 && message.channel.id == "909565157846429809"){
 			var msg = await generateMarkov()
+			console.log(`New markov generated: "${msg}"\n`)
 			client.channels.cache.get("909565157846429809").send(msg);
 		}
 

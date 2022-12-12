@@ -24,7 +24,6 @@ module.exports = {
                     markov.train();
     
                     let txt = markov.generateRandom(100);				
-                    console.log(`New markov generated: "${txt}"\n`)
                     resolve(txt)
                 } catch(er) {
                     console.error(er)
