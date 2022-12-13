@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { hostID } = require('../config.json');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -22,7 +23,7 @@ module.exports = {
 				.setDescription("enter node debugger")),
 	async execute(interaction) {
 		const subcommand = interaction.options.getSubcommand();
-		if (interaction.user.id == 284804878604435476) {
+		if (interaction.user.id == hostID) {
 			if (subcommand == "eval") {
 				var evl = eval(interaction.options.getString('str'));
 				if (interaction.options.getInteger('showresult') == 1) {
@@ -34,7 +35,7 @@ module.exports = {
 
 			}
 		} else {
-			await interaction.reply({ content: "This command can only be used by <@284804878604435476>.\n\nNothing personal, i just don't want anyone to mess with my insides.", ephemeral: true });
+			await interaction.reply({ content: "This command can only be used by <@" + hostID + ">.\n\nNothing personal, i just don't want anyone to mess with my insides.", ephemeral: true });
 		}
 	},
 };

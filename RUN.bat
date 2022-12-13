@@ -1,3 +1,3 @@
 :a
-node .
+npm run start
 goto a
