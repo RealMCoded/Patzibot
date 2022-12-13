@@ -1,13 +1,24 @@
 const {SlashCommandBuilder} = require('@discordjs/builders');
 const { MessageButton, MessageActionRow, MessageEmbed } = require('discord.js');
-let quiz = require('./resources/json/quiz.json');
-const questions = quiz.questions
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('quiz')
         .setDescription('test your Patzi knowledge! Some questions may be a little hard, but you got this!'),
     async execute(interaction) {
+
+        let quiz, questions;
+        try {
+            quiz = require('./resources/json/quiz.json');
+            questions = quiz.questions
+        } catch (e) {
+            if (e instanceof Error && e.code === "MODULE_NOT_FOUND"){
+                console.log("⚠️ quiz.json does not exist! Check the readme for more info!");
+                interaction.reply({ content: "⚠️ **The instance host did not provide a `quiz.json` file!**\n\n*This could be intentional or not.*", ephemeral: true })
+            } else throw e;
+            return;
+        }
+
         const random = Math.floor(Math.random() * Object.keys(questions).length);
         const question = questions[random].question;
         const answerCorrect = questions[random].answerCorrect;

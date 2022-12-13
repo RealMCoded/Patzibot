@@ -70,3 +70,18 @@ If for some reason you want the template that isn't in `config.template`, here y
 | redirectConsoleLogToWebhook | Enable/disable console output going to the `logWebhookURL`.                                                                        | bool   | true                                                                                                             |
 | bankMaxBal                  | The max balance someone can have in their bank                                                                                     | int    | 2006                                                                                                             |
 | useMarkov                   | Toggle the random message feature.                                                                                                 | bool   | true                                                                                                             |
+
+## quiz.json
+
+In order for the `/quiz`command to work, you must make a file called `quiz.json` in `./resources/json/`. In that location, there is a file called `quiz.template`. You may rename that to `quiz.json`, or you may use the provided template below.
+
+*note: `time` is in milliseconds.*
+
+```json
+{
+    "questions":[
+        {"question":"Question Text!", "answerCorrect": "This is the correct answer", "answerWrong1": "This is incorrect" , "answerWrong2": "This is also incorrect" , "answerWrong3": "This is another one that is incorrect", "time": 15000},
+        {"question":"Click \"Yes\"", "answerCorrect": "Yes", "answerWrong1": "No" , "answerWrong2": "Maybe" , "answerWrong3": "Sure", "time": 15000}
+    ]
+}
+```

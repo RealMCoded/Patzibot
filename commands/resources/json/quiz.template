@@ -1,0 +1,6 @@
+{
+    "questions":[
+        {"question":"Question Text!", "answerCorrect": "This is the correct answer", "answerWrong1": "This is incorrect" , "answerWrong2": "This is also incorrect" , "answerWrong3": "This is another one that is incorrect", "time": 15000},
+        {"question":"Click \"Yes\"", "answerCorrect": "Yes", "answerWrong1": "No" , "answerWrong2": "Maybe" , "answerWrong3": "Sure", "time": 15000}
+    ]
+}
