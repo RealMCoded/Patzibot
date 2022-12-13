@@ -1,6 +1,6 @@
 const fs = require('node:fs');
 const { Client, Collection, Intents, WebhookClient } = require('discord.js');
-const { token, guildId, logWebhookURL, redirectConsoleOutputToWebhook, useMarkov } = require('./config.json');
+const { token, guildId, logWebhookURL, redirectConsoleOutputToWebhook, useMarkov, markovReadChannel, markovSendChannel, patziEmojis } = require('./config.json');
 const Sequelize = require('sequelize');
 const status = require('./commands/resources/json/status.json');
 const Markov = require('js-markov');
@@ -19,15 +19,6 @@ const sequelize = new Sequelize('database', "", "", {
 	storage: 'database.sqlite',
 });
 client.db = require('./database.js')
-
-const patziEmojis = [
-	"<:genocide:931832849169006652>",
-	"<:genocide:931832849169006652>",
-	"<:genocide:931832849169006652>",
-	"<:noswearwords:909955005778366535>",
-	"<:patzi_blunt:909580655510306846>",
-	"<:raise_eyebrow:909593930021085234>"
-]
 
 client.commands = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
@@ -159,14 +150,14 @@ client.on('messageCreate', async message => {
 
 	if (useMarkov){
 		//2% chance of random message with markov
-		if(Math.random() < 0.015 && message.channel.id == "909565157846429809"){
+		if(Math.random() < 0.015 && message.channel.id == markovSendChannel){
 			var msg = await generateMarkov()
 			console.log(`New markov generated: "${msg}"\n`)
-			client.channels.cache.get("909565157846429809").send(msg);
+			client.channels.cache.get(markovSendChannel).send(msg);
 		}
 
 		//log message to markov.txt
-		if(message.channel.id == "909565157846429809") {
+		if(markovReadChannel.includes(message.channel.id)) {
 			let msg = message.content
 			if (msg.includes("@")) return;
 			//if (msg.includes("<@!") || msg.includes("<@")) return;

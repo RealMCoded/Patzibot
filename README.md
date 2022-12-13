@@ -70,6 +70,8 @@ If for some reason you want the template that isn't in `config.template`, here y
 | redirectConsoleLogToWebhook | Enable/disable console output going to the `logWebhookURL`.                                                                        | bool   | true                                                                                                             |
 | bankMaxBal                  | The max balance someone can have in their bank                                                                                     | int    | 2006                                                                                                             |
 | useMarkov                   | Toggle the random message feature.                                                                                                 | bool   | true                                                                                                             |
+| markovSendChannel           | The channel to send the auto generated messages in. Ignored if `useMarkov` is false.                                               | string | "909565157846429809"                                                                                             |
+| markovReadChannel           | The channels to read messages from for the Markov messages. Ignored if `useMarkov` is false.                                       | array  | ["909565157846429809", "1040451940561207338"] |
 
 ## quiz.json
 
