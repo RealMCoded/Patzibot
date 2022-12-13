@@ -13,7 +13,11 @@ module.exports = {
         .addSubcommand(subcommand =>
             subcommand
             .setName("version")
-            .setDescription("What version am i on? I don't know!")),
+            .setDescription("What version am i on? I don't know!"))
+        .addSubcommand(subcommand =>
+            subcommand
+            .setName("github")
+            .setDescription("I'm open source! Yipee!")),
     async execute(interaction) {
         const subcommand = interaction.options.getSubcommand();
 
@@ -36,8 +40,10 @@ module.exports = {
                     .setColor(`FF0000`);
                 await interaction.reply({embeds: [embed]});
             }
-        } else {
+        } else if (subcommand == "about") {
             interaction.reply({content:`⚠ **The intro is not ready yet! Come back later.**`,ephemeral: true});
+        } if (subcommand == "github") {
+            interaction.reply({content:`https://github.com/RealMCoded/Patzibot`,ephemeral: true});
         }
     },
 };
