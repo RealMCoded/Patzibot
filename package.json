@@ -1,15 +1,15 @@
 {
   "name": "patzibot",
-  "version": "2.2.0",
-  "description": "",
+  "version": "2.5.0",
+  "description": "Patzi's World Discord Bot",
   "main": "index.js",
   "scripts": {
     "register": "node register.js",
-    "start": "node .",
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "stuartt_mcoded",
   "license": "ISC",
   "dependencies": {
     "@discordjs/builders": "^0.12.0",
