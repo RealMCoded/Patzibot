@@ -53,7 +53,17 @@ If for some reason you want the template that isn't in `config.template`, here y
     "logWebhookURL":"",
     "redirectConsoleOutputToWebhook":false,
     "bankMaxBal":2006,
-    "useMarkov": false
+    "useMarkov": false,
+    "markovSendChannel": "",
+    "markovReadChannel": ["channel", "ids", "here"],
+    "patziEmojis": [
+        "<:genocide:931832849169006652>",
+        "<:genocide:931832849169006652>",
+        "<:genocide:931832849169006652>",
+        "<:noswearwords:909955005778366535>",
+        "<:patzi_blunt:909580655510306846>",
+        "<:raise_eyebrow:909593930021085234>"
+    ]
 }
 ```
 
@@ -72,6 +82,7 @@ If for some reason you want the template that isn't in `config.template`, here y
 | useMarkov                   | Toggle the random message feature.                                                                                                 | bool   | true                                                                                                             |
 | markovSendChannel           | The channel to send the auto generated messages in. Ignored if `useMarkov` is false.                                               | string | "909565157846429809"                                                                                             |
 | markovReadChannel           | The channels to read messages from for the Markov messages. Ignored if `useMarkov` is false.                                       | array  | ["909565157846429809", "1040451940561207338"] |
+| patziEmojis                 | The emojis used when a message contains a P, A, T, Z, and I.                                                          | array  | ["<:genocide:931832849169006652>", "<:noswearwords:909955005778366535>", "<:patzi_blunt:909580655510306846>","<:raise_eyebrow:909593930021085234>"] |
 
 ## quiz.json
 
