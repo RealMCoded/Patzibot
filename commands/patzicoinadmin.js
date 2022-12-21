@@ -41,6 +41,13 @@ module.exports = {
 						.setName("item-id")
 						.setDescription("the item ID to revoke (starting from 0)")))
 		.addSubcommand(subcommand => 
+			subcommand.setName("reset-user")
+				.setDescription("reset a users patzicoin stats.")
+				.addUserOption(option =>
+					option.setRequired(true)
+						.setName("user")
+						.setDescription("the user to reset")))
+		.addSubcommand(subcommand => 
 			subcommand.setName("give")
 				.setDescription("give patzicoin to a user")
 				.addUserOption(option =>
@@ -174,7 +181,7 @@ module.exports = {
 					.setTimestamp();
 				webhookClient.send({embeds: [embed]});
 
-			}else if (subcommand == "revoke-item"){
+			} else if (subcommand == "revoke-item"){
 				const user = interaction.options.getUser('user');
 				const userID = user.id;
 				var item = interaction.options.getInteger('item-id');
@@ -220,7 +227,36 @@ module.exports = {
 					interaction.reply({content:`⚠ **they do not have this item**`,ephemeral: true});
 					return;
 				}
+			} else if (subcommand == "reset-user"){
+				const user = interaction.options.getUser('user');
+				const userID = user.id;
 
+				var dbusr = await db.findOne({ where: { userID: userID } });
+
+				if(!dbusr){
+					interaction.reply({content:`⚠ **this person has never earned a singular patzicoin. ever.**`,ephemeral: true});
+					return;
+				}
+
+				try {
+					db.destroy({
+						where: { userID: userID },
+					});
+
+					interaction.reply({ content: `✅ **Deleted ${user.username}'s PatziCoin data!**`, ephemeral: true })
+
+					//logging
+					const embed = new MessageEmbed()
+						.setTitle("Patzicoin Logs")
+						.setDescription(`${user.tag}'s PatziCoin data was deleted!\n\nExecutor: \`\`\`${interaction.user.id} | ${interaction.user.tag}\`\`\``)
+						.setColor("#00ff00")
+						.setTimestamp();
+					webhookClient.send({embeds: [embed]});
+				} catch(e) {
+					interaction.reply({content:`❌ **something bad happened. the error has been logged.**`,ephemeral: true});
+					console.error(e)
+					return;
+				}
 			}
 		} else {
 			await interaction.reply({ content: "❌ **You cannot use this command!**", ephemeral: true });
