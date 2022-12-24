@@ -1,4 +1,5 @@
 const { MessageEmbed } = require('discord.js');
+const { getOccurrence } = require('../util.js')
 const store = require(`../commands/resources/json/items.json`)
 const { bankMaxBal } = require('../config.json');
 
@@ -30,8 +31,12 @@ module.exports = {
 				invstr = "( empty )\n"
 			}
 
+			let verifiedChecks = getOccurrence(inv, 10)
+
+			let titleString = `PatziCoin Stats for ${usrnm.tag} ${(verified == true ? '<:useless_tick:1042895519552389191> '.repeat(verifiedChecks) : '')}`
+
 			const embed = new MessageEmbed()
-				.setTitle(`PatziCoin Stats for ${usrnm.tag} ${(verified == true ? '<:useless_tick:1042895519552389191>' : '')}`)
+				.setTitle(titleString.substring(0, 255))
 				.setColor("#0099ff")
 				.setDescription(`**PatziCoins**: ${correct} 🪙\n**Bank Balance**: ${bank}/${bankMaxBal}\n\n**Inventory**:\n\`\`\`${invstr}\`\`\``)
 				.setTimestamp()

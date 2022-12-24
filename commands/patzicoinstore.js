@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, Intents } = require('discord.js');
 const shp = require('./resources/json/items.json')
 
 module.exports = {
@@ -86,7 +86,7 @@ module.exports = {
 				return;
 			}
 
-			if(inve.includes(item-1)){
+			if(inve.includes(item-1) && !shp[item-1].canOwnMultiple){
 				interaction.reply({content:`⚠ **You already have this item!**`,ephemeral: true});
 				return;
 			}

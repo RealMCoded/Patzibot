@@ -45,4 +45,10 @@ module.exports = {
     random(number) {
         return Math.floor(Math.random() * number)
     },
+
+    getOccurrence(array, value) {
+        var count = 0;
+        array.forEach((v) => (v === value && count++));
+        return count;
+    },
 }
