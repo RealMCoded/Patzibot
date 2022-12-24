@@ -157,8 +157,8 @@ module.exports = {
 				var inve = dbusr.get("inv");
 				inve = JSON.parse(inve);
 
-				if(inve.includes(item)){
-					interaction.reply({content:`⚠ **they already have this item**`,ephemeral: true});
+				if(inve.includes(item) && !shp[item].canOwnMultiple){
+					interaction.reply({content:`⚠ **They already have this item!**`,ephemeral: true});
 					return;
 				}
 
