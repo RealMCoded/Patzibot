@@ -10,7 +10,7 @@ module.exports = {
 				.setRequired(true)
 				.setDescription("The text to say."))
 		.addStringOption(string =>
-			string.setName("replyMessageID")
+			string.setName("reply-message-id")
 				.setRequired(false)
 				.setDescription("The Message ID to reply to.")),
 	async execute(interaction) {
@@ -18,7 +18,7 @@ module.exports = {
 			let message, ping, replyID;
 			message = interaction.options.getString('string')
 			//ping = interaction.options.getBoolean('mention') || false
-			replyID = interaction.options.getString('replyMessageID') || "DO-NOT"
+			replyID = interaction.options.getString('reply-message-id') || "DO-NOT"
 
 			if (replyID == "DO-NOT") {
 				await interaction.channel.send(message)
