@@ -23,7 +23,7 @@ module.exports = {
 			if (replyID == "DO-NOT") {
 				await interaction.channel.send(message)
 			} else {
-				await interaction.channel.send({ content: message, reply: { messageReference: replyId }});
+				await interaction.channel.send({ content: message, reply: { messageReference: replyID }});
 			}
 			await console.log(`${interaction.user.tag} made the bot say "${message}"\n`)
 			await interaction.reply({ content: "ok i said the thing u wanted me to say :)", ephemeral: true });
