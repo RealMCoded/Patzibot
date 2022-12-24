@@ -14,7 +14,7 @@ module.exports = {
         const input = interaction.options.getString("expression")
         if(validateExpression(input)) {
             const output = eval(input)
-            interaction.reply({ content: `🧮 \`${input} = ${output}\``, ephemeral: false})
+            interaction.reply({ content: `🧮 \`${input} = ${(output == "NaN" ? "idk!" : output)}\``, ephemeral: false})
         } else {
             interaction.reply({ content: `❌ **Invalid expression. Make sure there are no invalid operators or spaces and try again.**`, ephemeral: true })
         }
