@@ -3,9 +3,8 @@ const { Client, Collection, Intents, WebhookClient } = require('discord.js');
 const { token, guildId, logWebhookURL, redirectConsoleOutputToWebhook, useMarkov, markovReadChannel, markovSendChannel, patziEmojis } = require('./config.json');
 const Sequelize = require('sequelize');
 const status = require('./commands/resources/json/status.json');
-const Markov = require('js-markov');
-const wait = require('node:timers/promises').setTimeout;
-const { generateMarkov } = require("./util.js")
+const { generateMarkov, random_range } = require("./util.js")
+const { changePatzicoins } = require('./patzicoin-functions/coins.js')
 
 const client = new Client({ ws: { properties: { browser: "Discord iOS" }}, intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS] });
 
@@ -60,21 +59,10 @@ console.error = function(e) {
 	process.stdout.write(`[ERROR] ${e}\n`);
 }
 
-for (const file of commandFiles) {
-	const command = require(`./commands/${file}`);
-	client.commands.set(command.data.name, command);
-}
+function changeStatus(){
+	// generate random number between 1 and list length.
+	const randomIndex = Math.floor(Math.random() * (status.length - 1) + 1);
 
-client.once('ready', () => {
-	client.db.Tags.sync();
-	client.db.Patzicoin.sync();
-	
-	console.log(`✅ Signed in as ${client.user.tag}! \n`);
-
-	 // generate random number between 1 and list length.
-	 const randomIndex = Math.floor(Math.random() * (status.length - 1) + 1);
-	 //const newActivity = status[randomIndex].activity;
- 
 	if (status[randomIndex].type == "STREAMING"){
 		client.user.setPresence({
 			activities: [{
@@ -93,33 +81,26 @@ client.once('ready', () => {
 				//status: "idle"
 		});
 	}
+}
+
+for (const file of commandFiles) {
+	const command = require(`./commands/${file}`);
+	client.commands.set(command.data.name, command);
+}
+
+client.once('ready', () => {
+	client.db.Tags.sync();
+	client.db.Patzicoin.sync();
+	
+	console.log(`✅ Signed in as ${client.user.tag}! \n`);
+
+	changeStatus()
 });
 
 client.on("ready", () => {
-	//RUNS EVERY 60 SECONDS
+	//RUNS EVERY 90 SECONDS
 	setInterval(() => {
-	  // generate random number between 1 and list length.
-	  const randomIndex = Math.floor(Math.random() * (status.length - 1) + 1);
-	  //const newActivity = status[randomIndex].activity;
-  
-	  if (status[randomIndex].type == "STREAMING"){
-			client.user.setPresence({
-				activities: [{
-					name: status[randomIndex].activity, 
-					type: status[randomIndex].type,
-					url: "https://www.youtube.com/watch?v=GQ6rr1otWpg",
-				}],
-					//status: "idle"
-			});
-		} else {
-			client.user.setPresence({
-				activities: [{
-					name: status[randomIndex].activity, 
-					type: status[randomIndex].type,
-				}],
-					//status: "idle"
-			});
-		}
+		changeStatus()
 	}, 90000);
 
 });
@@ -180,11 +161,7 @@ client.on('messageCreate', async message => {
 	try {
 		//gib parti coin for talkin :)
 		if(!chattedRecently.has(message.author.id)){
-			var dbusr = await client.db.Patzicoin.findOrCreate({
-				where: { userID: message.author.id },
-			});
-
-			client.db.Patzicoin.increment('coins', { by: (Math.floor(Math.random() * (5 - 1 + 1)) + 5), where: { userID: message.author.id } });
+			changePatzicoins(client.db.Patzicoin, message.author.id, (random_range(1, 5)))
 
 			chattedRecently.add(message.author.id);
             setTimeout(() => {
@@ -208,14 +185,6 @@ client.on('messageCreate', async message => {
 			message.react(patziEmojis[Math.floor(Math.random()*patziEmojis.length)])
 				.catch(error => console.error('One of the emojis failed to react. This might be due to the user deleting their message.'));
 		}
-		//ender O block
-		/*
-		if (accents.remove(message.content.replace(/[^a-zA-Z]/g,"").toUpperCase().charAt(0)) === "O" ||message.content.charAt(0) === "0") {
-			if (message.author.id == "889950256358375425") {
-				await message.channel.send("H")
-				message.guild.members.cache.get("889950256358375425").timeout(Math.floor(5 * 1000), `Saying O | Auto-Timeout`)
-			}
-		}*/
 	} catch (e) {
 		console.error(`${e}\n\n`)
 	}
