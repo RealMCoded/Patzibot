@@ -2,14 +2,13 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const voiceDiscord = require('@discordjs/voice');
 const path = require("path")
 const wait = require('node:timers/promises').setTimeout;
-const { logChannel, guildId } = require("../config.json")
 
 const recent= new Set();
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('soundboard')
-        .setDescription('Joins the VC and plays a sound.')
+        .setDescription('Joins the VC and plays a sound (requires 10 PatziCoins).')
         .addStringOption(option =>
             option.setName('sound')
                 .setDescription('the funny')
@@ -39,13 +38,34 @@ module.exports = {
                 .addChoice('It\'s raining tacos! (sahd forced me to add this)', 'raining-tacos')),
 
 	async execute(interaction) {
-        
-        if(recent.has(interaction.user.id)){
-            interaction.reply({content:`⏰ **You cannot use this command right now!**\n**You have to wait a while to use it again!**`,ephemeral: true});
+        const db = interaction.client.db.Patzicoin;
+        var dbusr = await db.findOne({ where: { userID: interaction.user.id } });
+
+        if(!dbusr){
+            interaction.reply({content:`❌ You need **10** PatziCoins to use this, you have **0**!`,ephemeral: true});
             return;
         }
+
+        var coins = dbusr.get("coins");
+
+        if(coins < 9){
+            interaction.reply({content:`❌ You need **10** PatziCoins to use this, you have **${coins}**!`,ephemeral: true});
+            return;
+        }
+
+        if(recent.has(interaction.user.id)){
+            interaction.reply({content:`⏰ **You cannot use this command right now!**\n**You have to wait a while to use it again!**\n\n*no PatziCoins have been taken from your account.*`,ephemeral: true});
+            return;
+        }
+
         const channel = interaction.member.voice.channel;
-		if(!channel) return await interaction.reply({ content: "❌ **You aren't in a voice channel!**", ephemeral: true });
+		if(!channel) return await interaction.reply({ content: "❌ **You aren't in a voice channel!**\n\n*no PatziCoins have been taken from your account.*", ephemeral: true });
+
+        db.update({
+            coins: coins - 10,
+        }, {
+            where: { userID: interaction.user.id },
+        });
 
 		const connection = voiceDiscord.joinVoiceChannel({
 			channelId: channel.id,
@@ -61,7 +81,7 @@ module.exports = {
 		player.play(resource);
 		connection.subscribe(player);
 
-        await interaction.reply({ content: "✅ **Played!**", ephemeral: true })
+        await interaction.reply({ content: "✅ **Played!**\n\n*10 PatziCoins have been taken from your account.*", ephemeral: true })
         await console.log(`${interaction.user.tag} requested that i play "${interaction.options.getString('sound')}"\n`)
 
 		player.on(voiceDiscord.AudioPlayerStatus.Idle, () => {
