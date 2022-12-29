@@ -1,4 +1,5 @@
 const { MessageEmbed } = require('discord.js');
+const { codeBlock } = require('@discordjs/builders');
 const { getOccurrence } = require('../util.js')
 const store = require(`../commands/resources/json/items.json`)
 const { bankMaxBal } = require('../config.json');
@@ -23,12 +24,12 @@ module.exports = {
 						verified = true
 					}
 				} catch(e){
-					var itemname = `Undefined item #${item+1}` 
+					var itemname = `*** Undefined item #${item+1}` 
 				}
-				invstr = invstr + itemname + "\n"
+				invstr = invstr + "+ " + itemname + "\n"
 			}
 			if(invstr == ""){
-				invstr = "( empty )\n"
+				invstr = "- ( empty )\n"
 			}
 
 			let verifiedChecks = getOccurrence(inv, 10)
@@ -38,7 +39,10 @@ module.exports = {
 			const embed = new MessageEmbed()
 				.setTitle(titleString.substring(0, 255))
 				.setColor("#0099ff")
-				.setDescription(`**PatziCoins**: ${correct} 🪙\n**Bank Balance**: ${bank}/${bankMaxBal}\n\n**Inventory**:\n\`\`\`${invstr}\`\`\``)
+				.setDescription(`**PatziCoins**: ${correct} 🪙\n**Bank Balance**: ${bank}/${bankMaxBal}`)
+				.addFields(
+					{ name: `Inventory`, value: codeBlock("diff", invstr)},
+				)
 				.setTimestamp()
 
 			return interaction.reply({embeds: [embed]});
