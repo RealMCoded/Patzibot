@@ -3,6 +3,7 @@ const { MessageEmbed } = require('discord.js');
 //const { bankMaxBal } = require('../config.json');
 const { random, random_range } = require(`../util.js`)
 const earnResp = require('./resources/json/earnResp.json')
+const { changePatzicoins } = require('../patzicoin-functions/coins.js')
 //const store = require('./resources/json/items.json')
 //const wait = require('node:timers/promises').setTimeout;
 
