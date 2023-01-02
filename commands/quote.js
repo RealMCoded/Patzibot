@@ -4,7 +4,7 @@ const quotes = require("./resources/json/quotes.json")
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('quote')
-		.setDescription('Quotes stolen from @PatziQuotes')
+		.setDescription('Quotes stolen from @PatziQuotes and @PenisClass')
 		.addIntegerOption(option => 
 			option.setRequired(false)
 				.setName("quote-id")
