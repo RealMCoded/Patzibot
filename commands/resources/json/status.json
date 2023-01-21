@@ -55,5 +55,7 @@
 
     {"activity":"ONE","type":"COMPETING"},
 
-    {"activity":"🐊","type":"STREAMING"}
+    {"activity":"🐊","type":"STREAMING"},
+
+    {"activity":"RIP @PatziQuotes", "type":"STREAMING"}
 ]
