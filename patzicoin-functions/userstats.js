@@ -13,28 +13,33 @@ module.exports = {
 			const invjson = tag.get("inv")
 			const bank = tag.get("bank")
 			const inv = JSON.parse(invjson)
-			var verified = false
-
+			const frequency = {}
 			var invstr = ""
-			for(var i=0; i < inv.length; i++){
-				try {
-				var item = inv[i]
-				var itemname = store[item].item
-					if (item == 10) {
-						verified = true
-					}
-				} catch(e){
-					var itemname = `*** Undefined item #${item+1}` 
+			const result = [];
+
+			for (const item of inv) {
+				if (frequency[item]) {
+					frequency[item]++;
+				} else {
+					frequency[item] = 1;
 				}
-				invstr = invstr + "+ " + itemname + "\n"
 			}
-			if(invstr == ""){
-				invstr = "- ( empty )\n"
+
+			for (const item in frequency) {
+				try {
+					result.push(frequency[item] === 1 ? `+ ${store[item].item}` : `+ ${store[item].item} (x${frequency[item]})`);
+				} catch(e) {
+					result.push(frequency[item] === 1 ? store[item].item : `*** Unknown Item #${item} (x${frequency[item]})`);
+				}
 			}
+
+			for (const res in result) {invstr += `${result[res]}\n`}
+
+			if(invstr == ""){invstr = "- ( empty )\n"}
 
 			let verifiedChecks = getOccurrence(inv, 10)
 
-			let titleString = `PatziCoin Stats for ${usrnm.tag} ${(verified == true ? '<:useless_tick:1042895519552389191> '.repeat(verifiedChecks) : '')}`
+			let titleString = `PatziCoin Stats for ${usrnm.tag} ${('<:useless_tick:1042895519552389191> '.repeat(verifiedChecks))}`
 
 			const embed = new MessageEmbed()
 				.setTitle(titleString.substring(0, 255))
