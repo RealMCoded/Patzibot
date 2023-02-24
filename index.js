@@ -89,7 +89,6 @@ for (const file of commandFiles) {
 }
 
 client.once('ready', () => {
-	client.db.Tags.sync();
 	client.db.Patzicoin.sync();
 	
 	console.log(`✅ Signed in as ${client.user.tag}! \n`);
