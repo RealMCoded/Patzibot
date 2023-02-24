@@ -41,4 +41,4 @@ const Patzicoin = sequelize.define('patzicoin', {
   }
 })
 
-module.exports = { Tags, Patzicoin }
+module.exports = { Patzicoin }
