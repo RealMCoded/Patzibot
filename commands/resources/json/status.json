@@ -55,6 +55,8 @@
 
     {"activity":"ONE","type":"COMPETING"},
 
+    {"activity":"Inanimate Insanity","type":"COMPETING"},
+
     {"activity":"🐊","type":"STREAMING"},
 
     {"activity":"RIP @PatziQuotes", "type":"STREAMING"}
