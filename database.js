@@ -7,22 +7,6 @@ const sequelize = new Sequelize('database', "", "", {
   storage: 'database.sqlite'
 })
 
-const Tags = sequelize.define('tags', {
-  name:{
-    type: Sequelize.STRING,
-  },
-  description:{
-    type: Sequelize.STRING,
-  },
-  username:{
-    type: Sequelize.STRING,
-  },
-  usage_count: {
-    type: Sequelize.NUMBER,
-    defaultValue: 0
-  }
-});
-
 const Patzicoin = sequelize.define('patzicoin', {
   userID: {
     type: Sequelize.STRING,
