@@ -27,18 +27,18 @@ const Patzicoin = sequelize.define('patzicoin', {
     type: Sequelize.STRING,
     defaultValue: "0"
   },
-  /*lastRobDate: {
+  lastRobDate: {
     type: Sequelize.STRING,
     defaultValue: "0"
-  },*/
+  },
   inv: {
     type: Sequelize.STRING,
     defaultValue: '[]'
-  }/*,
+  },
   settings: {
     type: Sequelize.STRING,
-    defaultValue: '{"canDmOnBegCooldown":true,"hasDmOnBegCooldown"false,"canBossDM":false}'
-  }*/
+    defaultValue: JSON.stringify({"canDmOnBegCooldown":true,"hasDmOnBegCooldown":false,"canBossDM":false})
+  }
 })
 
 module.exports = { Tags, Patzicoin }
