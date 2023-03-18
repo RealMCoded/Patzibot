@@ -55,6 +55,7 @@ module.exports = {
 
 			const embed = new MessageEmbed()
 				.setTitle("Patzicoin store")
+				.setURL("https://realmcoded.github.io/PatziCoinStore/")
 				.setDescription(shop)
 				.setThumbnail("https://cdn.discordapp.com/attachments/808339703547428884/982120176571011072/iconmonstr-shop-3-240.png?size=2048")
 			interaction.reply({embeds: [embed]});
