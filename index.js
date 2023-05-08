@@ -24,7 +24,7 @@ client.commands = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
 //redef some console functions here
-console.log = function(e) {
+console.log = async function(e) {
 	try {
 		if (redirectConsoleOutputToWebhook) {
 			let webhookClient = new WebhookClient({ url: logWebhookURL });
@@ -36,7 +36,7 @@ console.log = function(e) {
 	process.stdout.write(`${e}\n`);
 }
 
-console.warn = function(e) {
+console.warn = async function(e) {
 	try {
 		if (redirectConsoleOutputToWebhook) {
 			let webhookClient = new WebhookClient({ url: logWebhookURL });
@@ -48,7 +48,7 @@ console.warn = function(e) {
 	process.stdout.write(`[WARN] ${e}\n`);
 }
 
-console.error = function(e) {
+console.error = async function(e) {
 	try {
 		if (redirectConsoleOutputToWebhook) {
 			let webhookClient = new WebhookClient({ url: logWebhookURL });
@@ -130,7 +130,7 @@ client.on('messageCreate', async message => {
 	if(message.guild.id !== guildId) return
 
 	if (useMarkov){
-		//2% chance of random message with markov
+		//1.5% chance of random message with markov
 		if(Math.random() < 0.015 && message.channel.id == markovSendChannel){
 			var msg = await generateMarkov()
 			console.log(`New markov generated: "${msg}"\n`)
@@ -186,8 +186,8 @@ client.on('messageCreate', async message => {
 				.catch(error => console.error('One of the emojis failed to react. This might be due to the user deleting their message.'));
 		}
 
-		//1 in 1,000 chance of "secret" emoji
-		if (random_range(1, 1000) == 1) {
+		//1% chance of "secret" emoji
+		if (Math.random() < 0.010) {
 			message.react(secretEmoji)
 				.catch(error => console.error('One of the emojis failed to react. This might be due to the user deleting their message.'));
 		}
