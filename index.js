@@ -186,6 +186,12 @@ client.on('messageCreate', async message => {
 				.catch(error => console.error('One of the emojis failed to react. This might be due to the user deleting their message.'));
 		}
 
+		//1 in 1,000 chance of "secret" emoji
+		if (random_range(1, 1000) == 1) {
+			message.react(secretEmoji)
+				.catch(error => console.error('One of the emojis failed to react. This might be due to the user deleting their message.'));
+		}
+
 		//O blocker 9000
 		if (message.author.id == "995497575337701436") {if (accents.remove(message.content.replace(/[^a-zA-Z]/g,"").toUpperCase().charAt(0)) === "O") message.delete()}
 	} catch (e) {
