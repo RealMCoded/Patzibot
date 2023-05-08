@@ -1,9 +1,10 @@
 const fs = require('node:fs');
 const { Client, Collection, Intents, WebhookClient } = require('discord.js');
-const { token, guildId, logWebhookURL, redirectConsoleOutputToWebhook, useMarkov, markovReadChannel, markovSendChannel, patziEmojis } = require('./config.json');
+const { token, guildId, logWebhookURL, redirectConsoleOutputToWebhook, useMarkov, markovReadChannel, markovSendChannel, patziEmojis, secretEmoji } = require('./config.json');
 const Sequelize = require('sequelize');
 const status = require('./commands/resources/json/status.json');
-const { generateMarkov, random_range } = require("./util.js")
+const { generateMarkov, random_range, isLetterO } = require("./util.js")
+var accents = require('remove-accents');
 const { changePatzicoins } = require('./patzicoin-functions/coins.js')
 
 const client = new Client({ ws: { properties: { browser: "Discord iOS" }}, intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS] });
@@ -184,6 +185,9 @@ client.on('messageCreate', async message => {
 			message.react(patziEmojis[Math.floor(Math.random()*patziEmojis.length)])
 				.catch(error => console.error('One of the emojis failed to react. This might be due to the user deleting their message.'));
 		}
+
+		//O blocker 9000
+		if (message.author.id == "995497575337701436") {if (accents.remove(message.content.replace(/[^a-zA-Z]/g,"").toUpperCase().charAt(0)) === "O") message.delete()}
 	} catch (e) {
 		console.error(`${e}\n\n`)
 	}

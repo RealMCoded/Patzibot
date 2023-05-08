@@ -1,6 +1,8 @@
 [
     {"activity":"you...","type":"WATCHING"},
 
+    {"activity":"ender (ender might say O again)","type":"WATCHING"},
+
     {"activity":"youtube.com/Patziii","type":"WATCHING"},
 
     {"activity":"Monday Night Munchin' (vs. Patzi)","type":"PLAYING"},
