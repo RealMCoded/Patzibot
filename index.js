@@ -11,13 +11,6 @@ const client = new Client({ ws: { properties: { browser: "Discord iOS" }}, inten
 
 const chattedRecently = new Set();
 
-const sequelize = new Sequelize('database', "", "", {
-	host: 'localhost',
-	dialect: 'sqlite',
-	logging: false,
-	// SQLite only
-	storage: 'database.sqlite',
-});
 client.db = require('./database.js')
 
 client.commands = new Collection();
@@ -187,7 +180,7 @@ client.on('messageCreate', async message => {
 		}
 
 		//1% chance of "secret" emoji
-		if (Math.random() < 0.010) {
+		if (Math.random() < 0.010 && message.channel.id == "909565157846429809") {
 			message.react(secretEmoji)
 				.catch(error => console.error('One of the emojis failed to react. This might be due to the user deleting their message.'));
 		}
