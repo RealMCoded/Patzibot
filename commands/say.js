@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { powerList } = require('../config.json');
+const { formatUsername } = require("../util.js")
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -25,7 +26,7 @@ module.exports = {
 			} else {
 				await interaction.channel.send({ content: message, reply: { messageReference: replyID }});
 			}
-			await console.log(`${interaction.user.tag} made the bot say "${message}"\n`)
+			await console.log(`${formatUsername(interaction.user)} made the bot say "${message}"\n`)
 			await interaction.reply({ content: "ok i said the thing u wanted me to say :)", ephemeral: true });
 		} else {
 			await interaction.reply({ content: "❌ **You cannot use this command!**", ephemeral: true });

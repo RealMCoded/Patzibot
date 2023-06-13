@@ -2,6 +2,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const voiceDiscord = require('@discordjs/voice');
 const path = require("path")
 const wait = require('node:timers/promises').setTimeout;
+const { formatUsername } = require("../util.js")
 
 module.exports = {
 	data: new SlashCommandBuilder()

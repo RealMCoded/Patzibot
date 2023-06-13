@@ -3,6 +3,7 @@ const { codeBlock } = require('@discordjs/builders');
 const { getOccurrence } = require('../util.js')
 const store = require(`../commands/resources/json/items.json`)
 const { bankMaxBal } = require('../config.json');
+const { formatUsername } = require("../util.js")
 
 module.exports = {
     async userstats(usr, tag, interaction){
@@ -39,7 +40,7 @@ module.exports = {
 
 			let verifiedChecks = getOccurrence(inv, 10)
 
-			let titleString = `PatziCoin Stats for ${usrnm.tag} ${('<:useless_tick:1042895519552389191> '.repeat(verifiedChecks))}`
+			let titleString = `PatziCoin Stats for ${formatUsername(usrnm)} ${('<:useless_tick:1042895519552389191> '.repeat(verifiedChecks))}`
 
 			const embed = new MessageEmbed()
 				.setTitle(titleString.substring(0, 255))
@@ -53,9 +54,9 @@ module.exports = {
 			return interaction.reply({embeds: [embed]});
 		} else {
 			const embed = new MessageEmbed()
-				.setTitle(`PatziCoin Stats for ${usrnm.tag}`)
+				.setTitle(`PatziCoin Stats for ${formatUsername(usrnm)}`)
 				.setColor("#0099ff")
-				.setDescription(`***No stats found for ${usrnm.tag} :(***`)
+				.setDescription(`***No stats found for ${formatUsername(usrnm)} :(***`)
 				.setTimestamp()
 
 			return interaction.reply({embeds: [embed]});

@@ -1,5 +1,6 @@
 const { MessageEmbed } = require('discord.js');
 const wait = require('node:timers/promises').setTimeout;
+const { formatUsername } = require("../util.js")
 
 module.exports = {
     async lb(page, db, interaction){
@@ -21,7 +22,7 @@ module.exports = {
 				var gli = i
 				let user = await interaction.client.users.fetch(list[i].userID);
 				if(user){
-					var le = le + "**#" + ((i+1)+(page-10)).toString() + "** | `" + user.tag + "`: **" + (list[i].coins + list[i].bank).toString() + "** 🪙 "+ (list[i].userID == interaction.user.id ? ' < __You__' : '') + "\n"
+					var le = le + "**#" + ((i+1)+(page-10)).toString() + "** | `" + formatUsername(user) + "`: **" + (list[i].coins + list[i].bank).toString() + "** 🪙 "+ (list[i].userID == interaction.user.id ? ' < __You__' : '') + "\n"
 				} else {
 					var le = le + "**#" + (i+1).toString() + "** | `Unknown#" + list[i].userID + "`: **" + (list[i].coins + list[i].bank).toString() + "** 🪙"+ (list[i].userID == interaction.user.id ? ' < __You__' : '') + "\n"
 				}

@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const cleverbot = require("cleverbot-free");
 const wait = require('node:timers/promises').setTimeout;
+const { formatUsername } = require("../util.js")
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -20,8 +21,7 @@ module.exports = {
 		} else {
 			await interaction.deferReply();
 			await wait(1000);
-			await cleverbot(question).then(response => (interaction.editReply(`**${interaction.user.tag}**: "${question}"\n\n**PatziBot**: "${response}"`)));
-			//await interaction.editReply(`**${interaction.user.tag}**: "${interaction.options.getString('question')}"\n\n**PatziBot**: "${responces[Math.floor(Math.random() * responces.length)]}"`);
+			await cleverbot(question).then(response => (interaction.editReply(`**${formatUsername(interaction.user)}**: "${question}"\n\n**PatziBot**: "${response}"`)));
 		}
 	},
 };

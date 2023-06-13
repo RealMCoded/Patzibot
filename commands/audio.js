@@ -4,6 +4,7 @@ const { AsyncLocalStorage } = require('async_hooks');
 const path = require("path")
 const wait = require('node:timers/promises').setTimeout;
 const { powerList } = require('../config.json');
+const { formatUsername } = require("../util.js")
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -43,7 +44,7 @@ module.exports = {
                 connection.subscribe(player);
 
                 await interaction.reply({ content: "✅ **Played!**", ephemeral: true })
-                await console.log(`${interaction.user.tag} requested that i play "${interaction.options.getString('sound')}"\n`)
+                await console.log(`${formatUsername(interaction.user)} requested that i play "${interaction.options.getString('sound')}"\n`)
 
                 player.on(voiceDiscord.AudioPlayerStatus.Idle, () => {
                     connection.destroy();
@@ -54,10 +55,6 @@ module.exports = {
                     connection.destroy();
                 });
             }
-
-            /*if (Interaction.guild.id == guildId){
-                logChannel.send(`\`\`\`diff\n- Sound requested: "${interaction.options.getString('sound')}"\n- was requested by ${interaction.member.tag}.\`\`\``)
-            }*/
         } else {
             await interaction.reply({ content: "❌ **You cannot use this command!**", ephemeral: true });
         }

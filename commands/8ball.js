@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const wait = require('node:timers/promises').setTimeout;
+const { formatUsername } = require("../util.js")
 
 const responses = [
 	"It is certain",
@@ -35,6 +36,6 @@ module.exports = {
 	async execute(interaction) {
 		await interaction.reply("🎱 **Shaking the 8-Ball** <a:typing:944765274475864094>")
 		await wait(2000);
-		await interaction.editReply(`**${interaction.user.tag}**: "${interaction.options.getString('question')}"\n\n**The 8-Ball Says**: "${responses[Math.floor(Math.random() * responses.length)]}"`);
+		await interaction.editReply(`**${formatUsername(interaction.user)}**: "${interaction.options.getString('question')}"\n\n**The 8-Ball Says**: "${responses[Math.floor(Math.random() * responses.length)]}"`);
 	},
 };

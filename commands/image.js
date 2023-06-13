@@ -6,6 +6,7 @@ const Jimp = require("jimp")
 const fs = require("fs")
 const font = path.join(__dirname, `/resources/font/Asimov.fnt`)
 const fontmc = path.join(__dirname, `/resources/font/minecraft.fnt`)
+const { formatUsername } = require("../util.js")
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -69,7 +70,7 @@ module.exports = {
 			});
 			await wait(500) //wait juuuuuust incase you know lol
 
-			interaction.reply({ content:`${interaction.options.getUser('user').tag} has been sent to the Box of shame!`, files: [new MessageAttachment(fs.readFileSync(path.join(__dirname, `/resources/_TMP/_SHAME.png`)))] });
+			interaction.reply({ content:`${formatUsername(interaction.options.getUser('user'))} has been sent to the Box of shame!`, files: [new MessageAttachment(fs.readFileSync(path.join(__dirname, `/resources/_TMP/_SHAME.png`)))] });
 			await wait(500)
 			fs.unlinkSync(path.join(__dirname, `/resources/_TMP/_SHAME.png`))
 
