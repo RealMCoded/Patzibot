@@ -53,6 +53,6 @@ module.exports = {
     },
 
     formatUsername(user) {
-        return user.discriminator == "0" ? `\@${user.username}` : user.tag
+        return user.discriminator == "0" ? `${user.username}` : user.tag
     }
 }
