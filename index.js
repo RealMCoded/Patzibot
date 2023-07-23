@@ -117,83 +117,83 @@ client.on('interactionCreate', async interaction => {
 
 //Message "commands"
 client.on('messageCreate', async message => {
+	if (message.channel.id != "922315677803638804") {
+		if (message.author.bot) return
 
-	if (message.author.bot) return
+		if(message.guild.id !== guildId) return
 
-	if(message.guild.id !== guildId) return
+		if (useMarkov){
+			//1.5% chance of random message with markov
+			if(Math.random() < 0.015 && message.channel.id == markovSendChannel){
+				var msg = await generateMarkov()
+				console.log(`New markov generated: "${msg}"\n`)
+				client.channels.cache.get(markovSendChannel).send(msg);
+			}
 
-	if (useMarkov){
-		//1.5% chance of random message with markov
-		if(Math.random() < 0.015 && message.channel.id == markovSendChannel){
-			var msg = await generateMarkov()
-			console.log(`New markov generated: "${msg}"\n`)
-			client.channels.cache.get(markovSendChannel).send(msg);
-		}
+			//log message to markov.txt
+			if(markovReadChannel.includes(message.channel.id)) {
+				let msg = message.content
+				if (msg.includes("@")) return;
+				//if (msg.includes("<@!") || msg.includes("<@")) return;
+				//remove any links
+				msg = msg.replace(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g, '')
 
-		//log message to markov.txt
-		if(markovReadChannel.includes(message.channel.id)) {
-			let msg = message.content
-			if (msg.includes("@")) return;
-			//if (msg.includes("<@!") || msg.includes("<@")) return;
-			//remove any links
-			msg = msg.replace(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g, '')
+				if (msg.length == 0) return;
+				
+				const allMessage = fs.readFileSync('markov.txt', 'utf8');
 
-			if (msg.length == 0) return;
-			
-			const allMessage = fs.readFileSync('markov.txt', 'utf8');
-
-			//write message to file
-			if (allMessage.includes(msg)) {
-				return;
-			} else {
-				fs.appendFileSync('./markov.txt', `${msg}\n`)
+				//write message to file
+				if (allMessage.includes(msg)) {
+					return;
+				} else {
+					fs.appendFileSync('./markov.txt', `${msg}\n`)
+				}
 			}
 		}
+
+		try {
+			//gib parti coin for talkin :)
+			if(!chattedRecently.has(message.author.id)){
+				changePatzicoins(client.db.Patzicoin, message.author.id, (random_range(1, 5)))
+
+				chattedRecently.add(message.author.id);
+				setTimeout(() => {
+					// Removes the user from the set after 60 seconds
+					chattedRecently.delete(message.author.id);
+					}, 60000);
+			}
+
+			//Special message events
+			let lookMessage = message.content.toUpperCase()
+
+			if (lookMessage.split(" ").includes("RATIO")) {
+				message.react('💬')
+					.then(() => message.react('🔁'))
+					.then(() => message.react('❤️'))
+					.catch(error => console.error('One of the emojis failed to react. This might be due to the user deleting their message.'));
+			}
+
+			// if a message contains P, A, T, Z, and I react with this.
+			if (lookMessage.includes("P") && lookMessage.includes("A") && lookMessage.includes("T") && lookMessage.includes("Z") && lookMessage.includes("I") && !lookMessage.includes("REACT")) {
+				message.react(patziEmojis[Math.floor(Math.random()*patziEmojis.length)])
+					.catch(error => console.error('One of the emojis failed to react. This might be due to the user deleting their message.'));
+			}
+
+			//1% chance of "secret" emoji
+			if (Math.random() < 0.010 && message.channel.id == "909565157846429809") {
+				message.react(secretEmoji)
+					.catch(error => console.error('One of the emojis failed to react. This might be due to the user deleting their message.'));
+			}
+
+			//O blocker 9000
+			if (message.author.id == "995497575337701436") {if (accents.remove(message.content.replace(/[^a-zA-Z]/g,"").toUpperCase().charAt(0)) === "O") {
+				console.log(`Ender said "O"!\n\n"${message.content}"`)
+				message.delete()
+			}}
+		} catch (e) {
+			console.error(`${e}\n\n`)
+		}
 	}
-
-	try {
-		//gib parti coin for talkin :)
-		if(!chattedRecently.has(message.author.id)){
-			changePatzicoins(client.db.Patzicoin, message.author.id, (random_range(1, 5)))
-
-			chattedRecently.add(message.author.id);
-            setTimeout(() => {
-                // Removes the user from the set after 60 seconds
-                chattedRecently.delete(message.author.id);
-                }, 60000);
-		}
-
-		//Special message events
-		let lookMessage = message.content.toUpperCase()
-
-		if (lookMessage.split(" ").includes("RATIO")) {
-			message.react('💬')
-				.then(() => message.react('🔁'))
-				.then(() => message.react('❤️'))
-				.catch(error => console.error('One of the emojis failed to react. This might be due to the user deleting their message.'));
-		}
-
-		// if a message contains P, A, T, Z, and I react with this.
-		if (lookMessage.includes("P") && lookMessage.includes("A") && lookMessage.includes("T") && lookMessage.includes("Z") && lookMessage.includes("I") && !lookMessage.includes("REACT")) {
-			message.react(patziEmojis[Math.floor(Math.random()*patziEmojis.length)])
-				.catch(error => console.error('One of the emojis failed to react. This might be due to the user deleting their message.'));
-		}
-
-		//1% chance of "secret" emoji
-		if (Math.random() < 0.010 && message.channel.id == "909565157846429809") {
-			message.react(secretEmoji)
-				.catch(error => console.error('One of the emojis failed to react. This might be due to the user deleting their message.'));
-		}
-
-		//O blocker 9000
-		if (message.author.id == "995497575337701436") {if (accents.remove(message.content.replace(/[^a-zA-Z]/g,"").toUpperCase().charAt(0)) === "O") {
-			console.log(`Ender said "O"!\n\n"${message.content}"`)
-			message.delete()
-		}}
-	} catch (e) {
-		console.error(`${e}\n\n`)
-	}
-
 });
 
 process.on('uncaughtException', (error, origin) => {
