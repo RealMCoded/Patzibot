@@ -186,10 +186,12 @@ client.on('messageCreate', async message => {
 			}
 
 			//O blocker 9000
+			/*
 			if (message.author.id == "995497575337701436") {if (accents.remove(message.content.replace(/[^a-zA-Z]/g,"").toUpperCase().charAt(0)) === "O") {
 				console.log(`Ender said "O"!\n\n"${message.content}"`)
 				message.delete()
 			}}
+			*/
 		} catch (e) {
 			console.error(`${e}\n\n`)
 		}
