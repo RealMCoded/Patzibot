@@ -1,13 +1,13 @@
 const fs = require('node:fs');
-const { Client, Collection, Intents, WebhookClient } = require('discord.js');
-const { token, guildId, logWebhookURL, redirectConsoleOutputToWebhook, useMarkov, markovReadChannel, markovSendChannel, patziEmojis, secretEmoji } = require('./config.json');
+const { Client, Collection, Intents, WebhookClient, MessageEmbed } = require('discord.js');
+const { token, guildId, logWebhookURL, redirectConsoleOutputToWebhook, useMarkov, markovReadChannel, markovSendChannel, patziEmojis, secretEmoji, welcomeHook } = require('./config.json');
 const Sequelize = require('sequelize');
 const status = require('./commands/resources/json/status.json');
 const { generateMarkov, random_range, isLetterO } = require("./util.js")
 var accents = require('remove-accents');
 const { changePatzicoins } = require('./patzicoin-functions/coins.js')
 
-const client = new Client({ ws: { properties: { browser: "Discord iOS" }}, intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS] });
+const client = new Client({ ws: { properties: { browser: "Discord iOS" }}, intents: [Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS] });
 
 const chattedRecently = new Set();
 
@@ -114,6 +114,36 @@ client.on('interactionCreate', async interaction => {
 	}
 });
 
+//Member join & Leave
+client.on("guildMemberAdd", async member => {
+	const wh = new WebhookClient({ url: welcomeHook })
+
+	const embed = new MessageEmbed()
+		.setTitle(`${member.user.username} has joined ${member.guild.name}!`)
+		.setDescription(`We now have **${member.guild.memberCount}** members.`)
+		.setColor(0x00FFFF);
+
+	wh.send({
+		username: member.guild.name,
+		avatarURL: `https://cdn.discordapp.com/icons/909565157116608573/${member.guild.icon}.webp`,
+		embeds: [embed]
+	})
+})
+
+client.on("guildMemberRemove", async member => {
+	const wh = new WebhookClient({ url: welcomeHook })
+
+	const embed = new MessageEmbed()
+		.setTitle(`${member.user.username} has left ${member.guild.name}!`)
+		.setDescription(`We now have **${member.guild.memberCount}** members.`)
+		.setColor(0x00FFFF);
+
+	wh.send({
+		username: member.guild.name,
+		avatarURL: `https://cdn.discordapp.com/icons/909565157116608573/${member.guild.icon}.webp`,
+		embeds: [embed]
+	})
+})
 
 //Message "commands"
 client.on('messageCreate', async message => {
