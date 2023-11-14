@@ -89,11 +89,11 @@ module.exports = {
         if (subcommand === "buy") {
             const item = interaction.options.getInteger('item')-1;
 
-            if(item > shop.length || item < 1){
+            if(item > shop.length || item < -1){
 				return interaction.reply({content:`⚠️ **Invalid item!**`,ephemeral: true});
 			}
 
-			if(shop[item-1].forSale == false){
+			if(shop[item].forSale == false){
 				return interaction.reply({content:`⚠️ **This item is not currently for sale!**`,ephemeral: true});
 			}
 

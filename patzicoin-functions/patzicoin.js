@@ -2,6 +2,7 @@
     These functions are commonly used in all areas of the bot.
 */
 const db = require('../database.js').Patzicoin
+const shop = require("../resources/json/items.json")
 
 /**
  * 
@@ -53,9 +54,9 @@ async function grantItem(userId, item){
     }
 
     var inv = dbusr.get("inv");
-    inv = JSON.parse(inve);
+    inv = JSON.parse(inv);
 
-    if(inv.includes(item) && !shp[item].canOwnMultiple){
+    if(inv.includes(item) && !shop[item].canOwnMultiple){
         return {"error":"You can only own one of this item!"};
     }
 
