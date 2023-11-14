@@ -79,7 +79,7 @@ module.exports = {
                     { name: 'Can own multiple?', value: `${shopItem.canOwnMultiple}`, inline: true },
                     { name: 'Resellable?', value: `${shopItem.canResell}`, inline: true },
                     { name: 'Tradable', value: `${shopItem.canTrade}`, inline: true },
-                    { name: 'Unlisted?', value: `${shopItem.showInStore}`, inline: true },
+                    { name: 'Unlisted?', value: `${!shopItem.showInStore}`, inline: true },
                 )
 				//.setDescription(`**Name:** ${shp[item-1].item}\n**Price:** ${shp[item-1].price} Patzicoins\n**Description:** ${shp[item-1].desc}\n**For sale:** ${shp[item-1].forSale}\n**Can own Multiple:** ${shp[item-1].canOwnMultiple}\n**Can resell?:** ${shp[item-1].canResell}\n**Can be traded?:** ${shp[item-1].canTrade}`)
 				.setThumbnail(shopItem.iconURL)
