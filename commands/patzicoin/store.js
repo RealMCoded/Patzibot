@@ -88,6 +88,7 @@ module.exports = {
 
         if (subcommand === "buy") {
             const item = interaction.options.getInteger('item')-1;
+            const userCoins = await patzicoin.getPatzicoins(interaction.user.id)
 
             if(item > shop.length || item < -1){
 				return interaction.reply({content:`⚠️ **Invalid item!**`,ephemeral: true});
@@ -95,6 +96,10 @@ module.exports = {
 
 			if(shop[item].forSale == false){
 				return interaction.reply({content:`⚠️ **This item is not currently for sale!**`,ephemeral: true});
+			}
+
+            if(shop[item].price > userCoins){
+				return interaction.reply({content:`❌ **You don't have enough Patzicoins!**\nYou need **${userCoins - shop[item].price}** more!`,ephemeral: true});
 			}
 
             const itemGrant = patzicoin.grantItem(interaction.user.id, item)
