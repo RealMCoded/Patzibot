@@ -25,7 +25,7 @@ module.exports = {
 			message.client.lastmessages.push(message.content)
 
 			//Sending
-			if(Math.random() < markov.probability && message.channel.id == markov.sendChannel){
+			if(Math.random() < markov.probability && message.channel.id == markov.sendChannel && message.client.lastmessages.length > markov.minTokensToGenerate){
 				try {
 					const markov = new Markov();
 		

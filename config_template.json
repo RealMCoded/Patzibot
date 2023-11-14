@@ -13,7 +13,8 @@
         "enabled": true,
         "sendChannel": "926578100161097771",
         "probability": 1,
-        "contextLength": 250
+        "contextLength": 250,
+        "minTokensToGenerate": 150
     },
     "ignoreChannels": [],
     "specialReaction": {
