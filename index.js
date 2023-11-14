@@ -6,7 +6,7 @@ const { token } = require('./config.json');
 
 // Create a new client instance
 const client = new Client({ 
-	intents: [ GatewayIntentBits.GuildMembers, GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMessageReactions],
+	intents: [ GatewayIntentBits.GuildMembers, GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMessageReactions, GatewayIntentBits.MessageContent],
 	partials: [Partials.Message, Partials.Channel, Partials.Reaction] 
 });
 
