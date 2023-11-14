@@ -1,239 +1,52 @@
+// Require the necessary discord.js classes
 const fs = require('node:fs');
-const { Client, Collection, Intents, WebhookClient, MessageEmbed } = require('discord.js');
-const { token, guildId, logWebhookURL, redirectConsoleOutputToWebhook, useMarkov, markovReadChannel, markovSendChannel, patziEmojis, secretEmoji, welcomeHook } = require('./config.json');
-const Sequelize = require('sequelize');
-const status = require('./commands/resources/json/status.json');
-const { generateMarkov, random_range, isLetterO } = require("./util.js")
-var accents = require('remove-accents');
-const { changePatzicoins } = require('./patzicoin-functions/coins.js')
+const path = require('node:path');
+const { Client, Collection, GatewayIntentBits, Partials } = require('discord.js');
+const { token } = require('./config.json');
 
-const client = new Client({ ws: { properties: { browser: "Discord iOS" }}, intents: [Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS] });
-
-const chattedRecently = new Set();
-
-client.db = require('./database.js')
+// Create a new client instance
+const client = new Client({ 
+	intents: [ GatewayIntentBits.GuildMembers, GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMessageReactions, GatewayIntentBits.MessageContent],
+	partials: [Partials.Message, Partials.Channel, Partials.Reaction] 
+});
 
 client.commands = new Collection();
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+const foldersPath = path.join(__dirname, 'commands');
+const commandFolders = fs.readdirSync(foldersPath);
 
-//redef some console functions here
-console.log = async function(e) {
-	try {
-		if (redirectConsoleOutputToWebhook) {
-			let webhookClient = new WebhookClient({ url: logWebhookURL });
-			webhookClient.send(`\`\`\`\n${e}\n\`\`\``);
+//Start database connection
+client.db = require('./database.js')
+
+client.lastmessages = []
+client.chattedRecently = new Set()
+
+for (const folder of commandFolders) {
+	const commandsPath = path.join(foldersPath, folder);
+	const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+	for (const file of commandFiles) {
+		const filePath = path.join(commandsPath, file);
+		const command = require(filePath);
+		// Set a new item in the Collection with the key as the command name and the value as the exported module
+		if ('data' in command && 'execute' in command) {
+			client.commands.set(command.data.name, command);
+		} else {
+			console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
 		}
-	} catch(e) {
-		process.stdout.write(`Unable to redirect output: ${e}\n`);
 	}
-	process.stdout.write(`${e}\n`);
 }
 
-console.warn = async function(e) {
-	try {
-		if (redirectConsoleOutputToWebhook) {
-			let webhookClient = new WebhookClient({ url: logWebhookURL });
-			webhookClient.send(`\`\`\`\n[WARN] ${e}\n\`\`\``);
-		}
-	} catch(e) {
-		process.stdout.write(`Unable to redirect output: ${e}\n`);
-	}
-	process.stdout.write(`[WARN] ${e}\n`);
-}
+const eventsPath = path.join(__dirname, 'events');
+const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
 
-console.error = async function(e) {
-	try {
-		if (redirectConsoleOutputToWebhook) {
-			let webhookClient = new WebhookClient({ url: logWebhookURL });
-			webhookClient.send(`\`\`\`\n[ERROR] ${e}\n\`\`\``);
-		}
-	} catch(e) {
-		process.stdout.write(`Unable to redirect output: ${e}\n`);
-	}
-	process.stdout.write(`[ERROR] ${e}\n`);
-}
-
-function changeStatus(){
-	// generate random number between 1 and list length.
-	const randomIndex = Math.floor(Math.random() * (status.length - 1) + 1);
-
-	if (status[randomIndex].type == "STREAMING"){
-		client.user.setPresence({
-			activities: [{
-				name: status[randomIndex].activity, 
-				type: status[randomIndex].type,
-				url: "https://www.youtube.com/watch?v=GQ6rr1otWpg",
-			}],
-				//status: "idle"
-		});
+for (const file of eventFiles) {
+	const filePath = path.join(eventsPath, file);
+	const event = require(filePath);
+	if (event.once) {
+		client.once(event.name, (...args) => event.execute(...args));
 	} else {
-		client.user.setPresence({
-			activities: [{
-				name: status[randomIndex].activity, 
-				type: status[randomIndex].type,
-			}],
-				//status: "idle"
-		});
+		client.on(event.name, (...args) => event.execute(...args));
 	}
 }
 
-for (const file of commandFiles) {
-	const command = require(`./commands/${file}`);
-	client.commands.set(command.data.name, command);
-}
-
-client.once('ready', () => {
-	client.db.Patzicoin.sync();
-	
-	console.log(`✅ Signed in as ${client.user.tag}! \n`);
-
-	changeStatus()
-});
-
-client.on("ready", () => {
-	//RUNS EVERY 90 SECONDS
-	setInterval(() => {
-		changeStatus()
-	}, 90000);
-
-});
-
-//All slash commands. check "commands" folder
-client.on('interactionCreate', async interaction => {
-	//if (!interaction.isCommand()) return;
-
-	const command = client.commands.get(interaction.commandName);
-
-	if (!command) return;
-
-	try {
-		await command.execute(interaction);
-	} catch (error) {
-		console.log(`${error}\n\n`)
-		await interaction.reply({content: `⚠️Uh Oh! If you're reading this then something bad happened! We've logged the error and will investigate it as soon as possible!\n\n\`\`\`js\n${error}\`\`\``, ephemeral: true})
-	}
-});
-
-//Member join & Leave
-client.on("guildMemberAdd", async member => {
-	const wh = new WebhookClient({ url: welcomeHook })
-
-	const embed = new MessageEmbed()
-		.setTitle(`${member.user.username} has joined ${member.guild.name}!`)
-		.setDescription(`We now have **${member.guild.memberCount}** members.`)
-		.setColor(0x00FFFF);
-
-	wh.send({
-		username: member.guild.name,
-		avatarURL: `https://cdn.discordapp.com/icons/909565157116608573/${member.guild.icon}.webp`,
-		embeds: [embed]
-	})
-})
-
-client.on("guildMemberRemove", async member => {
-	const wh = new WebhookClient({ url: welcomeHook })
-
-	const embed = new MessageEmbed()
-		.setTitle(`${member.user.username} has left ${member.guild.name}!`)
-		.setDescription(`We now have **${member.guild.memberCount}** members.`)
-		.setColor(0x00FFFF);
-
-	wh.send({
-		username: member.guild.name,
-		avatarURL: `https://cdn.discordapp.com/icons/909565157116608573/${member.guild.icon}.webp`,
-		embeds: [embed]
-	})
-})
-
-//Message "commands"
-client.on('messageCreate', async message => {
-	if (message.channel.id != "922315677803638804") {
-		if (message.author.bot) return
-
-		if(message.guild.id !== guildId) return
-
-		if (useMarkov){
-			//1.5% chance of random message with markov
-			if(Math.random() < 0.015 && message.channel.id == markovSendChannel){
-				var msg = await generateMarkov()
-				console.log(`New markov generated: "${msg}"\n`)
-				client.channels.cache.get(markovSendChannel).send(msg);
-			}
-
-			//log message to markov.txt
-			if(markovReadChannel.includes(message.channel.id)) {
-				let msg = message.content
-				if (msg.includes("@")) return;
-				//if (msg.includes("<@!") || msg.includes("<@")) return;
-				//remove any links
-				msg = msg.replace(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g, '')
-
-				if (msg.length == 0) return;
-				
-				const allMessage = fs.readFileSync('markov.txt', 'utf8');
-
-				//write message to file
-				if (allMessage.includes(msg)) {
-					return;
-				} else {
-					fs.appendFileSync('./markov.txt', `${msg}\n`)
-				}
-			}
-		}
-
-		try {
-			//gib parti coin for talkin :)
-			if(!chattedRecently.has(message.author.id)){
-				changePatzicoins(client.db.Patzicoin, message.author.id, (random_range(1, 5)))
-
-				chattedRecently.add(message.author.id);
-				setTimeout(() => {
-					// Removes the user from the set after 60 seconds
-					chattedRecently.delete(message.author.id);
-					}, 60000);
-			}
-
-			//Special message events
-			let lookMessage = message.content.toUpperCase()
-
-			if (lookMessage.split(" ").includes("RATIO")) {
-				message.react('💬')
-					.then(() => message.react('🔁'))
-					.then(() => message.react('❤️'))
-					.catch(error => console.error('One of the emojis failed to react. This might be due to the user deleting their message.'));
-			}
-
-			// if a message contains P, A, T, Z, and I react with this.
-			if (lookMessage.includes("P") && lookMessage.includes("A") && lookMessage.includes("T") && lookMessage.includes("Z") && lookMessage.includes("I") && !lookMessage.includes("REACT")) {
-				message.react(patziEmojis[Math.floor(Math.random()*patziEmojis.length)])
-					.catch(error => console.error('One of the emojis failed to react. This might be due to the user deleting their message.'));
-			}
-
-			//1% chance of "secret" emoji
-			if (Math.random() < 0.010 && message.channel.id == "909565157846429809") {
-				message.react(secretEmoji)
-					.catch(error => console.error('One of the emojis failed to react. This might be due to the user deleting their message.'));
-			}
-
-			//O blocker 9000
-			/*
-			if (message.author.id == "995497575337701436") {if (accents.remove(message.content.replace(/[^a-zA-Z]/g,"").toUpperCase().charAt(0)) === "O") {
-				console.log(`Ender said "O"!\n\n"${message.content}"`)
-				message.delete()
-			}}
-			*/
-		} catch (e) {
-			console.error(`${e}\n\n`)
-		}
-	}
-});
-
-process.on('uncaughtException', (error, origin) => {
-	console.log(`❌ Uncaught exception\n-----\n${error}\n-----\nException origin\n${origin}`)
-})
-
-process.on('unhandledRejection', (reason, promise) => {
-	console.log(`❌ Unhandled Rejection\n-----\n${promise}\n-----\nReason\n${reason}`)
-})
-
+// Log in to Discord with your client's token
 client.login(token);

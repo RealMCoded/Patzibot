@@ -1,0 +1,32 @@
+{
+    "1": {
+        "action_name": "Work at McDonalds",
+        "yeild_min": 25,
+        "yeild_max": 30,
+        "fail_min": 0,
+        "fail_max": 0,
+        "fail_percent": 0.10,
+        "fail_message": "You got too busy playing games on your phone and the burgers burnt.\nYou earned nothing.",
+        "success_message": "Cooked to perfection!\nYou earned **{a}** Patzicoins!"
+    },
+    "2": {
+        "action_name": "Work at a gas station",
+        "yeild_min": 30,
+        "yeild_max": 60,
+        "fail_min": 2,
+        "fail_max": 10,
+        "fail_percent": 0.25,
+        "fail_message": "While you were taking a bathroom break, someone broke in and stole **{a}** Patzicoins.\nSomehow, you aren't fired.",
+        "success_message": "You don't get your paycheck until \"later\", but you did find **{a}** on the floor."
+    },
+    "3": {
+        "action_name": "Wotk at PatziMart",
+        "yeild_min": 60,
+        "yeild_max": 100,
+        "fail_min": 10,
+        "fail_max": 25,
+        "fail_percent": 0.25,
+        "fail_message": "While cleaning the floor, you slipped and fell on a puddle.\n**{a}** Patzicoins fell out of your pocket and went into a nearby drain.",
+        "success_message": "Unlike your last job, you get your paycheck at the end of each day.\nFor your hard work, you got **{a}** Patzicoins."
+    }
+}

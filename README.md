@@ -1,7 +1,3 @@
-# This version of PatziBot is deprecated. Please use the version of the master branch.
-
-Changes in this commit were not tested publicly and may not work.
-
 # PatziBot
 
 The official Discord Bot used in the [Patzi's World Discord server](https://discord.gg/pBFQPJQ5xd).
@@ -27,13 +23,10 @@ If you plan to use the Markov feature in your instance, make a file called `mark
 
 ## Registering commands
 
-Included is an npm script to register commands to 3 locations: `global`, `patzi`, and `test`.
-
-- `global` registers commands as global commands.
-
-- `patzi` registers commands to whatever server is in `guildId` in your config.
-
-- `test` registers commands to whatever server is in `testGuildId` in your config.
+Running the following command will push your commands to the server defined in `guildId`
+```
+npm run deploy
+```
 
 ## config.json
 
@@ -47,46 +40,34 @@ If for some reason you want the template that isn't in `config.template`, here y
 
 ```json
 {
-    "hostID":"",
-    "powerList":["user", "ids", "here"],
-    "clientId":"",
-    "testGuildId":"",
-    "guildId":"",
-    "token":"",
-    "suggestionHook":"",
-    "logWebhookURL":"",
-    "redirectConsoleOutputToWebhook":false,
-    "bankMaxBal":2006,
-    "useMarkov": false,
-    "markovSendChannel": "",
-    "markovReadChannel": ["channel", "ids", "here"],
-    "patziEmojis": [
-        "<:genocide:931832849169006652>",
-        "<:genocide:931832849169006652>",
-        "<:genocide:931832849169006652>",
-        "<:noswearwords:909955005778366535>",
-        "<:patzi_blunt:909580655510306846>",
-        "<:raise_eyebrow:909593930021085234>"
-    ]
+    "hostID":"Your Discord ID",
+    "powerList":["Your Discord ID", "Other peoples ID that you trust"],
+    "clientId":"Bot Client ID",
+    "guildId":"Active Guild ID",
+    "token":"TOKEN HERE",
+    "suggestionHook":"Webhook Link Here",
+    "logWebhookURL":"Webhook Link Here",
+    "joinleaveHook": "Webhook Link Here",
+    "bankMaxBal":10000,
+    "transferTax": 0.13,
+    "markov": {
+        "enabled": true,
+        "sendChannel": "Channels where markovs send",
+        "probability": 1,
+        "contextLength": 250
+    },
+    "ignoreChannels": [],
+    "specialReaction": {
+        "triggerChars": ["P", "A", "T", "Z", "I"],
+        "emojis": [
+            "<:genocide:931832849169006652>",
+            "<:noswearwords:909955005778366535>",
+            "<:patzi_blunt:909580655510306846>",
+            "<:raise_eyebrow:909593930021085234>"
+        ]
+    }
 }
 ```
-
-| Key                         | Function                                                                                                                           | type   | Example                                                                                                          |
-|-----------------------------|------------------------------------------------------------------------------------------------------------------------------------|--------|------------------------------------------------------------------------------------------------------------------|
-| hostID                      | The User ID of the instance host.                                                                                                  | string | 284804878604435476                                                                                               |
-| powerList                   | An array of users who can use some more powerful commands.  **Note: You must also add yourself to this list!**                     | array  | ["1234567890", "0987654321", "9475867485"]                                                                       |
-| clientId                    | The User ID of the bot.                                                                                                            | string | 876729461188464660                                                                                               |
-| testGuildId                 | The ID of your testing server.  Can be ignored if you don't plan to use a test server.  Can be ignored if you use global commands. | string | 1040451939969798174                                                                                              |
-| guildId                     | The ID of the main server your bot will be in.  Can be ignored if you use global commands.                                         | string | 909565157116608573                                                                                               |
-| token                       | The token of your bot.                                                                                                             | string | 8t3gW-QPPA-spIreEfBcS9zvmLyCsnH9iNcwyLNxA5ZDxod3l50yqQfUtNIDKnl5pwgO                                             |
-| suggestionHook              | The webhook URL for the suggestions channel.  If left blank, the suggestions feature will be disabled.                             | string | https://discord.com/api/webhooks/1234567890/8t3gW-QPPA-spIreEfBcS9zvmLyCsnH9iNcwyLNxA5ZDxod3l50yqQfUtNIDKnl5pwgO |
-| logWebhookURL               | The webhook URL for the console output to go to.  To disable, set `redirectConsoleLogToWebhook` to `false`.                        | string | https://discord.com/api/webhooks/1234567890/8t3gW-QPPA-spIreEfBcS9zvmLyCsnH9iNcwyLNxA5ZDxod3l50yqQfUtNIDKnl5pwgO |
-| redirectConsoleLogToWebhook | Enable/disable console output going to the `logWebhookURL`.                                                                        | bool   | true                                                                                                             |
-| bankMaxBal                  | The max balance someone can have in their bank                                                                                     | int    | 2006                                                                                                             |
-| useMarkov                   | Toggle the random message feature.                                                                                                 | bool   | true                                                                                                             |
-| markovSendChannel           | The channel to send the auto generated messages in. Ignored if `useMarkov` is false.                                               | string | "909565157846429809"                                                                                             |
-| markovReadChannel           | The channels to read messages from for the Markov messages. Ignored if `useMarkov` is false.                                       | array  | ["909565157846429809", "1040451940561207338"] |
-| patziEmojis                 | The emojis used when a message contains a P, A, T, Z, and I.                                                          | array  | ["<:genocide:931832849169006652>", "<:noswearwords:909955005778366535>", "<:patzi_blunt:909580655510306846>","<:raise_eyebrow:909593930021085234>"] |
 
 ## quiz.json
 

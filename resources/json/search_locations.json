@@ -1,0 +1,32 @@
+{
+    "1": {
+        "action_name": "McDonalds Dumpster",
+        "yeild_min": 5,
+        "yeild_max": 10,
+        "fail_min": 0,
+        "fail_max": 0,
+        "fail_percent": 0.05,
+        "fail_message": "The dumpster was empty. You found nothing.\nYou lost **{a}** PatziCoins",
+        "success_message": "You found **{a}** PatziCoins, but you're really disgusting now."
+    },
+    "2": {
+        "action_name": "Break into a car",
+        "yeild_min": 40,
+        "yeild_max": 50,
+        "fail_min": 0,
+        "fail_max": 0,
+        "fail_percent": 0.30,
+        "fail_message": "You were caught and sent to jail.\nYou lost **{a}** PatziCoins.",
+        "success_message": "Somehow the alarms didn't go off in the car! You found **{a}** PatziCoins!"
+    },
+    "3": {
+        "action_name": "Break into Patzi's House",
+        "yeild_min": 1000,
+        "yeild_max": 2763,
+        "fail_min": 0,
+        "fail_max": 124,
+        "fail_percent": 0.99,
+        "fail_message": "You were caught and sent to jail.\nYou lost **{a}** PatziCoins.",
+        "success_message": "Somehow the alarms didn't go off in the car! You found **{a}** PatziCoins!"
+    }
+}

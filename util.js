@@ -1,58 +1,79 @@
-/*
-    This contains multiple shared functions that are used in the bot multiple times.
-*/
+const { ActivityType } = require('discord.js');
 
-const Markov = require('js-markov');
-const fs = require('node:fs');
+function setStatus() {
+    const statuses = require("./resources/json/status.json");
+    const randomIndex = Math.floor(Math.random() * (statuses.length - 1) + 1);
 
-module.exports = {
-    async generateMarkov(){
-        let test = new Promise(function(resolve) {
-            fs.readFile('markov.txt', function(err, data) {
-                try {
-                    var markov = new Markov();
-                    let arr = new Array();
-    
-                    if(err) throw err;
-    
-                    const parr = data.toString().replace(/\r\n/g,'\n').split('\n');
-    
-                    for(let i of parr) {if(i.length > 0) arr.push(i);}
-    
-                    markov.addStates(arr);
-    
-                    markov.train();
-    
-                    let txt = markov.generateRandom(100);				
-                    resolve(txt)
-                } catch(er) {
-                    console.error(er)
-                    throw err;
-                }
-            })
-        })
-        return test;
-    },
+    let activityData = {status: "PatziBot", type: ActivityType.Playing, url:"https://www.youtube.com/watch?v=GQ6rr1otWpg"};
 
-    validateExpression(number) {
-		return /^[+\-/*^0-9().]+$/.test(number)
-	},
+    switch(statuses[randomIndex].type){
+        case "PLAYING": {
+            activityData = {
+                status: statuses[randomIndex].activity,
+                type: ActivityType.Playing
+            }
+        } break;
 
-    random_range(min, max) {
-        return Math.floor(Math.random() * (max - min + 1) ) + min;
-    },
+        case "LISTENING": {
+            activityData = {
+                status: statuses[randomIndex].activity,
+                type: ActivityType.Listening
+            }
+        } break;
 
-    random(number) {
-        return Math.floor(Math.random() * number)
-    },
+        case "WATCHING": {
+            activityData = {
+                status: statuses[randomIndex].activity,
+                type: ActivityType.Watching
+            }
+        } break;
 
-    getOccurrence(array, value) {
-        var count = 0;
-        array.forEach((v) => (v === value && count++));
-        return count;
-    },
+        case "COMPETING": {
+            activityData = {
+                status: statuses[randomIndex].activity,
+                type: ActivityType.Competing
+            }
+        } break;
 
-    formatUsername(user) {
-        return user.discriminator == "0" ? `${user.username}` : user.tag
+        case "STREAMING": {
+            activityData = {
+                status: statuses[randomIndex].activity,
+                type: ActivityType.Streaming,
+                url:"https://www.youtube.com/watch?v=GQ6rr1otWpg"
+            }
+        } break;
+
+        case "CUSTOM": {
+            activityData = {
+                status: statuses[randomIndex].activity,
+                type: ActivityType.Custom
+            }
+        } break;
     }
+
+    return activityData;
 }
+
+function random_range(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) ) + min;
+}
+
+function random(number) {
+    return Math.floor(Math.random() * number)
+}
+
+function formatUsername(user) {
+    return user.discriminator == "0" ? `${user.username}` : user.tag
+}
+
+function validateExpression(number) {
+    return /^[+\-/*^0-9().]+$/.test(number)
+}
+
+function getOccurrence(array, value) {
+    var count = 0;
+    array.forEach((v) => (v === value && count++));
+    return count;
+}
+
+module.exports = { setStatus, formatUsername, random, random_range, validateExpression, getOccurrence }
