@@ -9,7 +9,7 @@
     "sqlite3": "^5.1.6"
   },
   "name": "patzibot",
-  "version": "2.5.0",
+  "version": "3.0.0",
   "description": "Patzi's World Discord Bot",
   "main": "index.js",
   "scripts": {
