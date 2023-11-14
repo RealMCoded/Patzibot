@@ -1,11 +1,12 @@
 const { Events } = require('discord.js');
 const Markov = require('js-markov');
-const { guildId, ignoreChannels, markov } = require('../config.json');
+const { random } = require("../util.js")
+const { changePatzicoins } = require("../patzicoin-functions/patzicoin.js")
+const { guildId, ignoreChannels, markov, specialReaction } = require('../config.json');
 
 module.exports = {
 	name: Events.MessageCreate,
 	execute(message) {
-		console.error(message)
 		if (ignoreChannels.includes(message.channel.id)) return;
 		if (message.author.bot) return;
         if(message.guild.id !== guildId) return;
@@ -40,14 +41,35 @@ module.exports = {
 		}
 
 		try {
+			//PatziCoin for talking
+			changePatzicoins(message.author.id, random(5))
+			message.client.chattedRecently.add(message.author.id);
+			setTimeout(() => {
+				// Removes the user from the set after 60 seconds
+				message.client.chattedRecently.delete(message.author.id);
+				}, 60000);
+
+			/*
+				Special Reactions
+			*/
+			const lookMessage = message.content.toUpperCase()
+
+			//Ratio
+			if (lookMessage.split(" ").includes("RATIO")) {
+				message.react('💬')
+					.then(() => message.react('🔁'))
+					.then(() => message.react('❤️'))
+					.catch(error => console.error('One of the emojis failed to react. This might be due to the user deleting their message.'));
+			}
+
+			//Special Reaction
+			if (specialReaction.triggerChars.every(char => lookMessage.includes(char)) && !lookMessage.includes("REACT")) {
+				message.react(specialReaction.emojis[Math.floor(Math.random()*specialReaction.emojis.length)])
+					.catch(error => console.error('One of the emojis failed to react. This might be due to the user deleting their message.'));
+			}
 
 		} catch(e) {
 
 		}
-
-		//message.client.lastMessage
-		/*
-		TODO: MARKOV, MESSAGE REACTIONS
-		*/
 	},
 };

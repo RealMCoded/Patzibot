@@ -18,6 +18,7 @@ const commandFolders = fs.readdirSync(foldersPath);
 client.db = require('./database.js')
 
 client.lastmessages = []
+client.chattedRecently = new Set()
 
 for (const folder of commandFolders) {
 	const commandsPath = path.join(foldersPath, folder);
