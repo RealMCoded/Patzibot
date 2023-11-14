@@ -1,33 +1,22 @@
 {
+  "dependencies": {
+    "discord.js": "^14.13.0",
+    "google-tts-api": "^2.0.2",
+    "jimp": "^0.22.10",
+    "js-markov": "^3.0.3",
+    "libsodium-wrappers": "^0.7.13",
+    "sequelize": "^6.33.0",
+    "sqlite3": "^5.1.6"
+  },
   "name": "patzibot",
   "version": "2.5.0",
   "description": "Patzi's World Discord Bot",
   "main": "index.js",
   "scripts": {
-    "register": "node register.js",
-    "start": "node index.js",
+    "deploy": "node ./deploy.js",
+    "run": "node .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "stuartt_mcoded",
-  "license": "ISC",
-  "dependencies": {
-    "@discordjs/builders": "^0.12.0",
-    "@discordjs/opus": "github:discordjs/opus",
-    "@discordjs/rest": "^0.3.0",
-    "@discordjs/voice": "^0.8.0",
-    "cleverbot-free": "^1.1.11",
-    "discord-api-types": "^0.29.0",
-    "discord-player": "^5.2.2",
-    "discord.js": "^13.8.0",
-    "ffmpeg": "^0.0.4",
-    "ffmpeg-static": "^4.4.1",
-    "google-tts-api": "^2.0.2",
-    "jimp": "^0.16.1",
-    "js-markov": "^3.0.3",
-    "libsodium-wrappers": "^0.7.9",
-    "remove-accents": "^0.4.2",
-    "sequelize": "^6.17.0",
-    "sqlite3": "^5.0.2"
-  }
+  "author": "RealMCoded",
+  "license": "ISC"
 }

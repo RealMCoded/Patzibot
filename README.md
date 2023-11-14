@@ -1,7 +1,3 @@
-# This version of PatziBot is deprecated. Please use the version of the master branch.
-
-Changes in this commit were not tested publicly and may not work.
-
 # PatziBot
 
 The official Discord Bot used in the [Patzi's World Discord server](https://discord.gg/pBFQPJQ5xd).
@@ -27,13 +23,10 @@ If you plan to use the Markov feature in your instance, make a file called `mark
 
 ## Registering commands
 
-Included is an npm script to register commands to 3 locations: `global`, `patzi`, and `test`.
-
-- `global` registers commands as global commands.
-
-- `patzi` registers commands to whatever server is in `guildId` in your config.
-
-- `test` registers commands to whatever server is in `testGuildId` in your config.
+Running the following command will push your commands to the server defined in `guildId`
+```
+npm run deploy
+```
 
 ## config.json
 

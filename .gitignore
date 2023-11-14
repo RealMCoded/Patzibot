@@ -1,7 +1,14 @@
-node_modules/
+# Configs
 config.json
-commands/resources/json/quiz.json
+config_dev.json
+
+# npm and yarn files
+node_modules/
+package-lock.json
+yarn.lock
+
+# misc.
+/resources/json/quiz.json
 database.sqlite
 *.old
 markov.txt
-package-lock.json

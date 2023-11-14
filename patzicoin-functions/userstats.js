@@ -1,65 +1,73 @@
-const { MessageEmbed } = require('discord.js');
-const { codeBlock } = require('@discordjs/builders');
-const { getOccurrence } = require('../util.js')
-const store = require(`../commands/resources/json/items.json`)
-const { bankMaxBal } = require('../config.json');
-const { formatUsername } = require("../util.js")
+const { EmbedBuilder, codeBlock } = require("discord.js")
+const store = require("../resources/json/items.json")
+const { getOccurrence } = require("../util.js")
+const { bankMaxBal } = require("../config.json")
 
-module.exports = {
-    async userstats(usr, tag, interaction){
-        let usrnm = await interaction.client.users.fetch(usr.id);
-              
-        if (tag) {
-			const correct = tag.get("coins")
-			const invjson = tag.get("inv")
-			const bank = tag.get("bank")
-			const inv = JSON.parse(invjson)
-			const frequency = {}
-			var invstr = ""
-			const result = [];
+/**
+ * 
+ * @param {string} user 
+ * @param {db} db 
+ * @param {interaction} interaction 
+ * @returns interaction
+ */
+async function userstats(user, db, interaction) {
+    user = await interaction.client.users.fetch(user.id);
 
-			for (const item of inv) {
-				if (frequency[item]) {
-					frequency[item]++;
-				} else {
-					frequency[item] = 1;
-				}
-			}
+    if (db) {
+        const coins = db.get("coins")
+        const inventory = JSON.parse(db.get("inv"))
+        const bank = db.get("bank")
+        let inventory_output = ""
 
-			for (const item in frequency) {
-				try {
-					result.push(frequency[item] === 1 ? `+ ${store[item].item}` : `+ ${store[item].item} (x${frequency[item]})`);
-				} catch(e) {
-					result.push(frequency[item] === 1 ? store[item].item : `*** Unknown Item #${item} (x${frequency[item]})`);
-				}
-			}
+        //Sorting and grouping inventory
+        const frequency = {}
+        const result = [];
 
-			for (const res in result) {invstr += `${result[res]}\n`}
+        for(const item of inventory) {
+            if (frequency[item]) {
+                frequency[item]++
+            } else {
+                frequency[item] = 1
+            }
+        }
 
-			if(invstr == ""){invstr = "- ( empty )\n"}
+        for (const item in frequency) {
+            try {
+                result.push(frequency[item] === 1 ? `+ ${store[item].item}` : `+ ${store[item].item} (x${frequency[item]})`);
+            } catch(e) {
+                result.push(frequency[item] === 1 ? store[item].item : `*** Unknown Item #${item} (x${frequency[item]})`);
+            }
+        }
 
-			let verifiedChecks = getOccurrence(inv, 10)
+        for (const res in result) {inventory_output += `${result[res]}\n`}
+        if (inventory_output === "") inventory_output = "- ( empty )\n"
 
-			let titleString = `PatziCoin Stats for ${formatUsername(usrnm)} ${('<:useless_tick:1042895519552389191> '.repeat(verifiedChecks))}`
+        let verifiedChecks = getOccurrence(inventory, 10)
 
-			const embed = new MessageEmbed()
-				.setTitle(titleString.substring(0, 255))
+		let titleString = `PatziCoin Stats for ${user.username} ${('<:useless_tick:1042895519552389191> '.repeat(verifiedChecks))}`
+
+		const embed = new EmbedBuilder()
+			.setTitle(titleString.substring(0, 255))
+			.setColor("#0099ff")
+			//.setDescription(`**PatziCoins**: ${coins} 🪙\n**Bank Balance**: ${bank}/${bankMaxBal}`)
+            .setDescription(`**Inventory**\n${codeBlock("diff", inventory_output)}`)
+			.addFields(
+				//{ name: `Inventory`, value: codeBlock("diff", inventory_output)},
+                { name: 'PatziCoins', value: `${coins} 🪙`, inline: true },
+		        { name: 'Bank Balance', value: `${bank}/${bankMaxBal}`, inline: true },
+			)
+			.setTimestamp()
+
+		return interaction.reply({embeds: [embed]});
+    } else {
+        const embed = new EmbedBuilder()
+				.setTitle(`PatziCoin Stats for ${usrnm}`)
 				.setColor("#0099ff")
-				.setDescription(`**PatziCoins**: ${correct} 🪙\n**Bank Balance**: ${bank}/${bankMaxBal}`)
-				.addFields(
-					{ name: `Inventory`, value: codeBlock("diff", invstr)},
-				)
+				.setDescription(`***No stats found for ${usrnm} :(***`)
 				.setTimestamp()
 
-			return interaction.reply({embeds: [embed]});
-		} else {
-			const embed = new MessageEmbed()
-				.setTitle(`PatziCoin Stats for ${formatUsername(usrnm)}`)
-				.setColor("#0099ff")
-				.setDescription(`***No stats found for ${formatUsername(usrnm)} :(***`)
-				.setTimestamp()
-
-			return interaction.reply({embeds: [embed]});
-		}
+		return interaction.reply({embeds: [embed]});
     }
 }
+
+module.exports = {userstats}
