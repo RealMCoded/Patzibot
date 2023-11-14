@@ -3,7 +3,7 @@
 */
 
 const { Events, WebhookClient, EmbedBuilder } = require('discord.js');
-const { logWebhookURL } = require("../config.json")
+const { logWebhookURL, ignoreChannels } = require("../config.json")
 
 module.exports = {
 	name: Events.MessageReactionAdd,
@@ -20,6 +20,8 @@ module.exports = {
                 return;
             }
         }
+
+        if (reaction.message.pinned || ignoreChannels.includes(reaction.message.channel.id)) return;
 
         let upCount, downCount
 
