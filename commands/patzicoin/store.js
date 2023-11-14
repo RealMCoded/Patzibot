@@ -68,7 +68,7 @@ module.exports = {
 				return interaction.reply({content:`⚠️️ **Invalid item!**`,ephemeral: true});
 			}
 
-            const shopItem = shop[item]
+            const shopItem = shop[item-1]
 
             const embed = new EmbedBuilder()
 				.setTitle(`Patzicoin Store - ${shopItem.item}`)
