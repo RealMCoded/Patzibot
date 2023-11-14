@@ -99,7 +99,7 @@ module.exports = {
 			}
 
             if(shop[item].price > userCoins){
-				return interaction.reply({content:`❌ **You don't have enough Patzicoins!**\nYou need **${userCoins - shop[item].price}** more!`,ephemeral: true});
+				return interaction.reply({content:`❌ **You don't have enough Patzicoins!**\nYou need **${shop[item].price - userCoins}** more!`,ephemeral: true});
 			}
 
             const itemGrant = patzicoin.grantItem(interaction.user.id, item)
