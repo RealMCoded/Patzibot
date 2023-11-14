@@ -1,0 +1,28 @@
+{
+    "hostID":"284804878604435476",
+    "powerList":["284804878604435476", "518567024545497113"],
+    "clientId":"876729461188464660",
+    "guildId":"909565157116608573",
+    "token":"TOKEN.HERE",
+    "suggestionHook":"Webhook Link Here",
+    "logWebhookURL":"Webhook Link Here",
+    "joinleaveHook": "Webhook Link Here",
+    "bankMaxBal":10000,
+    "transferTax": 0.13,
+    "markov": {
+        "enabled": true,
+        "sendChannel": "926578100161097771",
+        "probability": 1,
+        "contextLength": 250
+    },
+    "ignoreChannels": [],
+    "specialReaction": {
+        "triggerChars": ["P", "A", "T", "Z", "I"],
+        "emojis": [
+            "<:genocide:931832849169006652>",
+            "<:noswearwords:909955005778366535>",
+            "<:patzi_blunt:909580655510306846>",
+            "<:raise_eyebrow:909593930021085234>"
+        ]
+    }
+}
