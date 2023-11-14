@@ -1,3 +1,7 @@
+# This version of PatziBot is deprecated. Please use the version of the master branch.
+
+Changes in this commit were not tested publicly and may not work.
+
 # PatziBot
 
 The official Discord Bot used in the [Patzi's World Discord server](https://discord.gg/pBFQPJQ5xd).

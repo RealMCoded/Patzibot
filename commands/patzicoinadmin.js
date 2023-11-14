@@ -2,6 +2,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed, WebhookClient } = require('discord.js');
 const { logWebhookURL, powerList } = require('../config.json')
 const shp = require('./resources/json/items.json')
+const { formatUsername } = require("../util.js")
 
 module.exports = {
 	data: new SlashCommandBuilder()

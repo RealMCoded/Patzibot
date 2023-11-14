@@ -63,19 +63,19 @@ module.exports = {
 			var item = interaction.options.getInteger('item');
 
 			if(item > shp.length || item < 1){
-				interaction.reply({content:`⚠ **Invalid item!**`,ephemeral: true});
+				interaction.reply({content:`⚠️ **Invalid item!**`,ephemeral: true});
 				return;
 			}
 
 			if(shp[item-1].forSale == false){
-				interaction.reply({content:`⚠ **This item is not for sale!**`,ephemeral: true});
+				interaction.reply({content:`⚠️ **This item is not for sale!**`,ephemeral: true});
 				return;
 			}
 
 			var dbusr = await db.findOne({ where: { userID: interaction.user.id } });
 
 			if(!dbusr){
-				interaction.reply({content:`⚠ **if you are seeing this, you have never earned a singular patzicoin. ever.**`,ephemeral: true});
+				interaction.reply({content:`⚠️ **if you are seeing this, you have never earned a singular patzicoin. ever.**`,ephemeral: true});
 				return;
 			}
 			var coin = dbusr.get("coins");
@@ -83,12 +83,12 @@ module.exports = {
 			inve = JSON.parse(inve);
 
 			if(coin < shp[item-1].price){
-				interaction.reply({content:`⚠ **You do not have enough Patzicoins!**`,ephemeral: true});
+				interaction.reply({content:`⚠️ **You do not have enough Patzicoins!**`,ephemeral: true});
 				return;
 			}
 
 			if(inve.includes(item-1) && !shp[item-1].canOwnMultiple){
-				interaction.reply({content:`⚠ **You already have this item!**`,ephemeral: true});
+				interaction.reply({content:`⚠️ **You already have this item!**`,ephemeral: true});
 				return;
 			}
 
@@ -113,7 +113,7 @@ module.exports = {
 			var item = interaction.options.getInteger('item');
 
 			if((item > shp.length) || (item < 1)){
-				interaction.reply({content:`⚠ **Invalid item!**`,ephemeral: true});
+				interaction.reply({content:`⚠️ **Invalid item!**`,ephemeral: true});
 				return;
 			}
 
