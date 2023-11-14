@@ -59,13 +59,13 @@ module.exports = {
 				message.react('💬')
 					.then(() => message.react('🔁'))
 					.then(() => message.react('❤️'))
-					.catch(error => console.error('One of the emojis failed to react. This might be due to the user deleting their message.'));
+					.catch(e => console.error(`[Ratio] Error! ${e}`));
 			}
 
 			//Special Reaction
 			if (specialReaction.triggerChars.every(char => lookMessage.includes(char)) && !lookMessage.includes("REACT")) {
 				message.react(specialReaction.emojis[Math.floor(Math.random()*specialReaction.emojis.length)])
-					.catch(error => console.error('One of the emojis failed to react. This might be due to the user deleting their message.'));
+					.catch(e => console.error(`[Special Reaction] Error! ${e}`));
 			}
 
 		} catch(e) {
