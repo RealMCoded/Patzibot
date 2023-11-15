@@ -61,9 +61,9 @@ async function userstats(user, db, interaction) {
 		return interaction.reply({embeds: [embed]});
     } else {
         const embed = new EmbedBuilder()
-				.setTitle(`PatziCoin Stats for ${usrnm}`)
+				.setTitle(`PatziCoin Stats for ${user.username}`)
 				.setColor("#0099ff")
-				.setDescription(`***No stats found for ${usrnm} :(***`)
+				.setDescription(`***No stats found for ${user.username} :(***`)
 				.setTimestamp()
 
 		return interaction.reply({embeds: [embed]});
