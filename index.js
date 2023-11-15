@@ -1,7 +1,7 @@
 // Require the necessary discord.js classes
 const fs = require('node:fs');
 const path = require('node:path');
-const { Client, Collection, GatewayIntentBits, Partials } = require('discord.js');
+const { Client, Collection, GatewayIntentBits, Partials, WebhookClient } = require('discord.js');
 const { token, logWebhookURL } = require('./config.json');
 
 // Create a new client instance
