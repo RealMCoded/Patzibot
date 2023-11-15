@@ -17,7 +17,7 @@ const commandFolders = fs.readdirSync(foldersPath);
 //redef some console functions here
 console.log = async function(e) {
 	try {
-		if (redirectConsoleOutputToWebhook) {
+		if (logWebhookURL) {
 			let webhookClient = new WebhookClient({ url: logWebhookURL });
 			webhookClient.send(`\`\`\`\n${e}\n\`\`\``);
 		}
@@ -29,7 +29,7 @@ console.log = async function(e) {
 
 console.warn = async function(e) {
 	try {
-		if (redirectConsoleOutputToWebhook) {
+		if (logWebhookURL) {
 			let webhookClient = new WebhookClient({ url: logWebhookURL });
 			webhookClient.send(`\`\`\`\n[WARN] ${e}\n\`\`\``);
 		}
@@ -41,7 +41,7 @@ console.warn = async function(e) {
 
 console.error = async function(e) {
 	try {
-		if (redirectConsoleOutputToWebhook) {
+		if (logWebhookURL) {
 			let webhookClient = new WebhookClient({ url: logWebhookURL });
 			webhookClient.send(`\`\`\`\n[ERROR] ${e}\n\`\`\``);
 		}
