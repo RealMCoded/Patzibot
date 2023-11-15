@@ -2,7 +2,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, GatewayIntentBits, Partials } = require('discord.js');
-const { token } = require('./config.json');
+const { token, logWebhookURL } = require('./config.json');
 
 // Create a new client instance
 const client = new Client({ 
@@ -13,6 +13,43 @@ const client = new Client({
 client.commands = new Collection();
 const foldersPath = path.join(__dirname, 'commands');
 const commandFolders = fs.readdirSync(foldersPath);
+
+//redef some console functions here
+console.log = async function(e) {
+	try {
+		if (redirectConsoleOutputToWebhook) {
+			let webhookClient = new WebhookClient({ url: logWebhookURL });
+			webhookClient.send(`\`\`\`\n${e}\n\`\`\``);
+		}
+	} catch(e) {
+		process.stdout.write(`Unable to redirect output: ${e}\n`);
+	}
+	process.stdout.write(`${e}\n`);
+}
+
+console.warn = async function(e) {
+	try {
+		if (redirectConsoleOutputToWebhook) {
+			let webhookClient = new WebhookClient({ url: logWebhookURL });
+			webhookClient.send(`\`\`\`\n[WARN] ${e}\n\`\`\``);
+		}
+	} catch(e) {
+		process.stdout.write(`Unable to redirect output: ${e}\n`);
+	}
+	process.stdout.write(`[WARN] ${e}\n`);
+}
+
+console.error = async function(e) {
+	try {
+		if (redirectConsoleOutputToWebhook) {
+			let webhookClient = new WebhookClient({ url: logWebhookURL });
+			webhookClient.send(`\`\`\`\n[ERROR] ${e}\n\`\`\``);
+		}
+	} catch(e) {
+		process.stdout.write(`Unable to redirect output: ${e}\n`);
+	}
+	process.stdout.write(`[ERROR] ${e}\n`);
+}
 
 //Start database connection
 client.db = require('./database.js')
@@ -47,6 +84,14 @@ for (const file of eventFiles) {
 		client.on(event.name, (...args) => event.execute(...args));
 	}
 }
+
+process.on('uncaughtException', (error, origin) => {
+	console.log(`❌ Uncaught exception\n-----\n${error}\n-----\nException origin\n${origin}`)
+})
+
+process.on('unhandledRejection', (reason, promise) => {
+	console.log(`❌ Unhandled Rejection\n-----\n${promise}\n-----\nReason\n${reason}`)
+})
 
 // Log in to Discord with your client's token
 client.login(token);
