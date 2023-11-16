@@ -25,7 +25,7 @@ module.exports = {
             .setDescription("buy an item")
             .addIntegerOption(option => 
                 option.setRequired(true)
-                    .setName("item")
+                    .setName("item-id")
                     .setDescription("The Item ID in the shop")))
     .addSubcommand(subcommand => 
         subcommand.setName("info")
@@ -63,7 +63,7 @@ module.exports = {
         }
 
         if (subcommand === "info") {
-            const item = interaction.options.getInteger('item')-1;
+            const item = interaction.options.getInteger('item-id')-1;
 
             if((item > shop.length) || (item < -1)){
 				return interaction.reply({content:`⚠️️ **Invalid item!**`,ephemeral: true});
