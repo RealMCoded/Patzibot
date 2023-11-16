@@ -32,7 +32,7 @@ module.exports = {
             .setDescription("see the info of an item")
             .addIntegerOption(option => 
                 option.setRequired(true)
-                    .setName("item")
+                    .setName("itemID")
                     .setDescription("The Item ID in the shop"))),
 	async execute(interaction) {
         const subcommand = interaction.options.getSubcommand();
@@ -57,6 +57,7 @@ module.exports = {
 				//.setURL("https://realmcoded.github.io/PatziCoinStore/")
 				//.setDescription(shop)
                 .addFields(store_output.filter(n => n))
+                .setFooter({"text": "To buy an item, use /patzicoin-store buy"})
 				.setThumbnail("https://cdn.discordapp.com/attachments/808339703547428884/982120176571011072/iconmonstr-shop-3-240.png?size=2048")
 			return interaction.reply({embeds: [embed]});
         }
@@ -87,11 +88,11 @@ module.exports = {
         }
 
         if (subcommand === "buy") {
-            const item = interaction.options.getInteger('item')-1;
+            const item = interaction.options.getInteger('itemID')-1;
             const userCoins = await patzicoin.getPatzicoins(interaction.user.id)
 
             if(item > shop.length || item < -1){
-				return interaction.reply({content:`⚠️ **Invalid item!**`,ephemeral: true});
+				return interaction.reply({content:`⚠️ **Invalid item!**\nTo buy an Item, use it's ID! For example: ID \`1\` would be "A cool looking hat".`,ephemeral: true});
 			}
 
 			if(shop[item].forSale == false){
