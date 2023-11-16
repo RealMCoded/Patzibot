@@ -32,7 +32,7 @@ module.exports = {
             .setDescription("see the info of an item")
             .addIntegerOption(option => 
                 option.setRequired(true)
-                    .setName("itemID")
+                    .setName("item-id")
                     .setDescription("The Item ID in the shop"))),
 	async execute(interaction) {
         const subcommand = interaction.options.getSubcommand();
@@ -88,7 +88,7 @@ module.exports = {
         }
 
         if (subcommand === "buy") {
-            const item = interaction.options.getInteger('itemID')-1;
+            const item = interaction.options.getInteger('item-id')-1;
             const userCoins = await patzicoin.getPatzicoins(interaction.user.id)
 
             if(item > shop.length || item < -1){
