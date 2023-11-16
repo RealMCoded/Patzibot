@@ -63,13 +63,13 @@ module.exports = {
         }
 
         if (subcommand === "info") {
-            const item = interaction.options.getInteger('item');
+            const item = interaction.options.getInteger('item')-1;
 
-            if((item > shop.length) || (item < 1)){
+            if((item > shop.length) || (item < -1)){
 				return interaction.reply({content:`⚠️️ **Invalid item!**`,ephemeral: true});
 			}
 
-            const shopItem = shop[item-1]
+            const shopItem = shop[item]
 
             const embed = new EmbedBuilder()
 				.setTitle(`Patzicoin Store - ${shopItem.item}`)
