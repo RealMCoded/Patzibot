@@ -3,7 +3,7 @@ const { joinleaveHook } = require("../config.json")
 
 module.exports = {
 	name: Events.GuildMemberRemove,
-	once: true,
+	//once: true,
 	execute(member) {
 		const wh = new WebhookClient({ url: joinleaveHook })
 
