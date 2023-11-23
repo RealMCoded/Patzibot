@@ -103,13 +103,13 @@ module.exports = {
 				return interaction.reply({content:`❌ **You don't have enough Patzicoins!**\nYou need **${shop[item].price - userCoins}** more!`,ephemeral: true});
 			}
 
-            const itemGrant = patzicoin.grantItem(interaction.user.id, item)
+            const itemGrant = await patzicoin.grantItem(interaction.user.id, item)
 
             if (itemGrant.error) {
-                return interaction.reply(interaction.reply({ content: `❌ ${itemGrant.error}`, ephemeral: true }))
+                return interaction.reply({ content: `❌ **${itemGrant.error}**`, ephemeral: true })
             }
 
-            patzicoin.changePatzicoins(interaction.user.id, -shop[item].price)
+            await patzicoin.changePatzicoins(interaction.user.id, -shop[item].price)
 
             const embed = new EmbedBuilder()
 				.setTitle("Purchase successful!")
@@ -117,7 +117,7 @@ module.exports = {
 
 				//.setDescription(`**You have bought the item!**\n\n**Item:** ${shp[item-1].item}\n**Price:** ${shp[item-1].price} Patzicoins\n**Description:** ${shp[item-1].desc}`)
 				.setThumbnail(shop[item].iconURL)
-			interaction.reply({embeds: [embed]});
+			return interaction.reply({embeds: [embed]});
         }
     },
 };
