@@ -1,6 +1,7 @@
 const { changePatzicoins } = require("./patzicoin")
-const { random_range } = require("../util")
+const { random_range, isBooster } = require("../util")
 const { EmbedBuilder } = require("discord.js")
+const { boosterBegExtraPercent } = require("../config.json")
 
 async function beg(db, interaction) {
     const delay = 18000
@@ -16,15 +17,20 @@ async function beg(db, interaction) {
             .setTimestamp()
         return interaction.reply({embeds: [embed]});
     } else {
-        const amount = random_range(1, 125)
+        const amount = random_range(5, 125)
+        const memberBooster = isBooster(interaction.member)
 
         changePatzicoins(interaction.user.id , amount)
+        if (memberBooster) {
+            changePatzicoins(interaction.user.id , Math.round(amount*boosterBegExtraPercent))
+        }
         db.update({ lastBegClaimDate: now }, { where: { userID: interaction.user.id } });
 
         const embed = new EmbedBuilder()
 			.setTitle("Beg - PatziCoin")
 			.setColor("#00FF00")
-			.setDescription(`"Here's **${amount} PatziCoins**, now go away!"\n -craig`)
+			.setDescription(`"Here's **${amount} PatziCoins**, ${memberBooster ? `and since you're a server booster, you get an extra **${Math.round(amount*boosterBegExtraPercent)} Patzicoins**! ` : ""}now go away!"\n -craig`)
+            .setFooter({"text": `Server boosters get ${boosterBegExtraPercent*100}% extra PatziCoins when begging!`})
 			.setTimestamp()
 		return interaction.reply({embeds: [embed]});
     }

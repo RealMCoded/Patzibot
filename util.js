@@ -76,4 +76,9 @@ function getOccurrence(array, value) {
     return count;
 }
 
-module.exports = { setStatus, formatUsername, random, random_range, validateExpression, getOccurrence }
+function isBooster(member) {
+    const roleID = require("./config.json").serverBoosterRoleID
+    return member.roles.cache.has(roleID);
+}
+
+module.exports = { setStatus, formatUsername, random, random_range, validateExpression, getOccurrence, isBooster }

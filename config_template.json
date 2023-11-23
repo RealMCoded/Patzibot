@@ -7,8 +7,10 @@
     "suggestionHook":"Webhook Link Here",
     "logWebhookURL":"Webhook Link Here",
     "joinleaveHook": "Webhook Link Here",
+    "serverBoosterRoleID": "",
     "bankMaxBal":10000,
     "transferTax": 0.13,
+    "boosterBegExtraPercent": 0.10,
     "markov": {
         "enabled": true,
         "sendChannel": "926578100161097771",
