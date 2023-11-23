@@ -1,6 +1,7 @@
 {
     "1": {
-        "action_name": "Work at McDonalds",
+        "action_name": "PatziBurger",
+        "requiredItemID": 1,
         "yeild_min": 25,
         "yeild_max": 30,
         "fail_min": 0,
@@ -10,7 +11,8 @@
         "success_message": "Cooked to perfection!\nYou earned **{a}** Patzicoins!"
     },
     "2": {
-        "action_name": "Work at a gas station",
+        "action_name": "Work at a Gas Station",
+        "requiredItemID": 2,
         "yeild_min": 30,
         "yeild_max": 60,
         "fail_min": 2,
@@ -20,7 +22,8 @@
         "success_message": "You don't get your paycheck until \"later\", but you did find **{a}** on the floor."
     },
     "3": {
-        "action_name": "Wotk at PatziMart",
+        "action_name": "Work at PatziMart",
+        "requiredItemID": 3,
         "yeild_min": 60,
         "yeild_max": 100,
         "fail_min": 10,
