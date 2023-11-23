@@ -66,16 +66,32 @@ function formatUsername(user) {
     return user.discriminator == "0" ? `${user.username}` : user.tag
 }
 
+/**
+ * 
+ * @param {Int} number 
+ * @returns Boolean
+ */
 function validateExpression(number) {
     return /^[+\-/*^0-9().]+$/.test(number)
 }
 
+/**
+ * 
+ * @param {array} array Input array
+ * @param {Int} value Item to look for
+ * @returns Int
+ */
 function getOccurrence(array, value) {
     var count = 0;
     array.forEach((v) => (v === value && count++));
     return count;
 }
 
+/**
+ * 
+ * @param {Member} member 
+ * @returns Boolean
+ */
 function isBooster(member) {
     const roleID = require("./config.json").serverBoosterRoleID
     return member.roles.cache.has(roleID);
