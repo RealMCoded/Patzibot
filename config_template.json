@@ -18,6 +18,10 @@
         "contextLength": 250,
         "minTokensToGenerate": 150
     },
+    "emojis": {
+        "boost": "<:boost:1177372431195832392>",
+        "useless_tick": "<:useless_tick:1042895519552389191>"
+    },
     "ignoreChannels": [],
     "specialReaction": {
         "triggerChars": ["P", "A", "T", "Z", "I"],

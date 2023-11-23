@@ -14,7 +14,7 @@ client.commands = new Collection();
 const foldersPath = path.join(__dirname, 'commands');
 const commandFolders = fs.readdirSync(foldersPath);
 
-//redef some console functions here
+//redefine some console functions here
 console.log = async function(e) {
 	try {
 		if (logWebhookURL) {

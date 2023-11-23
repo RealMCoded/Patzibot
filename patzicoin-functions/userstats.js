@@ -1,6 +1,7 @@
 const { EmbedBuilder, codeBlock } = require("discord.js")
 const store = require("../resources/json/items.json")
-const { getOccurrence } = require("../util.js")
+const { emojis } = require("../config.json")
+const { getOccurrence, isBooster } = require("../util.js")
 const { bankMaxBal } = require("../config.json")
 
 /**
@@ -44,7 +45,7 @@ async function userstats(user, db, interaction) {
 
         let verifiedChecks = getOccurrence(inventory, 10)
 
-		let titleString = `PatziCoin Stats for ${user.username} ${('<:useless_tick:1042895519552389191> '.repeat(verifiedChecks))}`
+		let titleString = `PatziCoin Stats for ${user.username} ${isBooster(interaction.member) ? `${emojis.boost} ` : " "}${(`${emojis.useless_tick} `.repeat(verifiedChecks))}`
 
 		const embed = new EmbedBuilder()
 			.setTitle(titleString.substring(0, 255))
