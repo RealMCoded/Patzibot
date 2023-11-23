@@ -60,6 +60,10 @@ async function grantItem(userId, item){
         return {"error":"You can only own one of this item!"};
     }
 
+    for(const item_require in shop[item].requiredItems) {
+        if(!inv.includes(shop[item].requiredItems[item_require])) return {"error":"You don't own the required items for this."}
+    }
+
     inv.push(item);
     inv = JSON.stringify(inv);
 
@@ -69,7 +73,7 @@ async function grantItem(userId, item){
         where: { userID: userId },
     });
 
-    return;
+    return true;
 }
 
 /**
@@ -95,9 +99,22 @@ async function revokeItem(userId, item){
         }, {
             where: { userID: userId },
         });
+
+        return;
     } else {
         return {"error":"You do not own this item!"}
     }
+}
+
+async function hasItem(userId, item) {
+    var dbusr = await db.findOne({ where: { userID: userId } });
+
+    if(!dbusr){return false;}
+
+    var inve = dbusr.get("inv");
+    inve = JSON.parse(inve);
+
+    return inve.includes(item);
 }
 
 module.exports = {
@@ -105,5 +122,6 @@ module.exports = {
     setPatzicoins,
     grantItem,
     revokeItem,
-    getPatzicoins
+    getPatzicoins,
+    hasItem
 }

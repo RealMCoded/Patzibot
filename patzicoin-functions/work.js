@@ -1,4 +1,4 @@
-const { changePatzicoins } = require("./patzicoin")
+const { changePatzicoins, hasItem } = require("./patzicoin")
 const { random_range } = require("../util")
 const locations = require("../resources/json/job_locations.json")
 const { EmbedBuilder } = require("discord.js")
@@ -8,6 +8,13 @@ async function work(method, userid, interaction) {
 
     if (location === undefined) {
         interaction.reply({content:`❌ **The location with the ID \`${method}\` doesn't exist!**`,ephemeral: true});
+		return;
+    }
+
+    const hasApp = await hasItem(userid, location.requiredItemID)
+
+    if (!hasApp) {
+        interaction.reply({content:`❌ **You don't have the required item to work here!**`,ephemeral: true});
 		return;
     }
 
