@@ -39,14 +39,20 @@ module.exports = {
 
         const count = downCount - upCount
 
-        if (count > 4 ){
-            let msg = reaction.message
+        let msg = reaction.message
+        let messageContent = reaction.message.content
 
+        reaction.message.attachments.forEach((attachment) => {
+            const attachmentURL = attachment.attachment;
+            messageContent += `\n${attachmentURL}`
+          });
+
+        if (count > 4 ){
             const wh = new WebhookClient({ url: logWebhookURL })
 
             const embed = new EmbedBuilder()
                 .setTitle(`Message deleted (by community)`)
-                .setDescription(`${msg.content}`)
+                .setDescription(`${messageContent}`)
                 .setFooter({ text: `Author: ${msg.author.username} (${msg.author.id})`})
                 .setTimestamp();
 
@@ -57,13 +63,11 @@ module.exports = {
 
             msg.delete()
         } else if ( reaction.message.author == user && reaction.emoji.name == "⬆️" ) {
-            let msg = reaction.message
-
             const wh = new WebhookClient({ url: logWebhookURL })
 
             const embed = new EmbedBuilder()
                 .setTitle(`Message deleted (Self upvote)`)
-                .setDescription(`${msg.content}`)
+                .setDescription(`${messageContent}`)
                 .setFooter({ text: `Author: ${msg.author.username} (${msg.author.id})`})
                 .setTimestamp();
 

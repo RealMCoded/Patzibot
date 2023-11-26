@@ -33,7 +33,7 @@ module.exports = {
                     .setColor(`FF0000`);
                 await interaction.reply({embeds: [embed]});
             }
-        } if (subcommand == "github") {
+        } else if (subcommand == "github") {
             interaction.reply({content:`https://github.com/RealMCoded/Patzibot`,ephemeral: true});
         }
     },
