@@ -15,6 +15,7 @@ module.exports = {
 			//logging
 			let msg = message.content
 			if (msg.includes("@")) return;
+			if (message.client.lastmessages.includes(msg)) return;
 
 			msg = msg.replace(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g, '')
 
