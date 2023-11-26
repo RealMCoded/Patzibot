@@ -33,7 +33,12 @@ module.exports = {
 		
 					markov.train();
 
-					message.channel.send(markov.generateRandom(100))
+					let genMessage = markov.generateRandom(100)
+
+					message.channel.send(genMessage)
+
+					console.log(`New Markov Generated: ${genMessage}`)
+
 				} catch(er) {
 					console.error(er)
 				}
