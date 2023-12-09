@@ -21,7 +21,7 @@ module.exports = {
 
 			if (msg.length == 0) return;
 
-			if (message.client.lastmessages > markov.contextLength) {message.client.lastmessages.shift()}
+			if (message.client.lastmessages.length > markov.contextLength) {message.client.lastmessages.shift()}
 
 			message.client.lastmessages.push(message.content)
 
@@ -38,7 +38,7 @@ module.exports = {
 
 					message.channel.send(genMessage)
 
-					console.log(`New Markov Generated: ${genMessage}`)
+					console.log(`New markov generated: ${genMessage}`)
 
 				} catch(er) {
 					console.error(er)
