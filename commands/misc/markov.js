@@ -28,7 +28,9 @@ module.exports = {
                 .addFields(
                     { name: 'Total messages saved', value: `${interaction.client.lastmessages.length}`},
                     { name: 'Max messages', value: `${markov.contextLength}`},
+                    { name: 'Messages until max', value: `${markov.contextLength - interaction.client.lastmessages.length}`},
                     { name: 'Minimum messages required to generate', value: `${markov.minTokensToGenerate}`},
+                    { name: 'Messages until generation', value: `${markov.minTokensToGenerate - interaction.client.lastmessages.length}`},
                     { name: 'Probability', value: `${markov.probability*100}% per message`,},
                 )
                 .setTimestamp()

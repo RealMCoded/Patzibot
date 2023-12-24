@@ -20,13 +20,13 @@ module.exports = {
 			msg = msg.replace(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g, '')
 
 			if (msg.length == 0) return;
-
-			if (message.client.lastmessages.length > markov.contextLength) {message.client.lastmessages.shift()}
+			
+			if (message.client.lastmessages.length >= markov.contextLength) {message.client.lastmessages.shift()}
 
 			message.client.lastmessages.push(message.content)
 
 			//Sending
-			if(Math.random() < markov.probability && message.channel.id == markov.sendChannel && message.client.lastmessages.length > markov.minTokensToGenerate){
+			if(Math.random() < markov.probability && message.channel.id == markov.sendChannel && message.client.lastmessages.length >= markov.minTokensToGenerate){
 				try {
 					const markov = new Markov();
 		
