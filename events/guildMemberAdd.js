@@ -3,13 +3,13 @@ const { joinleaveHook } = require("../config.json")
 
 module.exports = {
 	name: Events.GuildMemberAdd,
-	//once: true,
 	execute(member) {
 		const wh = new WebhookClient({ url: joinleaveHook })
 
         const embed = new EmbedBuilder()
             .setTitle(`${member.user.username} has joined ${member.guild.name}!`)
             .setDescription(`We now have **${member.guild.memberCount}** members.`)
+            .setThumbnail(member.user.displayAvatarURL())
             .setColor(0x00FFFF);
 
         wh.send({
