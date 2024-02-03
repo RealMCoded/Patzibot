@@ -1,7 +1,8 @@
 const { SlashCommandBuilder, EmbedBuilder, WebhookClient } = require('discord.js');
 const shop = require("../../resources/json/items.json")
-const {logWebhookURL, powerList} = require("../../config.json")
-const patzicoin = require("../../patzicoin-functions/patzicoin.js")
+const {logWebhookURL, powerList, hostID} = require("../../config.json")
+const patzicoin = require("../../patzicoin-functions/patzicoin.js");
+const { Patzicoin } = require('../../database.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -40,13 +41,13 @@ module.exports = {
 					option.setRequired(true)
 						.setName("item-id")
 						.setDescription("the item ID to revoke (starting from 0)")))
-		/*.addSubcommand(subcommand => 
-			subcommand.setName("reset-user")
-				.setDescription("reset a users patzicoin stats.")
+		.addSubcommand(subcommand => 
+			subcommand.setName("delete-user")
+				.setDescription("delete a user from the database. Bot host only")
 				.addUserOption(option =>
 					option.setRequired(true)
 						.setName("user")
-						.setDescription("the user to reset")))*/
+						.setDescription("the user to delete")))
 		.addSubcommand(subcommand => 
 			subcommand.setName("give")
 				.setDescription("give patzicoin to a user")
@@ -160,6 +161,33 @@ module.exports = {
 				const embed = new EmbedBuilder()
 					.setTitle("Patzicoin Logs")
 					.setDescription(`${user.tag} was removed of **${shop[item].item}**`)
+					.setFooter({text:`Executor: ${interaction.user.username} (${interaction.user.id})`})
+					.setColor("#00ff00")
+					.setTimestamp();
+				webhook.send({embeds: [embed]});
+				return;
+			}
+
+			if (subcommand === "delete-user") {
+				if (interaction.user.id != hostID) return interaction.reply({ content: `❌ **Only the bot host can use this!**`, ephemeral: true })
+				
+				const user = interaction.options.getUser('user');
+
+				let dbusr = await db.findOne({ where: { userID: user.id } });
+
+				try {
+					await dbusr.destroy();
+				} catch(e)
+				{
+					return interaction.reply({ content: `❌ **${user.username} never existed to start with!**`, ephemeral: true })
+				}
+
+				interaction.reply({ content: `✅ **Removed ${user.username} from the database!**`, ephemeral: true })
+
+				//logging
+				const embed = new EmbedBuilder()
+					.setTitle("Patzicoin Logs")
+					.setDescription(`${user.tag} was removed from the database.`)
 					.setFooter({text:`Executor: ${interaction.user.username} (${interaction.user.id})`})
 					.setColor("#00ff00")
 					.setTimestamp();
