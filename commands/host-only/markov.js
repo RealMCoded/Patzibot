@@ -15,9 +15,17 @@ module.exports = {
             .setName("word-list")
             .setDescription("View all sentences i know"))
         .addSubcommand(subcommand =>
-                subcommand
-                .setName("generate")
-                .setDescription("Generate a random sentence")),
+            subcommand
+            .setName("add-item")
+            .setDescription("Add a sentence to the list")
+                .addStringOption(string =>
+                    string.setName("sentence")
+                        .setDescription("the thing to add")
+                        .setRequired(true)))
+        .addSubcommand(subcommand =>
+            subcommand
+            .setName("generate")
+            .setDescription("Generate a random sentence")),
     async execute(interaction) {
         const subcommand = interaction.options.getSubcommand();
 
@@ -49,6 +57,15 @@ module.exports = {
 			let genMessage = mymarkov.generateRandom(100)
 
 			interaction.reply(genMessage)
+        } else if (subcommand == "add-item")
+        {
+            let sentence = interaction.options.getString('sentence')
+
+            if (interaction.client.lastmessages.length >= markov.contextLength) {interaction.client.lastmessages.shift()}
+
+			interaction.client.lastmessages.push(sentence)
+
+            interaction.reply(`Added "${sentence}" to the word list.`)
         }
     },
 };
