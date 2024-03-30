@@ -8,9 +8,9 @@ module.exports = {
 
         const embed = new EmbedBuilder()
             .setTitle(`${member.user.username} has joined ${member.guild.name}!`)
-            .setDescription(`We now have **${member.guild.memberCount}** members.`)
+            .setDescription(`We now have \`${member.guild.memberCount}\` members.`)
             .setThumbnail(member.user.displayAvatarURL())
-            .setColor(0x00FFFF);
+            .setColor(0x57F287);
 
         wh.send({
             username: member.guild.name,
