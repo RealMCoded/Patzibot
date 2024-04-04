@@ -1,8 +1,8 @@
 // Require the necessary discord.js classes
 const fs = require('node:fs');
 const path = require('node:path');
-const { Client, Collection, GatewayIntentBits, Partials, WebhookClient } = require('discord.js');
-const { token, logWebhookURL } = require('./config.json');
+const { Client, Collection, GatewayIntentBits, Partials } = require('discord.js');
+const { token } = require('./config.json');
 
 // Create a new client instance
 const client = new Client({ 
@@ -13,43 +13,6 @@ const client = new Client({
 client.commands = new Collection();
 const foldersPath = path.join(__dirname, 'commands');
 const commandFolders = fs.readdirSync(foldersPath);
-
-//redefine some console functions here
-console.log = async function(e) {
-	try {
-		if (logWebhookURL) {
-			let webhookClient = new WebhookClient({ url: logWebhookURL });
-			webhookClient.send(`\`\`\`\n${e}\n\`\`\``);
-		}
-	} catch(e) {
-		process.stdout.write(`Unable to redirect output: ${e}\n`);
-	}
-	process.stdout.write(`${e}\n`);
-}
-
-console.warn = async function(e) {
-	try {
-		if (logWebhookURL) {
-			let webhookClient = new WebhookClient({ url: logWebhookURL });
-			webhookClient.send(`\`\`\`\n[WARN] ${e}\n\`\`\``);
-		}
-	} catch(e) {
-		process.stdout.write(`Unable to redirect output: ${e}\n`);
-	}
-	process.stdout.write(`[WARN] ${e}\n`);
-}
-
-console.error = async function(e) {
-	try {
-		if (logWebhookURL) {
-			let webhookClient = new WebhookClient({ url: logWebhookURL });
-			webhookClient.send(`\`\`\`\n[ERROR] ${e}\n\`\`\``);
-		}
-	} catch(e) {
-		process.stdout.write(`Unable to redirect output: ${e}\n`);
-	}
-	process.stdout.write(`[ERROR] ${e}\n`);
-}
 
 //Start database connection
 client.db = require('./database.js')
