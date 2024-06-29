@@ -1,4 +1,4 @@
-const { Events } = require('discord.js');
+const { Events, EmbedBuilder } = require('discord.js');
 const Markov = require('js-markov');
 const { random } = require("../util.js")
 const { changePatzicoins } = require("../patzicoin-functions/patzicoin.js")
@@ -36,7 +36,13 @@ module.exports = {
 
 					let genMessage = markov.generateRandom(100)
 
-					message.channel.send(genMessage)
+					//message.channel.send(genMessage)
+
+					const embed = new EmbedBuilder()
+						.setTitle(genMessage)
+						.setFooter({text: `This message was randomly generated based off of the last ${message.client.lastmessages.length} messages sent in the server.`})
+						.setColor('#6394eb');
+					message.channel.send({embeds: [embed]});
 
 					console.log(`New markov generated: ${genMessage}`)
 
