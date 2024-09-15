@@ -29,7 +29,7 @@ module.exports = {
             } catch(e) {
                 const embed = new EmbedBuilder()
                     .setTitle('PatziBot')
-                    .setDescription(`Version ${project.version} (\`git not installed :(\`)\n\nBot created by stuartt.\n\`/kill\`, \`/quiz\` command created by zai_tm`)
+                    .setDescription(`Version ${project.version}\n\nBot created by stuartt.\n\`/kill\`, \`/quiz\` command created by zai_tm`)
                     .setColor(`FF0000`);
                 await interaction.reply({embeds: [embed]});
             }

@@ -11,14 +11,14 @@ module.exports = {
         .setDescription(`patzercon`)
         .addSubcommand(subcommand => 
             subcommand.setName("lb")
-                .setDescription("PatziCoin Leaderboard")
+                .setDescription("The PatziCoin Leaderboard")
                 .addIntegerOption(option => 
                     option.setRequired(false)
                         .setName("page")
                         .setDescription("The page of users to show (10 users/page) (Default: 1)")))
         .addSubcommand(subcommand => 
             subcommand.setName("bank")
-                .setDescription("PatziCoin Leaderboard")
+                .setDescription("The PatziCoin bank")
                 .addIntegerOption(option => 
                     option.setRequired(true)
                         .setName("mode")
