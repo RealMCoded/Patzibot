@@ -23,7 +23,7 @@ module.exports = {
 
 		await interaction.deferReply();
 		await wait(1500);
-		await interaction.editReply(`✅ Banned **${interaction.options.getUser('user')}** for "**${reason}**"\n\n||jk get trolled <:trollface:909953790977900595>||`);
+		await interaction.editReply(`✅ Banned **${interaction.options.getUser('user')}** for "**${reason}**"\n\n-# jk get trolled <:trollface:909953790977900595>`);
 	},
 };
   
