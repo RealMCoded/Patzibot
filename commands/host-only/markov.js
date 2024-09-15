@@ -24,6 +24,14 @@ module.exports = {
                         .setRequired(true)))
         .addSubcommand(subcommand =>
             subcommand
+            .setName("set-words")
+            .setDescription("import a JSON list of words")
+                .addStringOption(string =>
+                    string.setName("json")
+                        .setDescription("the json")
+                        .setRequired(true)))
+        .addSubcommand(subcommand =>
+            subcommand
             .setName("generate")
             .setDescription("Generate a random sentence")),
     async execute(interaction) {
@@ -57,8 +65,7 @@ module.exports = {
 			let genMessage = mymarkov.generateRandom(100)
 
 			interaction.reply(genMessage)
-        } else if (subcommand == "add-item")
-        {
+        } else if (subcommand == "add-item"){
             let sentence = interaction.options.getString('sentence')
 
             if (interaction.client.lastmessages.length >= markov.contextLength) {interaction.client.lastmessages.shift()}
@@ -66,6 +73,12 @@ module.exports = {
 			interaction.client.lastmessages.push(sentence)
 
             interaction.reply(`Added "${sentence}" to the word list.`)
+        } else if (subcommand == "set-words"){
+            let myJSON = interaction.options.getString('json')
+
+			interaction.client.lastmessages = JSON.parse(myJSON)
+
+            interaction.reply(`Word list set!`)
         }
     },
 };
