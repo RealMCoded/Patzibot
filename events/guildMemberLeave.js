@@ -8,7 +8,7 @@ module.exports = {
 
         const embed = new EmbedBuilder()
             .setTitle(`${member.user.username} has left ${member.guild.name}!`)
-            .setDescription(`We now have \`${member.guild.memberCount}\` members.`)
+            .setDescription(`Hope to see you again soon <@${member.user.id}>!\nWe now have \`${member.guild.memberCount}\` members.`)
             .setThumbnail(member.user.displayAvatarURL())
             .setColor(0xED4245);
 
