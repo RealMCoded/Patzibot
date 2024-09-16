@@ -68,12 +68,6 @@ module.exports = {
 					.catch(e => console.error(`[Ratio] Error! ${e}`));
 			}
 
-			//Special Reaction
-			if (specialReaction.triggerChars.every(char => lookMessage.includes(char)) && !lookMessage.includes("REACT")) {
-				message.react(specialReaction.emojis[Math.floor(Math.random()*specialReaction.emojis.length)])
-					.catch(e => console.error(`[Special Reaction] Error! ${e}`));
-			}
-
 		} catch(e) {
 
 		}
