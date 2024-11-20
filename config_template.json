@@ -22,14 +22,5 @@
         "boost": "<:boost:1177372431195832392>",
         "useless_tick": "<:useless_tick:1042895519552389191>"
     },
-    "ignoreChannels": [],
-    "specialReaction": {
-        "triggerChars": ["P", "A", "T", "Z", "I"],
-        "emojis": [
-            "<:genocide:931832849169006652>",
-            "<:noswearwords:909955005778366535>",
-            "<:patzi_blunt:909580655510306846>",
-            "<:raise_eyebrow:909593930021085234>"
-        ]
-    }
+    "ignoreChannels": []
 }
