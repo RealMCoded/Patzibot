@@ -2,7 +2,7 @@ const { Events } = require('discord.js');
 const Markov = require('js-markov');
 const { random } = require("../util.js")
 const { changePatzicoins } = require("../patzicoin-functions/patzicoin.js")
-const { guildId, ignoreChannels, markov, specialReaction } = require('../config.json');
+const { guildId, ignoreChannels, markov } = require('../config.json');
 
 module.exports = {
 	name: Events.MessageCreate,
@@ -54,20 +54,6 @@ module.exports = {
 				// Removes the user from the set after 60 seconds
 				message.client.chattedRecently.delete(message.author.id);
 				}, 60000);
-
-			/*
-				Special Reactions
-			*/
-			const lookMessage = message.content.toUpperCase()
-
-			//Ratio
-			if (lookMessage.split(" ").includes("RATIO")) {
-				message.react('💬')
-					.then(() => message.react('🔁'))
-					.then(() => message.react('❤️'))
-					.catch(e => console.error(`[Ratio] Error! ${e}`));
-			}
-
 		} catch(e) {
 
 		}
